@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Catálogo completo de Perfumes Árabes - Lattafa, Armaf, Afnan e mais.">
+    <title>Catálogo | NexusImports</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/responsive.css">
+    
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lucide-static@latest/font/lucide.css">
+</head>
+<body class="catalogo-page">
+    <!-- Header -->
+    <header class="header">
+        <nav class="nav container">
+            <div class="logo">
+                <a href="index.html" class="logo-link">
+                    <span class="logo-icon">🧴</span>
+                    <span class="logo-text">NexusImports</span>
+                </a>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">Início</a></li>
+                <li><a href="catalogo.html" class="active">Catálogo</a></li>
+                <li><a href="index.html#vantagens">Vantagens</a></li>
+                <li><a href="index.html#contato">Contato</a></li>
+            </ul>
+            <a href="https://wa.me/5511999999999?text=Olá! Preciso de ajuda para escolher um perfume." 
+               class="btn-whatsapp-header" target="_blank">
+                <i data-lucide="message-circle"></i>
+                <span>Ajuda</span>
+            </a>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="catalogo-main">
+        <!-- Sidebar Filters -->
+        <aside class="filtros-sidebar">
+            <div class="filtros-header">
+                <h3><i data-lucide="filter"></i> Filtros</h3>
+                <button class="btn-limpar-filtros" onclick="limparFiltros()">
+                    <i data-lucide="x"></i>
+                    Limpar
+                </button>
+            </div>
+            
+            <!-- Busca -->
+            <div class="filtro-grupo">
+                <label for="busca">Buscar</label>
+                <div class="busca-input">
+                    <i data-lucide="search"></i>
+                    <input type="text" id="busca" placeholder="Nome do perfume..." 
+                           oninput="aplicarFiltros()">
+                </div>
+            </div>
+            
+            <!-- Marca -->
+            <div class="filtro-grupo">
+                <label for="filtro-marca">Marca</label>
+                <select id="filtro-marca" onchange="aplicarFiltros()">
+                    <option value="">Todas as Marcas</option>
+                    <option value="Lattafa">Lattafa (153)</option>
+                    <option value="Ajmal">Ajmal (125)</option>
+                    <option value="Emper">Emper (135)</option>
+                    <option value="Paris Corner">Paris Corner (48)</option>
+                    <option value="Armaf">Armaf (45)</option>
+                    <option value="Maison Alhambra">Maison Alhambra (45)</option>
+                    <option value="Afnan">Afnan (20)</option>
+                    <option value="French Avenue">French Avenue (33)</option>
+                    <option value="Al Haramain">Al Haramain (12)</option>
+                    <option value="Rasasi">Rasasi (9)</option>
+                    <option value="Nabeel">Nabeel (7)</option>
+                    <option value="Club De Nuit">Club De Nuit (15)</option>
+                    <option value="Arabian Oud">Arabian Oud (1)</option>
+                    <option value="Zimaya">Zimaya (1)</option>
+                </select>
+            </div>
+            
+            <!-- Gênero -->
+            <div class="filtro-grupo">
+                <label>Gênero</label>
+                <div class="checkbox-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" value="Unissex" onchange="aplicarFiltros()">
+                        <span>Unissex</span>
+                    </label>
+                    <label class="checkbox-label">
+                        <input type="checkbox" value="Feminino" onchange="aplicarFiltros()">
+                        <span>Feminino</span>
+                    </label>
+                    <label class="checkbox-label">
+                        <input type="checkbox" value="Masculino" onchange="aplicarFiltros()">
+                        <span>Masculino</span>
+                    </label>
+                </div>
+            </div>
+            
+            <!-- Preço -->
+            <div class="filtro-grupo">
+                <label for="filtro-preco">Preço Máximo: <span id="valor-preco">R$ 750,00</span></label>
+                <input type="range" id="filtro-preco" min="50" max="750" value="750" 
+                       oninput="atualizarValorPreco(this.value)" onchange="aplicarFiltros()">
+                <div class="preco-range">
+                    <span>R$ 50</span>
+                    <span>R$ 750+</span>
+                </div>
+            </div>
+            
+            <!-- Volume -->
+            <div class="filtro-grupo">
+                <label for="filtro-volume">Volume</label>
+                <select id="filtro-volume" onchange="aplicarFiltros()">
+                    <option value="">Todos</option>
+                    <option value="100ML">100ML</option>
+                    <option value="90ML">90ML</option>
+                    <option value="80ML">80ML</option>
+                    <option value="75ML">75ML</option>
+                    <option value="60ML">60ML</option>
+                    <option value="50ML">50ML</option>
+                </select>
+            </div>
+            
+            <!-- Ordenação -->
+            <div class="filtro-grupo">
+                <label for="ordenar">Ordenar Por</label>
+                <select id="ordenar" onchange="aplicarFiltros()">
+                    <option value="relevancia">Relevância</option>
+                    <option value="preco-menor">Preço: Menor para Maior</option>
+                    <option value="preco-maior">Preço: Maior para Menor</option>
+                    <option value="nome">Nome: A-Z</option>
+                </select>
+            </div>
+            
+            <!-- Resultados -->
+            <div class="filtros-resultados">
+                <span id="total-resultados">0</span> produtos encontrados
+            </div>
+        </aside>
+
+        <!-- Products Grid -->
+        <section class="produtos-section">
+            <div class="produtos-header">
+                <h1>Catálogo Completo</h1>
+                <p>649 perfumes árabes premium disponíveis</p>
+            </div>
+            
+            <div class="produtos-grid" id="container-produtos">
+                <!-- Preenchido via JavaScript -->
+                <div class="loading">
+                    <div class="spinner"></div>
+                    <p>Carregando produtos...</p>
+                </div>
+            </div>
+            
+            <!-- Pagination -->
+            <div class="paginacao" id="paginacao">
+                <!-- Preenchido via JavaScript -->
+            </div>
+        </section>
+    </main>
+
+    <!-- Product Modal -->
+    <div class="modal-overlay" id="modal-produto">
+        <div class="modal-content">
+            <button class="modal-close" onclick="fecharModal()">
+                <i data-lucide="x"></i>
+            </button>
+            <div class="modal-body" id="modal-body">
+                <!-- Preenchido via JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bottom">
+                <p>&copy; 2026 NexusImports - São Paulo Capital</p>
+                <a href="index.html">Voltar ao Início</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- WhatsApp Flutuante -->
+    <a href="https://wa.me/5511999999999?text=Olá! Preciso de ajuda para escolher um perfume." 
+       class="whatsapp-float" target="_blank">
+        <i data-lucide="message-circle"></i>
+    </a>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="data/catalogo.json"></script>
+    <script src="assets/js/whatsapp.js"></script>
+    <script src="assets/js/app.js"></script>
+</body>
+</html>

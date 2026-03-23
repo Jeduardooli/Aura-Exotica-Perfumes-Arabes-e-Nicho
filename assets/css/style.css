@@ -1,0 +1,216 @@
+:root {
+    --cor-primaria: #8B4513;
+    --cor-primaria-dark: #6B3410;
+    --cor-secundaria: #D4AF37;
+    --cor-secundaria-dark: #B8941F;
+    --cor-fundo: #FFFDF9;
+    --cor-fundo-alt: #F8F5F0;
+    --cor-texto: #2C1810;
+    --cor-texto-light: #6B5344;
+    --cor-branco: #FFFFFF;
+    --cor-whatsapp: #25D366;
+    --cor-whatsapp-dark: #128C7E;
+    
+    --sombra-leve: 0 2px 8px rgba(139, 69, 19, 0.08);
+    --sombra-media: 0 4px 20px rgba(139, 69, 19, 0.15);
+    --sombra-forte: 0 8px 30px rgba(139, 69, 19, 0.25);
+    
+    --borda-raio: 12px;
+    --borda-raio-grande: 20px;
+    
+    --transicao-rapida: 0.2s ease;
+    --transicao-media: 0.3s ease;
+    
+    --fonte-titulos: 'Playfair Display', serif;
+    --fonte-corpo: 'Inter', sans-serif;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--fonte-corpo);
+    background-color: var(--cor-fundo);
+    color: var(--cor-texto);
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Header */
+.header {
+    background: var(--cor-branco);
+    box-shadow: var(--sombra-leve);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    gap: 20px;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--fonte-titulos);
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--cor-primaria);
+}
+
+.nav-links {
+    display: flex;
+    list-style: none;
+    gap: 30px;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: var(--cor-texto);
+    font-weight: 500;
+    transition: color var(--transicao-rapida);
+}
+
+.nav-links a:hover,
+.nav-links a.active {
+    color: var(--cor-primaria);
+}
+
+/* Hero */
+.hero {
+    position: relative;
+    background: linear-gradient(135deg, var(--cor-primaria) 0%, var(--cor-primaria-dark) 100%);
+    color: var(--cor-branco);
+    padding: 100px 0;
+    text-align: center;
+}
+
+.hero-title {
+    font-family: var(--fonte-titulos);
+    font-size: 3.5rem;
+    margin-bottom: 20px;
+}
+
+.hero-title .highlight {
+    color: var(--cor-secundaria);
+}
+
+.hero-buttons {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    margin: 40px 0;
+    flex-wrap: wrap;
+}
+
+/* Buttons */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 28px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all var(--transicao-media);
+    border: none;
+    cursor: pointer;
+}
+
+.btn-primary {
+    background: var(--cor-secundaria);
+    color: var(--cor-texto);
+}
+
+.btn-whatsapp {
+    background: linear-gradient(135deg, var(--cor-whatsapp), var(--cor-whatsapp-dark));
+    color: var(--cor-branco);
+}
+
+/* Cards */
+.produtos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 30px;
+    margin: 40px 0;
+}
+
+.card-produto {
+    background: var(--cor-branco);
+    border-radius: var(--borda-raio-grande);
+    overflow: hidden;
+    box-shadow: var(--sombra-leve);
+    transition: all var(--transicao-media);
+}
+
+.card-produto:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--sombra-forte);
+}
+
+.card-imagem {
+    position: relative;
+    padding-top: 100%;
+    overflow: hidden;
+    background: var(--cor-fundo-alt);
+}
+
+.card-imagem img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.card-conteudo {
+    padding: 20px;
+}
+
+.preco-final {
+    font-family: var(--fonte-titulos);
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--cor-primaria);
+}
+
+/* WhatsApp Float */
+.whatsapp-float {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, var(--cor-whatsapp), var(--cor-whatsapp-dark));
+    color: var(--cor-branco);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 20px rgba(37, 211, 102, 0.5);
+    z-index: 999;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        box-shadow: 0 4px 20px rgba(37, 211, 102, 0.5);
+    }
+    50% {
+        box-shadow: 0 4px 30px rgba(37, 211, 102, 0.8);
+    }
+}
