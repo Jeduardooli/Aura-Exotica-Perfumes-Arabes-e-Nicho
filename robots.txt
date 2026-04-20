@@ -1,0 +1,102 @@
+# ========================================
+# SWISS ARABIAN BRASIL - ROBOTS.TXT
+# Otimizado para SEO de perfumes árabes
+# ========================================
+
+# User Agent Universal
+User-agent: *
+
+#.allow: /
+# Bloqueia páginas admin e sistema
+Disallow: /admin/
+Disallow: /carrinho/
+Disallow: /checkout/
+Disallow: /minha-conta/
+Disallow: /wp-admin/
+Disallow: /wp-includes/
+Disallow: /cgi-bin/
+
+# Permite crawling de todo conteúdo público
+Allow: /
+
+# Sitemap principal
+Sitemap: https://seudominio.com.br/sitemap.xml
+
+# ----------------------------------------------------------
+# DIRECTIVES ESPECÍFICAS POR ROBÔ
+# ----------------------------------------------------------
+
+# Googlebot - Permitido tudo
+User-agent: Googlebot
+Allow: /
+
+# Googlebot Image
+User-agent: Googlebot-Image
+Allow: /images/
+Allow: /produtos/
+Allow: /wp-content/uploads/
+
+# Googlebot News (se tiver blog)
+User-agent: Googlebot-News
+Allow: /blog/
+
+# AdsBot-Google (verificação de anúncios)
+User-agent: AdsBot-Google
+Allow: /
+
+# ----------------------------------------------------------
+# PERFORMANCE - CRON JOB
+# ----------------------------------------------------------
+
+# Bloqueia páginas de login e backend
+Disallow: /login
+Disallow: /registro
+Disallow: /esqueci-senha
+Disallow: /api/
+Disallow: /*.json$
+Disallow: /*.xml$
+
+# ----------------------------------------------------------
+# PARÂMETROS DE URL A IGNORAR
+# ----------------------------------------------------------
+
+# UTM tracking parameters - não precisa indexar
+Disallow: /*?utm_source=
+Disallow: /*?utm_medium=
+Disallow: /*?utm_campaign=
+Disallow: /*?utm_content=
+Disallow: /*?utm_term=
+
+# Facebook click tracking
+Disallow: /*?fbclid=
+
+# Google ads
+Disallow: /*?gclid=
+Disallow: /*?gclsrc=
+
+# ----------------------------------------------------------
+# ARQUIVOS ESTÁTICOS
+# ----------------------------------------------------------
+
+# Permite CSS e JS para renderização
+Allow: /*.css$
+Allow: /*.js$
+
+# ----------------------------------------------------------
+# SEGMENTAÇÃO GEOGRÁFICA
+# ----------------------------------------------------------
+
+# Indica localização para Google
+User-agent: *
+Crawl-delay: 1
+
+# ----------------------------------------------------------
+# NOTAS
+# ----------------------------------------------------------
+
+# Este arquivo deve estar na raiz do domínio
+# https://seudominio.com.br/robots.txt
+
+# Para verificar: https://www.google.com/webmasters/tools/robots-testing-tool
+
+# Atualize o sitemap URL quando colocar no ar

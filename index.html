@@ -1,174 +1,876 @@
 <!DOCTYPE html>
-<html lang="pt-BR" data-theme="dark">
+<html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Perfumes Árabes Premium | Seja Formal</title>
-  
-  <!-- 🎨 Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com"/>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
-  
-  <!-- 🎨 CSS -->
-  <link rel="stylesheet" href="assets/css/variables.css"/>
-  <link rel="stylesheet" href="assets/css/main.css"/>
-  <link rel="stylesheet" href="assets/css/animations.css"/>
-  
-  <!-- 📱 Meta Tags para SEO/Compartilhamento -->
-  <meta name="description" content="Catálogo exclusivo de perfumes árabes importados. Lattafa, Armaf, Afnan e mais. Frete grátis para todo Brasil."/>
-  <meta property="og:title" content="Perfumes Árabes Premium"/>
-  <meta property="og:image" content="assets/images/og-image.jpg"/>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Swiss Arabian Brasil — Perfumes Árabes Originais</title>
+    <meta name="description" content="Descubra os melhores perfumes árabe importados. Oud, perfume oil, attar e muito mais. Compre direto pelo WhatsApp.">
+    
+    <!-- Canonical -->
+    <link rel="canonical" href="https://seudominio.com.br/">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Swiss Arabian Perfumes — Luxo Árabe">
+    <meta property="og:description" content="Perfumes importados do Oriente Médio. Compre direto pelo WhatsApp.">
+    <meta property="og:image" content="https://res.cloudinary.com/seu-cloud/image/upload/v1/og-image.jpg">
+    <meta property="og:url" content="https://seudominio.com.br/">
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="pt_BR">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Swiss Arabian Brasil — Perfumes Árabes">
+    <meta name="twitter:description" content="Oud, Attar, Malaki e mais. Compre direto pelo WhatsApp.">
+
+    <!-- Schema Markup -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Store",
+        "name": "Swiss Arabian Brasil",
+        "description": "Perfumes árabes importados - Oud, Attar, Malaki",
+        "url": "https://seudominio.com.br",
+        "priceRange": "R$",
+        "address": {
+            "@type": "PostalAddress",
+            "addressCountry": "BR"
+        },
+        "contactPoint": {
+            "@type": "ContactPoint",
+            "telephone": "+55SEUNUMERO",
+            "contactType": "sales",
+            "availableLanguage": "Portuguese"
+        }
+    }
+    </script>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="style.css">
 </head>
-<body class="antialiased">
-  
-  <!-- 🌟 Hero Section com Glassmorphism -->
-  <header class="hero">
-    <div class="hero-bg"></div>
-    <nav class="glass-nav">
-      <div class="container nav-content">
-        <a href="#" class="logo">
-          <span class="logo-icon">🧴</span>
-          <span class="logo-text">Perfumes Árabes</span>
-        </a>
-        <div class="nav-actions">
-          <button id="themeToggle" class="icon-btn" aria-label="Alternar tema">🌙</button>
-          <a href="#catalogo" class="btn btn-primary">Ver Catálogo</a>
-        </div>
-      </div>
-    </nav>
-    
-    <div class="container hero-content">
-      <span class="badge badge-glow">✨ Lançamentos 2026</span>
-      <h1 class="hero-title">
-        Perfumes Árabes <span class="text-gradient">Premium</span><br/>
-        <span class="hero-subtitle">Luxo, Exclusividade e Fixação Extrema</span>
-      </h1>
-      <p class="hero-description">
-        +600 fragrâncias das marcas mais cobiçadas: Lattafa, Armaf, Afnan e Maison Alhambra. 
-        Importados diretamente com garantia de autenticidade.
-      </p>
-      
-      <div class="hero-cta">
-        <a href="#catalogo" class="btn btn-primary btn-lg">
-          Explorar Catálogo →
-        </a>
-        <a href="https://wa.me/5511999999999" class="btn btn-outline btn-lg" target="_blank">
-          💬 Falar no WhatsApp
-        </a>
-      </div>
-      
-      <!-- 📊 Stats com efeito glass -->
-      <div class="hero-stats glass-card">
-        <div class="stat">
-          <span class="stat-value">649+</span>
-          <span class="stat-label">Produtos</span>
-        </div>
-        <div class="stat">
-          <span class="stat-value">14</span>
-          <span class="stat-label">Marcas</span>
-        </div>
-        <div class="stat">
-          <span class="stat-value">R$ 98</span>
-          <span class="stat-label">Preço Inicial</span>
-        </div>
-      </div>
+<body>
+    <!-- Announcement Bar -->
+    <div class="announcement-bar">
+        <i class="fas fa-truck"></i>
+        Entrega Express para Todo Brasil | Frete Grátis acima de R$ 299
     </div>
-    
-    <!-- 🎬 Scroll Indicator -->
-    <a href="#destaques" class="scroll-indicator">
-      <span class="scroll-dot"></span>
-      <span class="scroll-text">Role para explorar</span>
-    </a>
-  </header>
 
-  <!-- ⭐ Destaques com Cards Glass -->
-  <section id="destaques" class="section">
-    <div class="container">
-      <div class="section-header">
-        <h2>🔥 Mais Vendidos</h2>
-        <p>Os favoritos dos nossos clientes</p>
-      </div>
-      
-      <div class="grid grid-4" id="destaquesGrid">
-        <!-- Cards serão inseridos via JS -->
-      </div>
-      
-      <div class="section-footer">
-        <a href="#catalogo" class="link-arrow">Ver todos os produtos →</a>
-      </div>
-    </div>
-  </section>
+    <!-- Header -->
+    <header>
+        <div class="header-inner">
+            <a href="/" class="logo">SWISS <span>ARABIAN</span></a>
+            
+            <nav class="nav-desktop">
+                <a href="#categorias">Perfumes</a>
+                <a href="#categorias">Oud & Attar</a>
+                <a href="#categorias">Kits</a>
+                <a href="#sobre">Nossa História</a>
+            </nav>
 
-  <!-- 🎯 Benefícios -->
-  <section class="section section-alt">
-    <div class="container">
-      <div class="benefits-grid">
-        <div class="benefit-card glass-card">
-          <span class="benefit-icon">🚚</span>
-          <h3>Frete Grátis</h3>
-          <p>Para todo Brasil em compras acima de R$ 299</p>
-        </div>
-        <div class="benefit-card glass-card">
-          <span class="benefit-icon">✅</span>
-          <h3>100% Original</h3>
-          <p>Garantia de autenticidade em todos os produtos</p>
-        </div>
-        <div class="benefit-card glass-card">
-          <span class="benefit-icon">💬</span>
-          <h3>Suporte Humanizado</h3>
-          <p>Atendimento especializado via WhatsApp</p>
-        </div>
-        <div class="benefit-card glass-card">
-          <span class="benefit-icon">🔄</span>
-          <h3>Troca Fácil</h3>
-          <p>7 dias para troca ou devolução do seu dinheiro</p>
-        </div>
-      </div>
-    </div>
-  </section>
+            <a href="https://wa.me/55SEUNUMERO?text=Olá!+Gostaria+de+conhecer+os+perfumes+árabes" class="header-cta" target="_blank">
+                <i class="fab fa-whatsapp"></i>
+                Falar no WhatsApp
+            </a>
 
-  <!-- 🛍️ CTA Final -->
-  <section class="cta-section">
-    <div class="container">
-      <div class="cta-card glass-card">
-        <h2>Pronto para encontrar sua assinatura olfativa?</h2>
-        <p>Catálogo completo com filtros inteligentes e envio rápido.</p>
-        <a href="#catalogo" class="btn btn-primary btn-lg">
-          Acessar Catálogo Completo
-        </a>
-      </div>
-    </div>
-  </section>
+            <button class="mobile-menu-btn" aria-label="Menu">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </header>
 
-  <!-- 🦶 Footer -->
-  <footer class="footer glass-footer">
-    <div class="container footer-content">
-      <div class="footer-brand">
-        <span class="logo-icon">🧴</span>
-        <strong>Perfumes Árabes Premium</strong>
-        <p class="footer-slogan">Seja Formal - Luxo Acessível</p>
-      </div>
-      <div class="footer-links">
-        <a href="#">Catálogo</a>
-        <a href="#">Sobre</a>
-        <a href="#">Contato</a>
-        <a href="#">Políticas</a>
-      </div>
-      <div class="footer-contact">
-        <a href="https://wa.me/5511999999999" class="whatsapp-link">
-          💬 (11) 99999-9999
-        </a>
-        <p class="footer-address">São Paulo, SP • CEP 01234-567</p>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <p>&copy; 2026 Perfumes Árabes Premium. Todos os direitos reservados.</p>
-    </div>
-  </footer>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-bg">
+            <img src="https://res.cloudinary.com/seu-cloud/image/upload/v1/hero-perfume.jpg" alt="Perfume Árabe de Luxo" loading="eager">
+        </div>
+        <div class="hero-pattern"></div>
+        
+        <div class="hero-content">
+            <span class="hero-badge">
+                <i class="fas fa-gem"></i> Linha Original
+            </span>
+            <h1>A Essência do <span>Oriente Médio</span></h1>
+            <p class="hero-description">Descubra perfumes árabes autênticos. Oud puro, oils concentrados e notas raras que despertam sentidos.</p>
+            <div class="hero-buttons">
+                <a href="#produtos" class="btn btn-primary">
+                    <i class="fas fa-shopping-bag"></i>
+                    Ver Coleção
+                </a>
+                <a href="https://wa.me/55SEUNUMERO?text=Olá!+Quero+descobrir+meu+perfume+ideal" class="btn btn-outline" target="_blank">
+                    <i class="fab fa-whatsapp"></i>
+                    Falar com Especialista
+                </a>
+            </div>
+        </div>
+    </section>
 
-  <!-- 📜 Scripts -->
-  <script type="module" src="assets/js/config.js"></script>
-  <script type="module" src="assets/js/utils.js"></script>
-  <script type="module" src="assets/js/landing.js"></script>
-</body>
-</html>
+    <!-- Categories -->
+    <section id="categorias" class="categories">
+        <div class="container">
+            <div class="section-header text-center">
+                <h2>Nossas Coleções</h2>
+                <p class="subtitle">Explore as categorias exclusivas de perfumes árabes</p>
+            </div>
+
+            <div class="categories-grid">
+                <a href="https://wa.me/55SEUNUMERO?text=Olá!+Quero+conhecer+os+perfumes+masculinos" class="category-card" target="_blank">
+                    <img src="https://res.cloudinary.com/seu-cloud/image/upload/v1/cat-masculino.jpg" alt="Perfumes Masculinos Árabes" loading="lazy">
+                    <div class="category-overlay"></div>
+                    <div class="category-content">
+                        <h3>Masculino</h3>
+                        <span>Ver koleksi <i class="fas fa-arrow-right"></i></span>
+                    </div>
+                </a>
+
+                <a href="https://wa.me/55SEUNUMERO?text=Olá!+Quero+conhecer+os+perfumes+femininos" class="category-card" target="_blank">
+                    <img src="https://res.cloudinary.com/seu-cloud/image/upload/v1/cat-feminino.jpg" alt="Perfumes Femininos Árabes" loading="lazy">
+                    <div class="category-overlay"></div>
+                    <div class="category-content">
+                        <h3>Feminino</h3>
+                        <span>Ver koleksi <i class="fas fa-arrow-right"></i></span>
+                    </div>
+                </a>
+
+                <a href="https://wa.me/55SEUNUMERO?text=Olá!+Quero+conhecer+os+ouds+e+attars" class="category-card" target="_blank">
+                    <img src="https://res.cloudinary.com/seu-cloud/image/upload/v1/cat-oud.jpg" alt="Oud e Attar" loading="lazy">
+                    <div class="category-overlay"></div>
+                    <div class="category-content">
+                        <h3>Oud & Attar</h3>
+                        <span>Ver koleksi <i class="fas fa-arrow-right"></i></span>
+                    </div>
+                </a>
+
+                <a href="https://wa.me/55SEUNUMERO?text=Olá!+Quero+conhecer+os+kits+e+presentes" class="category-card" target="_blank">
+                    <img src="https://res.cloudinary.com/seu-cloud/image/upload/v1/cat-kits.jpg" alt="Kits Presente" loading="lazy">
+                    <div class="category-overlay"></div>
+                    <div class="category-content">
+                        <h3>Kits Presente</h3>
+                        <span>Ver koleksi <i class="fas fa-arrow-right"></i></span>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Best Sellers -->
+    <section id="produtos" class="products">
+        <div class="container">
+            <div class="section-header text-center">
+                <h2>Mais Vendidos</h2>
+                <p class="subtitle">Os perfumes favoritos dos nossos clientes</p>
+                <a href="https://wa.me/55SEUNUMERO?text=Olá!+Quero+ver+todos+os+best+sellers" class="section-link" target="_blank">
+                    Ver Todos <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+
+            <div class="products-grid">
+                <!-- Produto 1 -->
+                <article class="product-card">
+                    <div class="product-badges">
+                        <span class="badge badge-bestseller">Best Seller</span>
+                    </div>
+                    <div class="product-image">
+                        <img src="https://res.cloudinary.com/seu-cloud/image/upload/v1/produtos/shaghaf-oud.png" alt="Shaghaf Oud" loading="lazy">
+                    </div>
+                    <div class="product-actions">
+                        <a href="https://wa.me/55SEUNUMERO?text=Olá!+Gostaria+de+comprar+o+Shaghaf+Oud" class="btn-whatsapp" target="_blank">
+                            <i class="fab fa-whatsapp"></i> Comprar
+                        </a>
+                    </div>
+                    <div class="product-info">
+                        <div class="product-collection">Shaghaf Collection</div>
+                        <h3 class="product-name">
+                            <a href="https://wa.me/55SEUNUMERO?text=Olá!+Quero+mais+info+sobre+o+Shaghaf+Oud" target="_blank">Shaghaf Oud</a>
+                        </h3>
+                        <div class="product-price">R$ 289</div>
+                        
+                        <!-- Notas Sensoriais -->
+                        <div class="product-notes">
+                            <div class="notes-row">
+                                <span><span class="note-label">Nota:</span> Oud, Âmbar, Sândalo</span>
+                            </div>
+                            <div class="notes-row">
+                                <span><span class="note-label">Ocasião:</span> Noite, Evento</span>
+                            </div>
+                            <div class="notes-row">
+                                <span><span class="note-label">Fixação:</span> 12h+</span>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Produto 2 -->
+                <article class="product-card">
+                    <div class="product-badges">
+                        <span class="badge badge-new">Novo</span>
+                    </div>
+                    <div class="product-image">
+                        <img src="https://res.cloudinary.com/seu-cloud/image/upload/v1/produtos/malaki.png" alt="Malaki Black" loading="lazy">
+                    </div>
+                    <div class="product-actions">
+                        <a href="https://wa.me/55SEUNUMERO?text=Olá!+Gostaria+de+comprar+o+Malaki+Black" class="btn-whatsapp" target="_blank">
+                            <i class="fab fa-whatsapp"></i> Comprar
+                        </a>
+                    </div>
+                    <div class="product-info">
+                        <div class="product-collection">Malaki Collection</div>
+                        <h3 class="product-name">
+                            <a href="https://wa.me/55SEUNUMERO?text=Olá!+Quero+mais+info+sobre+o+Malaki+Black" target="_blank">Malaki Black</a>
+                        </h3>
+                        <div class="product-price">R$ 349</div>
+                        
+                        <div class="product-notes">
+                            <div class="notes-row">
+                                <span><span class="note-label">Nota:</span> Couro, Oud, Baunilha</span>
+                            </div>
+                            <div class="notes-row">
+                                <span><span class="note-label">Ocasião:</span> Casual, Trabalho</span>
+                            </div>
+                            <div class="notes-row">
+                                <span><span class="note-label">Fixação:</span> 10h+</span>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Produto 3 -->
+                <article class="product-card">
+                    <div class="product-badges">
+                        <span class="badge badge-bestseller">Best Seller</span>
+                        <span class="badge badge-limited">Edição Limitada</span>
+                    </div>
+                    <div class="product-image">
+                        <img src="https://res.cloudinary.com/seu-cloud/image/upload/v1/produtos/dubai-musk.png" alt="Dubai Musk" loading="lazy">
+                    </div>
+                    <div class="product-actions">
+                        <a href="https://wa.me/55SEUNUMERO?text=Olá!+Gostaria+de+comprar+o+Dubai+Musk" class="btn-whatsapp" target="_blank">
+                            <i class="fab fa-whatsapp"></i> Comprar
+                        </a>
+                    </div>
+                    <div class="product-info">
+                        <div class="product-collection">Cities Collection</div>
+                        <h3 class="product-name">
+                            <a href="https://wa.me/55SEUNUMERO?text=Olá!+Quero+mais+info+sobre+o+Dubai+Musk" target="_blank">Dubai Musk</a>
+                        </h3>
+                        <div class="product-price">R$ 269</div>
+                        
+                        <div class="product-notes">
+                            <div class="notes-row">
+                                <span><span class="note-label">Nota:</span> Almíscar, Rosa, Açafrão</span>
+                            </div>
+                            <div class="notes-row">
+                                <span><span class="note-label">Ocasião:</span> Dia, Noite</span>
+                            </div>
+                            <div class="notes-row">
+                                <span><span class="note-label">Fixação:</span> 8h+</span>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Produto 4 -->
+                <article class="product-card">
+                    <div class="product-image">
+                        <img src="https://res.cloudinary.com/seu-cloud/image/upload/v1/produtos/heritage.png" alt="Heritage Oud" loading="lazy">
+                    </div>
+                    <div class="product-actions">
+                        <a href="https://wa.me/55SEUNUMERO?text=Olá!+Gostaria+de+comprar+o+Heritage+Oud" class="btn-whatsapp" target="_blank">
+                            <i class="fab fa-whatsapp"></i> Comprar
+                        </a>
+                    </div>
+                    <div class="product-info">
+                        <div class="product-collection">Heritage Collection</div>
+                        <h3 class="product-name">
+                            <a href="https://wa.me/55SEUNUMERO?text=Olá!+Quero+mais+info+sobre+o+Heritage+Oud" target="_blank">Heritage Oud</a>
+                        </h3>
+                        <div class="product-price">R$ 399</div>
+                        
+                        <div class="product-notes">
+                            <div class="notes-row">
+                                <span><span class="note-label">Nota:</span> Oud Antigo, Pau-santo, Resinas</span>
+                            </div>
+                            <div class="notes-row">
+                                <span><span class="note-label">Ocasião:</span> Noite Especial</span>
+                            </div>
+                            <div class="notes-row">
+                                <span><span class="note-label">Fixação:</span> 24h+</span>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- Collection Banners -->
+    <section class="collections">
+        <div class="container">
+            <div class="section-header text-center">
+                <h2>Descubra Mais</h2>
+                <p class="subtitle">Explore nossas coleções exclusivas</p>
+            </div>
+
+            <div class="collections-grid">
+                <a href="https://wa.me/55SEUNUMERO?text=Olá!+Quero+conhecer+a+coleção+Cities" class="collection-banner" target="_blank">
+                    <img src="https://res.cloudinary.com/seu-cloud/image/upload/v1/collections/cities.jpg" alt="Cities Collection" loading="lazy">
+                    <div class="collection-overlay">
+                        <div class="collection-text">
+                            <h3>Cities Collection</h3>
+                            <p>Inspirações dos principais centros urbanos</p>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="https://wa.me/55SEUNUMERO?text=Olá!+Quero+conhecer+a+coleção+Heritage" class="collection-banner" target="_blank">
+                    <img src="https://res.cloudinary.com/seu-cloud/image/upload/v1/collections/heritage.jpg" alt="Heritage Collection" loading="lazy">
+                    <div class="collection-overlay">
+                        <div class="collection-text">
+                            <h3>Heritage Collection</h3>
+                            <p>A tradição do oriente em cada nota</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+            <!-- ========================================
+                 PRODUCTS SECTION (Continuação)
+                 ======================================== -->
+            <!-- New Arrivals -->
+
+            <section class="products">
+                <div class="container">
+                    <div class="section-header text-center">
+                        <h2>Lançamentos</h2>
+                        <p class="subtitle">As novidades que acabaram de chegar</p>
+                        <a href="https://wa.me/55SEUNUMERO?text=Olá!+Quero+ver+todos+os+lançamentos" class="section-link" target="_blank">
+                            Ver Todos <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+
+                    <div class="products-grid">
+                        <!-- Produto 5 -->
+                        <article class="product-card">
+                            <div class="product-badges">
+                                <span class="badge badge-new">Novo</span>
+                            </div>
+                            <div class="product-image">
+                                <img src="https://res.cloudinary.com/seu-cloud/image/upload/v1/produtos/wild-intense.png" alt="Wild Intense" loading="lazy">
+                            </div>
+                            <div class="product-actions">
+                                <a href="https://wa.me/55SEUNUMERO?text=Olá!+Gostaria+de+comprar+o+Wild+Intense" class="btn-whatsapp" target="_blank">
+                                    <i class="fab fa-whatsapp"></i> Comprar
+                                </a>
+                            </div>
+                            <div class="product-info">
+                                <div class="product-collection">Wild Collection</div>
+                                <h3 class="product-name">
+                                    <a href="https://wa.me/55SEUNUMERO?text=Olá!+Quero+mais+info+sobre+o+Wild+Intense" target="_blank">Wild Intense</a>
+                                </h3>
+                                <div class="product-price">R$ 319</div>
+                                <div class="product-notes">
+                                    <div class="notes-row">
+                                        <span><span class="note-label">Nota:</span> Couro, Especiarias, Oud</span>
+                                    </div>
+                                    <div class="notes-row">
+                                        <span><span class="note-label">Ocasião:</span> Noite, Evento</span>
+                                    </div>
+                                    <div class="notes-row">
+                                        <span><span class="note-label">Fixação:</span> 12h+</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+
+                        <!-- Produto 6 -->
+                        <article class="product-card">
+                            <div class="product-image">
+                                <img src="https://res.cloudinary.com/seu-cloud/image/upload/v1/produtos/harmony.png" alt="Harmony" loading="lazy">
+                            </div>
+                            <div class="product-actions">
+                                <a href="https://wa.me/55SEUNUMERO?text=Olá!+Gostaria+de+comprar+o+Harmony" class="btn-whatsapp" target="_blank">
+                                    <i class="fab fa-whatsapp"></i> Comprar
+                                </a>
+                            </div>
+                            <div class="product-info">
+                                <div class="product-collection">Harmony Collection</div>
+                                <h3 class="product-name">
+                                    <a href="https://wa.me/55SEUNUMERO?text=Olá!+Quero+mais+info+sobre+o+Harmony" target="_blank">Harmony</a>
+                                </h3>
+                                <div class="product-price">R$ 279</div>
+                                <div class="product-notes">
+                                    <div class="notes-row">
+                                        <span><span class="note-label">Nota:</span> Flor de laranjeira, Baunilha, Almíscar</span>
+                                    </div>
+                                    <div class="notes-row">
+                                        <span><span class="note-label">Ocasião:</span> Dia, Trabalho</span>
+                                    </div>
+                                    <div class="notes-row">
+                                        <span><span class="note-label">Fixação:</span> 8h+</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+
+                        <!-- Produto 7 -->
+                        <article class="product-card">
+                            <div class="product-badges">
+                                <span class="badge badge-new">Novo</span>
+                            </div>
+                            <div class="product-image">
+                                <img src="https://res.cloudinary.com/seu-cloud/image/upload/v1/produtos/love-potion.png" alt="Love Potion" loading="lazy">
+                            </div>
+                            <div class="product-actions">
+                                <a href="https://wa.me/55SEUNUMERO?text=Olá!+Gostaria+de+comprar+o+Love+Potion" class="btn-whatsapp" target="_blank">
+                                    <i class="fab fa-whatsapp"></i> Comprar
+                                </a>
+                            </div>
+                            <div class="product-info">
+                                <div class="product-collection">Love Collection</div>
+                                <h3 class="product-name">
+                                    <a href="https://wa.me/55SEUNUMERO?text=Olá!+Quero+mais+info+sobre+o+Love+Potion" target="_blank">Love Potion</a>
+                                </h3>
+                                <div class="product-price">R$ 299</div>
+                                <div class="product-notes">
+                                    <div class="notes-row">
+                                        <span><span class="note-label">Nota:</span> Rosa, Patchouli, Frutos vermelhos</span>
+                                    </div>
+                                    <div class="notes-row">
+                                        <span><span class="note-label">Ocasião:</span> Romance, Date</span>
+                                    </div>
+                                    <div class="notes-row">
+                                        <span><span class="note-label">Fixação:</span> 10h+</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+
+                        <!-- Produto 8 -->
+                        <article class="product-card">
+                            <div class="product-badges">
+                                <span class="badge badge-bestseller">Best Seller</span>
+                            </div>
+                            <div class="product-image">
+                                <img src="https://res.cloudinary.com/seu-cloud/image/upload/v1/produtos/oud-muattar.png" alt="Oud Muattar" loading="lazy">
+                            </div>
+                            <div class="product-actions">
+                                <a href="https://wa.me/55SEUNUMERO?text=Olá!+Gostaria+de+comprar+o+Oud+Muattar" class="btn-whatsapp" target="_blank">
+                                    <i class="fab fa-whatsapp"></i> Comprar
+                                </a>
+                            </div>
+                            <div class="product-info">
+                                <div class="product-collection">Oud Muattar</div>
+                                <h3 class="product-name">
+                                    <a href="https://wa.me/55SEUNUMERO?text=Olá!+Quero+mais+info+sobre+o+Oud+Muattar" target="_blank">Oud Muattar Premium</a>
+                                </h3>
+                                <div class="product-price">R$ 449</div>
+                                <div class="product-notes">
+                                    <div class="notes-row">
+                                        <span><span class="note-label">Nota:</span> Oud 100%, Ágarwood, Resinas</span>
+                                    </div>
+                                    <div class="notes-row">
+                                        <span><span class="note-label">Ocasião:</span> Noite Especial</span>
+                                    </div>
+                                    <div class="notes-row">
+                                        <span><span class="note-label">Fixação:</span> 24h+</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ========================================
+                 ABOUT SECTION
+                 ======================================== -->
+            <section id="sobre" class="about">
+                <div class="container">
+                    <div class="about-grid">
+                        <div class="about-image">
+                            <img src="https://res.cloudinary.com/seu-cloud/image/upload/v1/about/story.jpg" alt="Swiss Arabian História" loading="lazy">
+                            <div class="about-badge">
+                                <span>50+ Anos</span>
+                                <small>de história</small>
+                            </div>
+                        </div>
+                        <div class="about-content">
+                            <span class="section-tag">Nossa História</span>
+                            <h2>A Tradição do Oriente, a Qualidade Suisse</h2>
+                            <p>Desde 1974, Swiss Arabian combina a riqueza da tradição perfumista árabe com a precisão suíça para criar fragrâncias únicas e memoráveis.</p>
+                            <p>Nossa jornada começou em Dubai, onde fundamos nossa primeira fábrica com a missão de preservar a arte ancestral do oud enquanto inovamos com técnicas modernas.</p>
+                            
+                            <div class="about-features">
+                                <div class="feature-item">
+                                    <i class="fas fa-leaf"></i>
+                                    <div>
+                                        <strong>Ingredientes 100% Naturais</strong>
+                                        <span>Matérias-primas selecionadas</span>
+                                    </div>
+                                </div>
+                                <div class="feature-item">
+                                    <i class="fas fa-award"></i>
+                                    <div>
+                                        <strong>Qualidade Premium</strong>
+                                        <span>Padrão suíço de excelência</span>
+                                    </div>
+                                </div>
+                                <div class="feature-item">
+                                    <i class="fas fa-globe"></i>
+                                    <div>
+                                        <strong>Presente em 50+ Países</strong>
+                                        <span>Reconhecimento mundial</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <a href="https://wa.me/55SEUNUMERO?text=Olá!+Quero+saber+mais+sobre+a+marca" class="btn btn-primary" target="_blank">
+                                <i class="fas fa-comment"></i>
+                                Falar com Especialista
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ========================================
+                 TESTIMONIALS
+                 ======================================== -->
+            <section class="testimonials">
+                <div class="container">
+                    <div class="section-header text-center">
+                        <h2>O Que Dizem Nossos Clientes</h2>
+                        <p class="subtitle">Experiências reais de quem já experimentou</p>
+                    </div>
+
+                    <div class="testimonials-grid">
+                        <div class="testimonial-card">
+                            <div class="testimonial-stars">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <p class="testimonial-text">"O Shaghaf Oud éabsolutamente incrível. Pela primeira vez recebi tantos elogios em um único dia. Oudeto que dura mais de 12 horas!"</p>
+                            <div class="testimonial-author">
+                                <div class="author-avatar">M</div>
+                                <div class="author-info">
+                                    <strong>Marcos R.</strong>
+                                    <span>São Paulo, SP</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="testimonial-card">
+                            <div class="testimonial-stars">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <p class="testimonial-text">"Comprei o Dubai Musk para presente e amou! A embalagem é linda e o cheiro é marcante. Já estouvindo o terceiro."</p>
+                            <div class="testimonial-author">
+                                <div class="author-avatar">C</div>
+                                <div class="author-info">
+                                    <strong>Camila S.</strong>
+                                    <span>Rio de Janeiro, RJ</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="testimonial-card">
+                            <div class="testimonial-stars">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <p class="testimonial-text">"O atendimento pelo WhatsApp é excepcional. Me ajudaram a escolher a fragância perfeita para meu perfil. Recomendo!"</p>
+                            <div class="testimonial-author">
+                                <div class="author-avatar">J</div>
+                                <div class="author-info">
+                                    <strong>João P.</strong>
+                                    <span>Belo Horizonte, MG</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ========================================
+                 NEWSLETTER
+                 ======================================== -->
+            <section class="newsletter">
+                <div class="container">
+                    <div class="newsletter-box">
+                        <div class="newsletter-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <h2>Receba Novidades e Ofertas</h2>
+                        <p>Cadastre-se e seja o primeiro a saber sobre lançamentos, promoções exclusivas e dicas de fragrâncias.</p>
+                        
+                        <form class="newsletter-form" action="https://formspree.io/f/seu-form-id" method="POST">
+                            <input type="email" name="email" placeholder="Seu melhor e-mail" required>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-paper-plane"></i>
+                                Inscrever-se
+                            </button>
+                        </form>
+                        <small class="newsletter-privacy">Prometemos não enviar spam. Você pode cancelar a qualquer momento.</small>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ========================================
+                 FOOTER
+                 ======================================== -->
+            <footer>
+                <div class="container">
+                    <div class="footer-grid">
+                        <!-- Coluna 1: Logo e Descrição -->
+                        <div class="footer-col footer-about">
+                            <a href="/" class="logo">SWISS <span>ARABIAN</span></a>
+                            <p>Sua loja oficial de perfumes árabes importados no Brasil. Tradição, luxo e autenticidade em cada frasco.</p>
+                            <div class="footer-social">
+                                <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                                <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                                <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                                <a href="#" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+                            </div>
+                        </div>
+
+                        <!-- Coluna 2: Links Rápidos -->
+                        <div class="footer-col">
+                            <h4>Comprar</h4>
+                            <ul class="footer-links">
+                                <li><a href="#produtos">Masculinos</a></li>
+                                <li><a href="#produtos">Femininos</a></li>
+                                <li><a href="#produtos">Unisex</a></li>
+                                <li><a href="#produtos">Oud & Attar</a></li>
+                                <li><a href="#produtos">Kits Presente</a></li>
+                            </ul>
+                        </div>
+
+                        <!-- Coluna 3: Institucional -->
+                        <div class="footer-col">
+                            <h4>Institucional</h4>
+                            <ul class="footer-links">
+                                <li><a href="#sobre">Nossa História</a></li>
+                                <li><a href="#">Política de Privacidade</a></li>
+                                <li><a href="#">Termos de Uso</a></li>
+                                <li><a href="#">Política de Troca</a></li>
+                                <li><a href="#">Fale Conosco</a></li>
+                            </ul>
+                        </div>
+
+                        <!-- Coluna 4: Contato -->
+                        <div class="footer-col footer-contact">
+                            <h4>Fale Conosco</h4>
+                            <ul class="footer-contact-info">
+                                <li>
+                                    <i class="fab fa-whatsapp"></i>
+                                    <a href="https://wa.me/55SEUNUMERO" target="_blank">(11) 99999-9999</a>
+                                </li>
+                                <li>
+                                    <i class="fas fa-envelope"></i>
+                                    <a href="mailto:contato@seudominio.com.br">contato@seudominio.com.br</a>
+                                </li>
+                                <li>
+                                    <i class="fas fa-clock"></i>
+                                    <span>Seg a Sex: 9h às 18h</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Footer Bottom -->
+                    <div class="footer-bottom">
+                        <p>&copy; 2024 Swiss Arabian Brasil. Todos os direitos reservados.</p>
+                        <div class="footer-payments">
+                            <span><i class="fab fa-cc-visa"></i></span>
+                            <span><i class="fab fa-cc-mastercard"></i></span>
+                            <span><i class="fab fa-cc-amex"></i></span>
+                            <span><i class="fab fa-cc-pix"></i></span>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+
+            <!-- ========================================
+                 FLOATING WHATSAPP BUTTON
+                 ======================================== -->
+                 
+                <a href="https://wa.me/55SEUNUMERO?text=Olá!+Gostaria+de+conhecer+os+perfumes+árabes" class="float-whatsapp" target="_blank" aria-label="Falar no WhatsApp">
+                <i class="fab fa-whatsapp"></i>
+                <span class="float-tooltip">Fale Conosco</span>
+            </a>
+
+            <!-- ========================================
+                 JAVASCRIPT
+                 ======================================== -->
+            <script>
+                // ========================================
+                // Mobile Menu Toggle
+                // ========================================
+                const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+                const navDesktop = document.querySelector('.nav-desktop');
+                
+                if (mobileMenuBtn) {
+                    mobileMenuBtn.addEventListener('click', () => {
+                        navDesktop.classList.toggle('active');
+                        const icon = mobileMenuBtn.querySelector('i');
+                        if (navDesktop.classList.contains('active')) {
+                            icon.classList.remove('fa-bars');
+                            icon.classList.add('fa-times');
+                        } else {
+                            icon.classList.remove('fa-times');
+                            icon.classList.add('fa-bars');
+                        }
+                    });
+                }
+
+                // ========================================
+                // Header Scroll Effect
+                // ========================================
+                let lastScroll = 0;
+                const header = document.querySelector('header');
+
+                window.addEventListener('scroll', () => {
+                    const currentScroll = window.pageYOffset;
+                    
+                    if (currentScroll > 100) {
+                        header.classList.add('scrolled');
+                    } else {
+                        header.classList.remove('scrolled');
+                    }
+                    
+                    lastScroll = currentScroll;
+                });
+
+                // ========================================
+                // Smooth Scroll for Anchor Links
+                // ========================================
+                document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                    anchor.addEventListener('click', function (e) {
+                        const href = this.getAttribute('href');
+                        if (href !== '#') {
+                            e.preventDefault();
+                            const target = document.querySelector(href);
+                            if (target) {
+                                target.scrollIntoView({
+                                    behavior: 'smooth',
+                                    block: 'start'
+                                });
+                            }
+                        }
+                    });
+                });
+
+                // ========================================
+                // Lazy Loading Images (Native)
+                // ========================================
+                if ('loading' in HTMLImageElement.prototype) {
+                    // Browser supports native lazy loading
+                    document.querySelectorAll('img[loading="lazy"]').forEach(img => {
+                        img.src = img.dataset.src || img.src;
+                    });
+                } else {
+                    // Fallback for older browsers
+                    const lazyImages = document.querySelectorAll('img[loading="lazy"]');
+                    const lazyLoad = () => {
+                        lazyImages.forEach(img => {
+                            if (img.getBoundingClientRect().top < window.innerHeight + 500) {
+                                img.src = img.dataset.src || img.src;
+                            }
+                        });
+                    };
+                    window.addEventListener('scroll', lazyLoad);
+                    lazyLoad();
+                }
+
+                // ========================================
+                // WhatsApp Click Tracking (Analytics)
+                // ========================================
+                document.querySelectorAll('.btn-whatsapp, .float-whatsapp, a[href*="wa.me"]').forEach(link => {
+                    link.addEventListener('click', () => {
+                        // GTM Event (if installed)
+                        if (typeof gtag === 'function') {
+                            gtag('event', 'click', {
+                                'event_category': 'WhatsApp',
+                                'event_label': 'Conversão WhatsApp',
+                                'transport_type': 'beacon'
+                            });
+                        }
+                        // Facebook Pixel Event
+                        if (typeof fbq === 'function') {
+                            fbq('track', 'Contact');
+                        }
+                    });
+                });
+
+                // ========================================
+                // Product Click Tracking
+                // ========================================
+                document.querySelectorAll('.product-name a').forEach(link => {
+                    link.addEventListener('click', () => {
+                        if (typeof gtag === 'function') {
+                            gtag('event', 'view_item', {
+                                'event_category': 'Produto',
+                                'event_label': link.textContent
+                            });
+                        }
+                    });
+                });
+
+                // ========================================
+                // Newsletter Form Submit
+                // ========================================
+                const newsletterForm = document.querySelector('.newsletter-form');
+                if (newsletterForm) {
+                    newsletterForm.addEventListener('submit', (e) => {
+                        e.preventDefault();
+                        const email = newsletterForm.querySelector('input[type="email"]').value;
+                        
+                        // Here you would send to your email service
+                        alert('Obrigado! Você receberá nossas novidades em breve.');
+                        newsletterForm.reset();
+                        
+                        if (typeof gtag === 'function') {
+                            gtag('event', 'sign_up', {
+                                'event_category': 'Newsletter',
+                                'method': 'footer_form'
+                            });
+                        }
+                    });
+                }
+
+                // ========================================
+                // Performance: Preconnect to external domains
+                // ========================================
+                const domains = [
+                    'https://fonts.googleapis.com',
+                    'https://fonts.gstatic.com',
+                    'https://cdnjs.cloudflare.com',
+                    'https://res.cloudinary.com'
+                ];
+                domains.forEach(domain => {
+                    const link = document.createElement('link');
+                    link.rel = 'preconnect';
+                    link.href = domain;
+                    document.head.appendChild(link);
+                });
+            </script>
+        </body>
+        </html>
