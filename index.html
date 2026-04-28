@@ -1,146 +1,1799 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Aura Exótica | Perfumes Árabes e Nicho</title>
-  <meta name="description" content="Catálogo digital Aura Exótica com perfumes árabes e nicho premium. Escolha seu perfume e finalize no WhatsApp.">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Aura Exótica | Perfumes Árabes & Nicho Premium</title>
+<meta name="description" content="Curadoria exclusiva de perfumes árabes autênticos e fragrâncias nicho. Essências que contam histórias e despertam sentidos. Compre pelo WhatsApp."/>
+<meta name="theme-color" content="#080808"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+
+<style>
+/* ============================================================
+   CSS VARIABLES & RESET
+   ============================================================ */
+:root {
+  --noir: #080808;
+  --noir-2: #111111;
+  --noir-3: #1a1a1a;
+  --gold: #C9A84C;
+  --gold-light: #E4C97A;
+  --gold-dim: rgba(201,168,76,0.15);
+  --cream: #EDE8D9;
+  --cream-dim: rgba(237,232,217,0.6);
+  --white: #ffffff;
+  --font-display: 'Cormorant Garamond', Georgia, serif;
+  --font-body: 'DM Sans', sans-serif;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.76, 0, 0.24, 1);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+}
+
+body {
+  background: var(--noir);
+  color: var(--cream);
+  font-family: var(--font-body);
+  font-weight: 300;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+img { display: block; max-width: 100%; }
+a { text-decoration: none; color: inherit; }
+
+/* ============================================================
+   GRAIN TEXTURE OVERLAY
+   ============================================================ */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+  opacity: 0.028;
+  pointer-events: none;
+  z-index: 9999;
+}
+
+/* ============================================================
+   ANNOUNCEMENT BAR
+   ============================================================ */
+.announce {
+  background: var(--gold);
+  color: var(--noir);
+  text-align: center;
+  padding: 10px 20px;
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+/* ============================================================
+   HEADER / NAV
+   ============================================================ */
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 900;
+  padding: 0 24px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: background 0.5s var(--ease-out), backdrop-filter 0.5s, border-color 0.5s;
+  border-bottom: 1px solid transparent;
+}
+
+.header.scrolled {
+  background: rgba(8,8,8,0.92);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-color: rgba(201,168,76,0.15);
+}
+
+.header-logo {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  color: var(--gold);
+  flex-shrink: 0;
+}
+
+.header-logo span {
+  font-style: italic;
+  font-weight: 300;
+  color: var(--cream);
+}
+
+.nav-links {
+  display: none;
+  list-style: none;
+  gap: 36px;
+  align-items: center;
+}
+
+.nav-links a {
+  font-size: 0.72rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--cream-dim);
+  transition: color 0.25s;
+  font-weight: 400;
+}
+
+.nav-links a:hover { color: var(--gold); }
+
+.header-cta {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.btn-wa-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--gold);
+  color: var(--noir);
+  padding: 9px 18px;
+  border-radius: 2px;
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  transition: background 0.2s, transform 0.2s;
+  white-space: nowrap;
+}
+
+.btn-wa-header:hover {
+  background: var(--gold-light);
+  transform: translateY(-1px);
+}
+
+.btn-wa-header svg { width: 15px; height: 15px; }
+
+@media (min-width: 768px) {
+  .header { padding: 0 48px; height: 70px; }
+  .header-logo { font-size: 1.7rem; }
+  .nav-links { display: flex; }
+}
+
+@media (min-width: 1200px) {
+  .header { padding: 0 80px; }
+}
+
+/* ============================================================
+   HERO
+   ============================================================ */
+.hero {
+  position: relative;
+  min-height: 100svh;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  padding: 100px 24px 60px;
+}
+
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 80% 60% at 70% 40%, rgba(201,168,76,0.07) 0%, transparent 65%),
+    radial-gradient(ellipse 50% 80% at 10% 80%, rgba(201,168,76,0.04) 0%, transparent 60%),
+    linear-gradient(160deg, #0d0d0d 0%, #080808 60%, #0a0807 100%);
+}
+
+/* Animated golden orb */
+.hero-orb {
+  position: absolute;
+  right: -10%;
+  top: 10%;
+  width: 55vw;
+  max-width: 600px;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%,
+    rgba(201,168,76,0.15) 0%,
+    rgba(201,168,76,0.06) 35%,
+    transparent 70%
+  );
+  animation: orb-float 8s ease-in-out infinite;
+}
+
+@keyframes orb-float {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-24px) scale(1.03); }
+}
+
+/* Decorative lines */
+.hero-lines {
+  position: absolute;
+  right: 5%;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 1px;
+  height: 45vh;
+  opacity: 0;
+  animation: line-reveal 1.4s var(--ease-out) 0.8s forwards;
+}
+
+.hero-lines::before,
+.hero-lines::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  width: 1px;
+  height: 100%;
+  background: linear-gradient(to bottom, transparent, var(--gold), transparent);
+}
+
+.hero-lines::before { left: 0; }
+.hero-lines::after { left: 32px; animation: line-reveal2 1.4s var(--ease-out) 1s forwards; opacity: 0; }
+
+@keyframes line-reveal {
+  from { opacity: 0; height: 0; }
+  to { opacity: 0.4; height: 45vh; }
+}
+@keyframes line-reveal2 {
+  from { opacity: 0; height: 0; }
+  to { opacity: 0.2; height: 45vh; }
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 700px;
+}
+
+.hero-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 28px;
+  opacity: 0;
+  animation: fade-up 0.8s var(--ease-out) 0.2s forwards;
+}
+
+.hero-eyebrow-line {
+  width: 36px;
+  height: 1px;
+  background: var(--gold);
+}
+
+.hero-eyebrow-text {
+  font-size: 0.7rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--gold);
+  font-weight: 400;
+}
+
+.hero-title {
+  font-family: var(--font-display);
+  font-weight: 300;
+  line-height: 1.0;
+  margin-bottom: 28px;
+}
+
+.hero-title-line {
+  display: block;
+  overflow: hidden;
+}
+
+.hero-title-inner {
+  display: block;
+  transform: translateY(110%);
+  animation: slide-up 0.9s var(--ease-out) forwards;
+}
+
+.hero-title-line:nth-child(1) .hero-title-inner { animation-delay: 0.3s; font-size: clamp(3rem, 10vw, 7.5rem); color: var(--cream); }
+.hero-title-line:nth-child(2) .hero-title-inner { animation-delay: 0.45s; font-size: clamp(3rem, 10vw, 7.5rem); color: var(--gold); font-style: italic; }
+.hero-title-line:nth-child(3) .hero-title-inner { animation-delay: 0.6s; font-size: clamp(1.8rem, 5vw, 4rem); color: var(--cream-dim); font-style: italic; }
+
+@keyframes slide-up {
+  to { transform: translateY(0); }
+}
+
+.hero-sub {
+  font-size: clamp(0.88rem, 2vw, 1rem);
+  color: rgba(237,232,217,0.5);
+  line-height: 1.8;
+  max-width: 440px;
+  margin-bottom: 44px;
+  opacity: 0;
+  animation: fade-up 0.8s var(--ease-out) 0.9s forwards;
+}
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  opacity: 0;
+  animation: fade-up 0.8s var(--ease-out) 1.0s forwards;
+}
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--gold);
+  color: var(--noir);
+  padding: 15px 32px;
+  border-radius: 2px;
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  transition: background 0.25s, transform 0.25s;
+}
+
+.btn-primary:hover {
+  background: var(--gold-light);
+  transform: translateY(-2px);
+}
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid rgba(201,168,76,0.35);
+  color: var(--gold);
+  padding: 15px 32px;
+  border-radius: 2px;
+  font-size: 0.78rem;
+  font-weight: 400;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  transition: border-color 0.25s, background 0.25s, transform 0.25s;
+}
+
+.btn-secondary:hover {
+  border-color: var(--gold);
+  background: var(--gold-dim);
+  transform: translateY(-2px);
+}
+
+.hero-scroll {
+  position: absolute;
+  bottom: 32px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  opacity: 0;
+  animation: fade-up 0.8s var(--ease-out) 1.4s forwards;
+}
+
+.hero-scroll-text {
+  font-size: 0.62rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(237,232,217,0.3);
+}
+
+.hero-scroll-line {
+  width: 1px;
+  height: 44px;
+  background: linear-gradient(to bottom, var(--gold), transparent);
+  animation: scroll-pulse 2s ease-in-out infinite;
+}
+
+@keyframes scroll-pulse {
+  0%, 100% { transform: scaleY(1); opacity: 0.5; }
+  50% { transform: scaleY(0.6); opacity: 1; }
+}
+
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (min-width: 768px) {
+  .hero { padding: 120px 48px 80px; }
+  .hero-orb { right: 0%; }
+}
+
+@media (min-width: 1200px) {
+  .hero { padding: 140px 80px 100px; }
+}
+
+/* ============================================================
+   TRUST BADGES
+   ============================================================ */
+.trust {
+  border-top: 1px solid rgba(201,168,76,0.12);
+  border-bottom: 1px solid rgba(201,168,76,0.12);
+  background: var(--noir-2);
+  padding: 28px 24px;
+  overflow: hidden;
+}
+
+.trust-inner {
+  display: flex;
+  gap: 0;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 24px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.trust-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+  min-width: 140px;
+}
+
+.trust-icon {
+  width: 36px;
+  height: 36px;
+  border: 1px solid rgba(201,168,76,0.3);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--gold);
+  flex-shrink: 0;
+}
+
+.trust-icon svg { width: 16px; height: 16px; }
+
+.trust-label {
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--cream-dim);
+  font-weight: 400;
+  line-height: 1.4;
+}
+
+/* ============================================================
+   SECTION SHARED
+   ============================================================ */
+.section {
+  padding: 80px 24px;
+}
+
+.section-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: 48px;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.section-label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.section-label-line {
+  width: 28px;
+  height: 1px;
+  background: var(--gold);
+}
+
+.section-label-text {
+  font-size: 0.68rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--gold);
+  font-weight: 400;
+}
+
+.section-title {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  color: var(--cream);
+  line-height: 1.1;
+}
+
+.section-title em {
+  font-style: italic;
+  color: var(--gold);
+}
+
+.section-link {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.72rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--gold);
+  border-bottom: 1px solid rgba(201,168,76,0.3);
+  padding-bottom: 2px;
+  transition: gap 0.25s, border-color 0.25s;
+  white-space: nowrap;
+}
+
+.section-link:hover {
+  gap: 14px;
+  border-color: var(--gold);
+}
+
+@media (min-width: 768px) {
+  .section { padding: 100px 48px; }
+}
+
+@media (min-width: 1200px) {
+  .section { padding: 120px 80px; }
+}
+
+/* ============================================================
+   PRODUCTS GRID
+   ============================================================ */
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2px;
+}
+
+@media (min-width: 640px) {
+  .products-grid { grid-template-columns: repeat(2, 1fr); gap: 3px; }
+}
+
+@media (min-width: 900px) {
+  .products-grid { grid-template-columns: repeat(3, 1fr); }
+}
+
+@media (min-width: 1200px) {
+  .products-grid { grid-template-columns: repeat(4, 1fr); }
+}
+
+/* ============================================================
+   PRODUCT CARD
+   ============================================================ */
+.product-card {
+  position: relative;
+  background: var(--noir-2);
+  overflow: hidden;
+  cursor: pointer;
+  group: true;
+}
+
+.product-card-image-wrap {
+  position: relative;
+  aspect-ratio: 3/4;
+  background: var(--noir-3);
+  overflow: hidden;
+}
+
+.product-card-image-wrap::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top,
+    rgba(8,8,8,0.9) 0%,
+    rgba(8,8,8,0.3) 40%,
+    transparent 70%
+  );
+  transition: opacity 0.4s;
+}
+
+.product-card:hover .product-card-image-wrap::after {
+  opacity: 0.7;
+}
+
+.product-card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  transition: transform 0.7s var(--ease-out);
+}
+
+.product-card:hover .product-card-img {
+  transform: scale(1.06);
+}
+
+/* Gold line on top */
+.product-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(to right, transparent, var(--gold), transparent);
+  transform: scaleX(0);
+  transition: transform 0.4s var(--ease-out);
+  z-index: 3;
+}
+
+.product-card:hover::before {
+  transform: scaleX(1);
+}
+
+.product-badge {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  z-index: 4;
+  background: var(--gold);
+  color: var(--noir);
+  font-size: 0.58rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 5px 10px;
+  border-radius: 1px;
+}
+
+.product-badge.badge-new {
+  background: transparent;
+  color: var(--gold);
+  border: 1px solid var(--gold);
+}
+
+.product-badge.badge-launch {
+  background: var(--noir-3);
+  color: var(--cream);
+  border: 1px solid rgba(237,232,217,0.2);
+}
+
+.product-gender {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  z-index: 4;
+  width: 28px;
+  height: 28px;
+  border: 1px solid rgba(201,168,76,0.4);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.62rem;
+  letter-spacing: 0.05em;
+  color: var(--gold);
+  background: rgba(8,8,8,0.6);
+}
+
+.product-info {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 16px 16px 18px;
+  z-index: 2;
+  transform: translateY(0);
+  transition: transform 0.4s var(--ease-out);
+}
+
+.product-brand {
+  font-size: 0.62rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 5px;
+  font-weight: 400;
+}
+
+.product-name {
+  font-family: var(--font-display);
+  font-size: clamp(1rem, 2.5vw, 1.3rem);
+  font-weight: 400;
+  color: var(--cream);
+  line-height: 1.2;
+  margin-bottom: 8px;
+}
+
+.product-notes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-bottom: 10px;
+}
+
+.note-chip {
+  font-size: 0.58rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(237,232,217,0.5);
+  border: 1px solid rgba(237,232,217,0.15);
+  padding: 3px 8px;
+  border-radius: 1px;
+}
+
+.product-price-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0;
+}
+
+.product-price {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  font-weight: 500;
+  color: var(--gold);
+  letter-spacing: -0.02em;
+}
+
+.product-installments {
+  font-size: 0.6rem;
+  color: rgba(237,232,217,0.35);
+  letter-spacing: 0.05em;
+  text-align: right;
+}
+
+/* WhatsApp button - slides up on hover */
+.product-wa-btn {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: var(--gold);
+  color: var(--noir);
+  text-align: center;
+  padding: 14px;
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transform: translateY(100%);
+  transition: transform 0.35s var(--ease-out);
+  z-index: 5;
+}
+
+.product-wa-btn svg { width: 16px; height: 16px; flex-shrink: 0; }
+
+.product-card:hover .product-wa-btn {
+  transform: translateY(0);
+}
+
+/* Mobile tap behavior */
+@media (hover: none) {
+  .product-wa-btn { transform: translateY(0); }
+  .product-card::before { transform: scaleX(1); }
+}
+
+/* Reveal animation */
+.product-card {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.6s var(--ease-out), transform 0.6s var(--ease-out);
+}
+
+.product-card.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ============================================================
+   BRAND MARQUEE
+   ============================================================ */
+.marquee-section {
+  padding: 36px 0;
+  border-top: 1px solid rgba(201,168,76,0.1);
+  border-bottom: 1px solid rgba(201,168,76,0.1);
+  overflow: hidden;
+  background: var(--noir-2);
+}
+
+.marquee-track {
+  display: flex;
+  gap: 0;
+  animation: marquee 28s linear infinite;
+  width: max-content;
+}
+
+.marquee-track:hover { animation-play-state: paused; }
+
+.marquee-item {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 0 36px;
+  white-space: nowrap;
+}
+
+.marquee-brand {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-weight: 300;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(237,232,217,0.25);
+  transition: color 0.25s;
+}
+
+.marquee-brand:hover { color: var(--gold); }
+
+.marquee-dot {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: rgba(201,168,76,0.3);
+}
+
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+/* ============================================================
+   PHILOSOPHY SECTION
+   ============================================================ */
+.philosophy {
+  background: var(--noir-2);
+  padding: 100px 24px;
+  position: relative;
+  overflow: hidden;
+}
+
+.philosophy::before {
+  content: '"';
+  position: absolute;
+  top: -20px;
+  left: 5%;
+  font-family: var(--font-display);
+  font-size: clamp(200px, 35vw, 400px);
+  color: rgba(201,168,76,0.04);
+  line-height: 1;
+  pointer-events: none;
+  user-select: none;
+}
+
+.philosophy-inner {
+  max-width: 900px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.philosophy-quote {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 300;
+  font-size: clamp(1.7rem, 4vw, 3rem);
+  color: var(--cream);
+  line-height: 1.45;
+  margin-bottom: 32px;
+}
+
+.philosophy-quote em {
+  color: var(--gold);
+  font-style: italic;
+}
+
+.philosophy-attr {
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(237,232,217,0.35);
+}
+
+.philosophy-divider {
+  width: 60px;
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--gold), transparent);
+  margin: 28px auto;
+}
+
+@media (min-width: 768px) {
+  .philosophy { padding: 120px 48px; }
+}
+
+/* ============================================================
+   PROCESS SECTION
+   ============================================================ */
+.process-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2px;
+}
+
+@media (min-width: 640px) {
+  .process-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (min-width: 900px) {
+  .process-grid { grid-template-columns: repeat(4, 1fr); }
+}
+
+.process-card {
+  background: var(--noir-2);
+  padding: 36px 28px;
+  position: relative;
+  overflow: hidden;
+  transition: background 0.3s;
+}
+
+.process-card:hover { background: var(--noir-3); }
+
+.process-card::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(to right, var(--gold), transparent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.4s var(--ease-out);
+}
+
+.process-card:hover::after { transform: scaleX(1); }
+
+.process-num {
+  font-family: var(--font-display);
+  font-size: 4rem;
+  font-weight: 300;
+  color: rgba(201,168,76,0.12);
+  line-height: 1;
+  margin-bottom: 16px;
+}
+
+.process-title {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  font-weight: 400;
+  color: var(--cream);
+  margin-bottom: 12px;
+}
+
+.process-text {
+  font-size: 0.85rem;
+  color: rgba(237,232,217,0.45);
+  line-height: 1.7;
+}
+
+/* ============================================================
+   CTA BANNER
+   ============================================================ */
+.cta-banner {
+  padding: 80px 24px;
+  background: linear-gradient(135deg, #0d0b08 0%, #0a0808 50%, #0d0b08 100%);
+  position: relative;
+  overflow: hidden;
+  text-align: center;
+}
+
+.cta-banner::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 70vw;
+  height: 70vw;
+  max-width: 600px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(201,168,76,0.08) 0%, transparent 65%);
+  pointer-events: none;
+}
+
+.cta-banner-title {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 5vw, 4rem);
+  font-weight: 300;
+  color: var(--cream);
+  margin-bottom: 16px;
+  line-height: 1.1;
+}
+
+.cta-banner-title em { font-style: italic; color: var(--gold); }
+
+.cta-banner-sub {
+  font-size: 0.9rem;
+  color: rgba(237,232,217,0.5);
+  margin-bottom: 40px;
+  max-width: 420px;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.7;
+}
+
+.btn-wa-large {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  background: #25D366;
+  color: white;
+  padding: 18px 40px;
+  border-radius: 2px;
+  font-size: 0.82rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  transition: background 0.25s, transform 0.25s, box-shadow 0.25s;
+  box-shadow: 0 0 40px rgba(37,211,102,0.15);
+}
+
+.btn-wa-large:hover {
+  background: #1ebe5d;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 40px rgba(37,211,102,0.25);
+}
+
+.btn-wa-large svg { width: 22px; height: 22px; }
+
+@media (min-width: 768px) {
+  .cta-banner { padding: 120px 48px; }
+}
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+.footer {
+  background: var(--noir-2);
+  border-top: 1px solid rgba(201,168,76,0.1);
+  padding: 60px 24px 36px;
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 48px;
+  max-width: 1100px;
+  margin: 0 auto 48px;
+}
+
+@media (min-width: 640px) {
+  .footer-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (min-width: 900px) {
+  .footer-grid { grid-template-columns: 2fr 1fr 1fr 1fr; }
+}
+
+.footer-brand-name {
+  font-family: var(--font-display);
+  font-size: 1.8rem;
+  font-weight: 500;
+  color: var(--gold);
+  margin-bottom: 12px;
+}
+
+.footer-brand-name span {
+  font-style: italic;
+  font-weight: 300;
+  color: var(--cream);
+}
+
+.footer-tagline {
+  font-size: 0.82rem;
+  color: rgba(237,232,217,0.4);
+  line-height: 1.7;
+  max-width: 260px;
+  margin-bottom: 28px;
+}
+
+.footer-social {
+  display: flex;
+  gap: 12px;
+}
+
+.footer-social-btn {
+  width: 36px;
+  height: 36px;
+  border: 1px solid rgba(201,168,76,0.2);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(237,232,217,0.4);
+  transition: border-color 0.25s, color 0.25s, background 0.25s;
+}
+
+.footer-social-btn:hover {
+  border-color: var(--gold);
+  color: var(--gold);
+  background: var(--gold-dim);
+}
+
+.footer-social-btn svg { width: 16px; height: 16px; }
+
+.footer-col-title {
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 20px;
+  font-weight: 400;
+}
+
+.footer-links {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.footer-links a {
+  font-size: 0.84rem;
+  color: rgba(237,232,217,0.45);
+  transition: color 0.25s;
+}
+
+.footer-links a:hover { color: var(--cream); }
+
+.footer-contact-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.84rem;
+  color: rgba(237,232,217,0.45);
+  margin-bottom: 12px;
+}
+
+.footer-contact-item svg {
+  width: 14px;
+  height: 14px;
+  color: var(--gold);
+  flex-shrink: 0;
+}
+
+.footer-bottom {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding-top: 28px;
+  border-top: 1px solid rgba(201,168,76,0.08);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.footer-copy {
+  font-size: 0.72rem;
+  color: rgba(237,232,217,0.25);
+  letter-spacing: 0.06em;
+}
+
+.footer-gold-line {
+  width: 40px;
+  height: 1px;
+  background: linear-gradient(to right, var(--gold), transparent);
+}
+
+/* ============================================================
+   FLOATING WHATSAPP
+   ============================================================ */
+.float-wa {
+  position: fixed;
+  bottom: 28px;
+  right: 24px;
+  z-index: 800;
+  width: 56px;
+  height: 56px;
+  background: #25D366;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 24px rgba(37,211,102,0.35);
+  animation: wa-pulse 3s ease-in-out infinite;
+  transition: transform 0.25s, box-shadow 0.25s;
+}
+
+.float-wa:hover {
+  transform: scale(1.08);
+  box-shadow: 0 6px 30px rgba(37,211,102,0.5);
+  animation: none;
+}
+
+.float-wa svg { width: 26px; height: 26px; }
+
+@keyframes wa-pulse {
+  0%, 100% { box-shadow: 0 4px 24px rgba(37,211,102,0.35); }
+  50% { box-shadow: 0 4px 36px rgba(37,211,102,0.55); }
+}
+
+/* ============================================================
+   SCROLL REVEAL UTILITY
+   ============================================================ */
+.reveal {
+  opacity: 0;
+  transform: translateY(32px);
+  transition: opacity 0.7s var(--ease-out), transform 0.7s var(--ease-out);
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.2s; }
+.reveal-delay-3 { transition-delay: 0.3s; }
+.reveal-delay-4 { transition-delay: 0.4s; }
+
+/* ============================================================
+   SKELETON LOADING
+   ============================================================ */
+.skeleton {
+  background: linear-gradient(90deg, var(--noir-3) 25%, rgba(201,168,76,0.05) 50%, var(--noir-3) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 1px;
+}
+
+@keyframes shimmer {
+  from { background-position: 200% 0; }
+  to { background-position: -200% 0; }
+}
+
+/* ============================================================
+   CONTAINER
+   ============================================================ */
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+@media (min-width: 768px) {
+  .footer { padding: 80px 48px 48px; }
+}
+
+@media (min-width: 1200px) {
+  .footer { padding: 100px 80px 60px; }
+  .section.products-section { padding: 120px 80px; }
+}
+</style>
 </head>
-<body data-page="home">
-  <div class="announcement-bar">
-    <div class="container">
-      <span><i class="fas fa-shield-alt"></i> Perfumes 100% originais</span>
-      <span><i class="fas fa-clock"></i> Atendimento rápido via WhatsApp</span>
+<body>
+
+<!-- ANNOUNCE -->
+<div class="announce">
+  ✦ Frete Grátis acima de R$150 &nbsp;·&nbsp; 100% Originais Garantidos &nbsp;·&nbsp; Atendimento via WhatsApp
+</div>
+
+<!-- HEADER -->
+<header class="header" id="header">
+  <a href="index.html" class="header-logo">Aura <span>Exótica</span></a>
+
+  <nav>
+    <ul class="nav-links">
+      <li><a href="catalogo.html">Catálogo</a></li>
+      <li><a href="blog.html">Blog</a></li>
+      <li><a href="sobre.html">Sobre</a></li>
+      <li><a href="contato.html">Contato</a></li>
+    </ul>
+  </nav>
+
+  <div class="header-cta">
+    <a href="https://wa.me/5511999999999?text=Olá! Quero ajuda para escolher um perfume árabe." class="btn-wa-header" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      Falar com Especialista
+    </a>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-orb"></div>
+  <div class="hero-lines"></div>
+
+  <div class="hero-content">
+    <div class="hero-eyebrow">
+      <div class="hero-eyebrow-line"></div>
+      <span class="hero-eyebrow-text">Curadoria Exclusiva · Desde 2024</span>
+    </div>
+
+    <h1 class="hero-title">
+      <span class="hero-title-line"><span class="hero-title-inner">Essência</span></span>
+      <span class="hero-title-line"><span class="hero-title-inner">do Oriente</span></span>
+      <span class="hero-title-line"><span class="hero-title-inner">& Nicho</span></span>
+    </h1>
+
+    <p class="hero-sub">
+      Perfumes árabes autênticos e fragrâncias nicho selecionadas à mão. Cada essência conta uma história — e a sua começa aqui.
+    </p>
+
+    <div class="hero-actions">
+      <a href="catalogo.html" class="btn-primary">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        Ver Catálogo
+      </a>
+      <a href="https://wa.me/5511999999999?text=Olá! Quero ajuda para escolher um perfume árabe." class="btn-secondary" target="_blank" rel="noopener">
+        Falar com Especialista
+      </a>
     </div>
   </div>
 
-  <header>
-    <div class="header-main">
-      <div class="container header-inner">
-        <a href="index.html" class="logo">
-          <img src="assets/Logo-Aura-Exotica.svg" alt="Aura Exótica">
+  <div class="hero-scroll">
+    <span class="hero-scroll-text">Rolar</span>
+    <div class="hero-scroll-line"></div>
+  </div>
+</section>
+
+<!-- TRUST BADGES -->
+<div class="trust">
+  <div class="trust-inner">
+    <div class="trust-item reveal">
+      <div class="trust-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <span class="trust-label">100% Originais<br>Garantidos</span>
+    </div>
+    <div class="trust-item reveal reveal-delay-1">
+      <div class="trust-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 00-3.213-9.193 2.056 2.056 0 00-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 00-10.026 0 1.106 1.106 0 00-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <span class="trust-label">Entrega Rápida<br>Todo o Brasil</span>
+    </div>
+    <div class="trust-item reveal reveal-delay-2">
+      <div class="trust-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <span class="trust-label">Atendimento<br>Humanizado</span>
+    </div>
+    <div class="trust-item reveal reveal-delay-3">
+      <div class="trust-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 19.5z" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <span class="trust-label">Pix · Cartão<br>Parcelado</span>
+    </div>
+  </div>
+</div>
+
+<!-- BRAND MARQUEE -->
+<div class="marquee-section">
+  <div class="marquee-track" aria-hidden="true">
+    <!-- Repeated twice for seamless loop -->
+    <div class="marquee-item"><span class="marquee-brand">Lattafa</span><div class="marquee-dot"></div></div>
+    <div class="marquee-item"><span class="marquee-brand">Armaf</span><div class="marquee-dot"></div></div>
+    <div class="marquee-item"><span class="marquee-brand">Rasasi</span><div class="marquee-dot"></div></div>
+    <div class="marquee-item"><span class="marquee-brand">Al Wataniah</span><div class="marquee-dot"></div></div>
+    <div class="marquee-item"><span class="marquee-brand">Afnan</span><div class="marquee-dot"></div></div>
+    <div class="marquee-item"><span class="marquee-brand">Maison Alhambra</span><div class="marquee-dot"></div></div>
+    <div class="marquee-item"><span class="marquee-brand">Orientica</span><div class="marquee-dot"></div></div>
+    <div class="marquee-item"><span class="marquee-brand">Paris Corner</span><div class="marquee-dot"></div></div>
+    <div class="marquee-item"><span class="marquee-brand">French Avenue</span><div class="marquee-dot"></div></div>
+    <div class="marquee-item"><span class="marquee-brand">Khadlaj</span><div class="marquee-dot"></div></div>
+    <div class="marquee-item"><span class="marquee-brand">Zimaya</span><div class="marquee-dot"></div></div>
+    <div class="marquee-item"><span class="marquee-brand">Aurora Scents</span><div class="marquee-dot"></div></div>
+    <!-- Duplicated -->
+    <div class="marquee-item"><span class="marquee-brand">Lattafa</span><div class="marquee-dot"></div></div>
+    <div class="marquee-item"><span class="marquee-brand">Armaf</span><div class="marquee-dot"></div></div>
+    <div class="marquee-item"><span class="marquee-brand">Rasasi</span><div class="marquee-dot"></div></div>
+    <div class="marquee-item"><span class="marquee-brand">Al Wataniah</span><div class="marquee-dot"></div></div>
+    <div class="marquee-item"><span class="marquee-brand">Afnan</span><div class="marquee-dot"></div></div>
+    <div class="marquee-item"><span class="marquee-brand">Maison Alhambra</span><div class="marquee-dot"></div></div>
+    <div class="marquee-item"><span class="marquee-brand">Orientica</span><div class="marquee-dot"></div></div>
+    <div class="marquee-item"><span class="marquee-brand">Paris Corner</span><div class="marquee-dot"></div></div>
+    <div class="marquee-item"><span class="marquee-brand">French Avenue</span><div class="marquee-dot"></div></div>
+    <div class="marquee-item"><span class="marquee-brand">Khadlaj</span><div class="marquee-dot"></div></div>
+    <div class="marquee-item"><span class="marquee-brand">Zimaya</span><div class="marquee-dot"></div></div>
+    <div class="marquee-item"><span class="marquee-brand">Aurora Scents</span><div class="marquee-dot"></div></div>
+  </div>
+</div>
+
+<!-- PRODUCTS -->
+<section class="section products-section" id="catalogo">
+  <div class="container">
+    <div class="section-header">
+      <div>
+        <div class="section-label reveal">
+          <div class="section-label-line"></div>
+          <span class="section-label-text">Curadoria Exclusiva</span>
+        </div>
+        <h2 class="section-title reveal reveal-delay-1">Mais <em>Vendidos</em></h2>
+      </div>
+      <a href="catalogo.html" class="section-link reveal reveal-delay-2">
+        Ver todos
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+
+    <div class="products-grid" id="productsGrid">
+      <!-- Skeleton while loading -->
+      <div class="product-card visible">
+        <div class="product-card-image-wrap skeleton" style="aspect-ratio:3/4"></div>
+      </div>
+      <div class="product-card visible">
+        <div class="product-card-image-wrap skeleton" style="aspect-ratio:3/4"></div>
+      </div>
+      <div class="product-card visible">
+        <div class="product-card-image-wrap skeleton" style="aspect-ratio:3/4"></div>
+      </div>
+      <div class="product-card visible">
+        <div class="product-card-image-wrap skeleton" style="aspect-ratio:3/4"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PHILOSOPHY -->
+<section class="philosophy">
+  <div class="philosophy-inner">
+    <div class="section-label reveal" style="justify-content:center">
+      <div class="section-label-line"></div>
+      <span class="section-label-text">Nossa Essência</span>
+      <div class="section-label-line"></div>
+    </div>
+    <div class="philosophy-divider"></div>
+    <p class="philosophy-quote reveal">
+      "Cada fragrância é uma <em>jornada sensorial</em> — do deserto dourado do Oriente às selvas úmidas do nicho. Curamos apenas o que vale a pena ser vivido na sua pele."
+    </p>
+    <div class="philosophy-divider"></div>
+    <span class="philosophy-attr reveal">— Aura Exótica · Perfumes que Contam Histórias</span>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section class="section" style="padding-top:0">
+  <div class="container">
+    <div class="section-header">
+      <div>
+        <div class="section-label reveal">
+          <div class="section-label-line"></div>
+          <span class="section-label-text">Como Funciona</span>
+        </div>
+        <h2 class="section-title reveal reveal-delay-1">Simples como <em>deve ser</em></h2>
+      </div>
+    </div>
+
+    <div class="process-grid">
+      <div class="process-card reveal">
+        <div class="process-num">01</div>
+        <h3 class="process-title">Navegue</h3>
+        <p class="process-text">Explore o catálogo com filtros por marca, gênero, notas olfativas e ocasião. Cada produto com ficha completa.</p>
+      </div>
+      <div class="process-card reveal reveal-delay-1">
+        <div class="process-num">02</div>
+        <h3 class="process-title">Escolha</h3>
+        <p class="process-text">Leia a pirâmide olfativa, veja as imagens e se encante com a descrição sensorial de cada fragrância.</p>
+      </div>
+      <div class="process-card reveal reveal-delay-2">
+        <div class="process-num">03</div>
+        <h3 class="process-title">WhatsApp</h3>
+        <p class="process-text">Clique em "Comprar no WhatsApp". Uma mensagem já formatada é enviada ao nosso especialista.</p>
+      </div>
+      <div class="process-card reveal reveal-delay-3">
+        <div class="process-num">04</div>
+        <h3 class="process-title">Receba</h3>
+        <p class="process-text">Pagamento via Pix ou cartão parcelado. Entrega rápida para todo o Brasil com rastreamento.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA BANNER -->
+<section class="cta-banner">
+  <div class="reveal">
+    <div class="section-label" style="justify-content:center;margin-bottom:20px">
+      <div class="section-label-line"></div>
+      <span class="section-label-text">Atendimento Exclusivo</span>
+      <div class="section-label-line"></div>
+    </div>
+    <h2 class="cta-banner-title">Precisa de <em>ajuda</em><br>para escolher?</h2>
+    <p class="cta-banner-sub">Nosso especialista em fragrâncias está pronto para te guiar até o perfume perfeito para você ou para presentear.</p>
+    <a href="https://wa.me/5511999999999?text=Olá! Preciso de ajuda para escolher um perfume árabe. Pode me recomendar?" class="btn-wa-large" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      Falar com Especialista
+    </a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-grid">
+    <div>
+      <div class="footer-brand-name">Aura <span>Exótica</span></div>
+      <p class="footer-tagline">Perfumes árabes autênticos e fragrâncias nicho selecionadas com curadoria exclusiva.</p>
+      <div class="footer-social">
+        <a href="#" class="footer-social-btn" aria-label="Instagram">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.5" fill="currentColor"/></svg>
         </a>
-        <div class="header-search">
-          <input id="homeSearchInput" type="text" placeholder="Buscar perfumes ou marcas...">
-          <button id="homeSearchButton" aria-label="Buscar"><i class="fas fa-search"></i></button>
-        </div>
-        <div class="header-icons">
-          <a href="https://wa.me/5511999999999?text=Ol%C3%A1!%20Quero%20ajuda%20para%20escolher%20um%20perfume." target="_blank" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
-          <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-        </div>
-        <button class="mobile-menu-toggle" aria-expanded="false"><i class="fas fa-bars"></i></button>
+        <a href="https://wa.me/5511999999999" class="footer-social-btn" aria-label="WhatsApp" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        </a>
       </div>
     </div>
-    <nav class="main-nav">
-      <div class="container">
-        <ul class="nav-list">
-          <li class="nav-item"><a href="index.html">Home</a></li>
-          <li class="nav-item"><a href="catalogo.html">Catálogo</a></li>
-          <li class="nav-item"><a href="blog.html">Blog</a></li>
-          <li class="nav-item"><a href="sobre.html">Sobre</a></li>
-          <li class="nav-item"><a href="contato.html">Contato</a></li>
-        </ul>
-      </div>
-    </nav>
-  </header>
 
-  <section class="hero-slider">
-    <div class="slider-wrapper">
-      <div class="slide active" style="background-image:url('https://images.unsplash.com/photo-1556227834-09f1de7a7d14?q=80&w=1600&auto=format&fit=crop')">
-        <div class="slide-content">
-          <h2>Perfumes Árabes e Nicho Premium</h2>
-          <p>Curadoria Aura Exótica com os mais buscados.</p>
-          <a class="btn-slider" href="catalogo.html">Ver Catálogo</a>
-        </div>
-      </div>
-      <div class="slide" style="background-image:url('https://images.unsplash.com/photo-1594035910387-fea47794261f?q=80&w=1600&auto=format&fit=crop')">
-        <div class="slide-content">
-          <h2>Compre pelo WhatsApp</h2>
-          <p>Mensagem pronta com produto e preço.</p>
-          <a class="btn-slider" href="https://wa.me/5511999999999?text=Ol%C3%A1!%20Vim%20pelo%20site%20e%20quero%20recomenda%C3%A7%C3%A3o." target="_blank">Falar no WhatsApp</a>
-        </div>
-      </div>
+    <div>
+      <h4 class="footer-col-title">Navegação</h4>
+      <ul class="footer-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="catalogo.html">Catálogo</a></li>
+        <li><a href="blog.html">Blog</a></li>
+      </ul>
     </div>
-    <div class="slider-nav">
-      <button class="slider-prev"><i class="fas fa-chevron-left"></i></button>
-      <button class="slider-next"><i class="fas fa-chevron-right"></i></button>
-    </div>
-    <div class="slider-dots">
-      <span class="dot active"></span>
-      <span class="dot"></span>
-    </div>
-  </section>
 
-  <section class="section">
-    <div class="container">
-      <div class="section-header">
-        <h2>Mais Vendidos</h2>
-        <a class="section-link" href="catalogo.html">Ver todos <i class="fas fa-arrow-right"></i></a>
-      </div>
-      <div id="homeProducts" class="products-grid"></div>
+    <div>
+      <h4 class="footer-col-title">Institucional</h4>
+      <ul class="footer-links">
+        <li><a href="sobre.html">Sobre nós</a></li>
+        <li><a href="contato.html">Contato</a></li>
+        <li><a href="#">Política de Troca</a></li>
+      </ul>
     </div>
-  </section>
 
-  <section class="section testimonials">
-    <div class="container">
-      <div class="section-header">
-        <h2>Confiança e Qualidade</h2>
+    <div>
+      <h4 class="footer-col-title">Contato</h4>
+      <div class="footer-contact-item">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        +55 (11) 99999-9999
       </div>
-      <div class="testimonials-grid">
-        <div class="testimonial-card">
-          <p class="testimonial-text">Perfumes originais e seleção dos itens mais buscados do mercado.</p>
-        </div>
-        <div class="testimonial-card">
-          <p class="testimonial-text">Atendimento humanizado no WhatsApp para ajudar na escolha ideal.</p>
-        </div>
-        <div class="testimonial-card">
-          <p class="testimonial-text">Catálogo atualizado com marcas árabes e nicho de alta procura.</p>
-        </div>
+      <div class="footer-contact-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        contato@auraexotica.com.br
       </div>
     </div>
-  </section>
+  </div>
 
-  <footer>
-    <div class="container">
-      <div class="footer-grid">
-        <div class="footer-col">
-          <h4>Navegação</h4>
-          <ul>
-            <li><a href="index.html">Home</a></li>
-            <li><a href="catalogo.html">Catálogo</a></li>
-            <li><a href="blog.html">Blog</a></li>
-          </ul>
+  <div class="footer-bottom">
+    <div class="footer-gold-line"></div>
+    <span class="footer-copy">© 2026 Aura Exótica · Todos os direitos reservados</span>
+    <div class="footer-gold-line" style="transform:rotate(180deg)"></div>
+  </div>
+</footer>
+
+<!-- FLOATING WHATSAPP -->
+<a href="https://wa.me/5511999999999?text=Olá! Vim pelo site da Aura Exótica e quero conhecer os perfumes." class="float-wa" target="_blank" rel="noopener" aria-label="Falar no WhatsApp">
+  <svg viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+</a>
+
+<script>
+// ============================================================
+// PRODUCT DATA — Top 12 from ranking
+// ============================================================
+const PHONE = '5511999999999';
+
+const PRODUCTS = [
+  {
+    id: 'armaf-club-de-nuit-intense',
+    brand: 'Armaf', name: 'Club De Nuit Intense Man',
+    price: 279, installments: 3,
+    gender: 'M', volume: 105, concentration: 'EDT',
+    image: 'https://media-production-bucket.us-southeast-1.linodeobjects.com/com/media/fotos/modelos/perfume_armaf_club_de_nuit_intense_eau_de_toilette_masculino_105ml_162088_550x550.jpg',
+    notes: ['Bergamota', 'Patchouli', 'Ameixa'],
+    badge: '🔥 Mais Vendido', badgeType: 'hot'
+  },
+  {
+    id: 'lattafa-asad',
+    brand: 'Lattafa', name: 'Asad',
+    price: 229, installments: 3,
+    gender: 'M', volume: 100, concentration: 'EDP',
+    image: 'https://media-production-bucket.us-southeast-1.linodeobjects.com/com/media/fotos/modelos/perfume_lattafa_asad_eau_de_parfum_masculino_100ml_172788_550x550.jpg',
+    notes: ['Açafrão', 'Âmbar', 'Madeira'],
+    badge: 'Novo', badgeType: 'new'
+  },
+  {
+    id: 'lattafa-fakhar-black',
+    brand: 'Lattafa', name: 'Fakhar Black',
+    price: 259, installments: 3,
+    gender: 'U', volume: 100, concentration: 'EDP',
+    image: 'https://media-production-bucket.us-southeast-1.linodeobjects.com/com/media/fotos/produtos/thumbs/big/f2356403b75be488440fa03e9a7d94a7df89cfb2.webp',
+    notes: ['Oud', 'Cedro', 'Almíscar'],
+    badge: null
+  },
+  {
+    id: 'lattafa-fakhar-gold',
+    brand: 'Lattafa', name: 'Fakhar Gold',
+    price: 239, installments: 3,
+    gender: 'F', volume: 100, concentration: 'EDP',
+    image: 'https://media-production-bucket.us-southeast-1.linodeobjects.com/com/media/fotos/modelos/perfume_lattafa_fakhar_gold_eau_de_parfum_feminino_100ml_175145_550x550.png',
+    notes: ['Rosa', 'Jasmim', 'Baunilha'],
+    badge: null
+  },
+  {
+    id: 'lattafa-khamrah',
+    brand: 'Lattafa', name: 'Khamrah',
+    price: 249, installments: 3,
+    gender: 'U', volume: 100, concentration: 'EDP',
+    image: 'https://media-production-bucket.us-southeast-1.linodeobjects.com/com/media/fotos/modelos/perfume_lattafa_khamrah_eau_de_parfum_unissex_100ml_175097_550x550.jpg',
+    notes: ['Canela', 'Âmbar', 'Baunilha'],
+    badge: '🔥 Mais Vendido', badgeType: 'hot'
+  },
+  {
+    id: 'lattafa-asad-bourbon',
+    brand: 'Lattafa', name: 'Asad Bourbon',
+    price: 249, installments: 3,
+    gender: 'M', volume: 100, concentration: 'EDP',
+    image: 'https://media-production-bucket.us-southeast-1.linodeobjects.com/com/media/fotos/modelos/perfume_lattafa_asad_bourbon_eau_de_parfum_masculino_100ml_182655_550x550.jpg',
+    notes: ['Bourbon', 'Sândalo', 'Âmbar'],
+    badge: null
+  },
+  {
+    id: 'al-wataniah-sabah-al-ward',
+    brand: 'Al Wataniah', name: 'Sabah Al Ward',
+    price: 189, installments: 2,
+    gender: 'F', volume: 100, concentration: 'EDP',
+    image: 'https://media-production-bucket.us-southeast-1.linodeobjects.com/com/media/fotos/modelos/perfume_al_wataniah_sabah_al_ward_eau_de_parfum_feminino_100ml_154017_550x550.jpg',
+    notes: ['Rosa', 'Oud', 'Almíscar'],
+    badge: null
+  },
+  {
+    id: 'rasasi-hawas-black',
+    brand: 'Rasasi', name: 'Hawas Black',
+    price: 299, installments: 3,
+    gender: 'M', volume: 100, concentration: 'EDP',
+    image: 'https://media-production-bucket.us-southeast-1.linodeobjects.com/com/media/fotos/modelos/perfume_rasasi_hawas_black_eau_de_parfum_masculino_100ml_187921_884b1de2-df7d-43da-af3b-1a8f0e7ead45.webp',
+    notes: ['Cardamomo', 'Cedro', 'Musgo'],
+    badge: 'Lançamento', badgeType: 'launch'
+  },
+  {
+    id: 'al-wataniah-special-oud',
+    brand: 'Al Wataniah', name: 'Special Oud',
+    price: 199, installments: 2,
+    gender: 'U', volume: 100, concentration: 'EDP',
+    image: 'https://media-production-bucket.us-southeast-1.linodeobjects.com/com/media/fotos/modelos/perfume_al_wataniah_special_oud_eau_de_parfum_unissex_100ml_166133_550x550.jpg',
+    notes: ['Oud', 'Sândalo', 'Resina'],
+    badge: null
+  },
+  {
+    id: 'al-wataniah-sultan-al-lail',
+    brand: 'Al Wataniah', name: 'Sultan Al Lail',
+    price: 189, installments: 2,
+    gender: 'M', volume: 100, concentration: 'EDP',
+    image: 'https://media-production-bucket.us-southeast-1.linodeobjects.com/com/media/fotos/modelos/perfume_al_wataniah_sultan_al_lail_eau_de_parfum_masculino_100ml_154018_550x550.jpg',
+    notes: ['Oud', 'Cedro', 'Âmbar'],
+    badge: null
+  },
+  {
+    id: 'lattafa-asad-elixir',
+    brand: 'Lattafa', name: 'Asad Elixir',
+    price: 269, installments: 3,
+    gender: 'M', volume: 100, concentration: 'EDP',
+    image: 'https://media-production-bucket.us-southeast-1.linodeobjects.com/com/media/fotos/modelos/perfume_lattafa_asad_elixir_eau_de_parfum_masculino_100ml_194115_60888755-019d-4d3d-b106-c0dc913929af.webp',
+    notes: ['Especiarias', 'Madeira', 'Âmbar'],
+    badge: 'Lançamento', badgeType: 'launch'
+  },
+  {
+    id: 'afnan-9pm',
+    brand: 'Afnan', name: '9PM',
+    price: 219, installments: 3,
+    gender: 'U', volume: 100, concentration: 'EDP',
+    image: 'https://media-production-bucket.us-southeast-1.linodeobjects.com/com/media/fotos/modelos/perfume_afnan_9pm_eau_de_parfum_unissex_100ml_162074_550x550.png',
+    notes: ['Lavanda', 'Âmbar', 'Sândalo'],
+    badge: '🔥 Mais Vendido', badgeType: 'hot'
+  }
+];
+
+// ============================================================
+// WHATSAPP LINK GENERATOR
+// ============================================================
+function generateWALink(product) {
+  const genderLabel = product.gender === 'U' ? 'Unissex' : product.gender === 'M' ? 'Masculino' : 'Feminino';
+  const text = encodeURIComponent(
+    `Olá! Estou interessado no *${product.name}* (${product.brand})\n` +
+    `💰 Preço: R$ ${product.price.toFixed(2).replace('.', ',')}\n` +
+    `📦 ${product.volume}ml · ${product.concentration}\n` +
+    `👤 ${genderLabel}\n` +
+    `✨ Notas: ${product.notes.join(', ')}\n\n` +
+    `Está disponível? Qual o prazo de entrega?`
+  );
+  return `https://wa.me/${PHONE}?text=${text}`;
+}
+
+// ============================================================
+// RENDER PRODUCTS
+// ============================================================
+function renderProducts() {
+  const grid = document.getElementById('productsGrid');
+  grid.innerHTML = '';
+
+  PRODUCTS.forEach((p, i) => {
+    const badgeClass = p.badgeType === 'hot' ? '' : p.badgeType === 'new' ? ' badge-new' : p.badgeType === 'launch' ? ' badge-launch' : '';
+    const installment = (p.price / p.installments).toFixed(2).replace('.', ',');
+    const priceFormatted = p.price.toFixed(2).replace('.', ',');
+
+    const card = document.createElement('div');
+    card.className = 'product-card';
+    card.style.transitionDelay = `${(i % 4) * 0.08}s`;
+    card.innerHTML = `
+      <div class="product-card-image-wrap">
+        <img
+          class="product-card-img"
+          src="${p.image}"
+          alt="${p.name} - ${p.brand}"
+          loading="${i < 4 ? 'eager' : 'lazy'}"
+          decoding="async"
+          onerror="this.parentElement.style.background='#1a1a1a'"
+        />
+        ${p.badge ? `<div class="product-badge${badgeClass}">${p.badge}</div>` : ''}
+        <div class="product-gender">${p.gender}</div>
+      </div>
+      <div class="product-info">
+        <div class="product-brand">${p.brand}</div>
+        <h3 class="product-name">${p.name}</h3>
+        <div class="product-notes">
+          ${p.notes.map(n => `<span class="note-chip">${n}</span>`).join('')}
         </div>
-        <div class="footer-col">
-          <h4>Institucional</h4>
-          <ul>
-            <li><a href="sobre.html">Sobre</a></li>
-            <li><a href="contato.html">Contato</a></li>
-          </ul>
-        </div>
-        <div class="footer-col footer-contact">
-          <h4>Contato</h4>
-          <ul>
-            <li><i class="fas fa-envelope"></i> contato@auraexotica.com.br</li>
-            <li><i class="fas fa-phone"></i> +55 (11) 99999-9999</li>
-          </ul>
+        <div class="product-price-row">
+          <span class="product-price">R$ ${priceFormatted}</span>
+          <span class="product-installments">${p.installments}x de<br>R$ ${installment}</span>
         </div>
       </div>
-      <div class="footer-bottom">
-        <p>&copy; 2026 Aura Exótica. Todos os direitos reservados.</p>
-      </div>
-    </div>
-  </footer>
+      <a href="${generateWALink(p)}" class="product-wa-btn" target="_blank" rel="noopener" onclick="trackWA('${p.id}')">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        Comprar no WhatsApp
+      </a>
+    `;
+    grid.appendChild(card);
+  });
+}
 
-  <a href="https://wa.me/5511999999999?text=Ol%C3%A1!%20Quero%20ajuda%20para%20escolher%20um%20perfume." class="float-whatsapp" target="_blank" aria-label="Falar no WhatsApp">
-    <i class="fab fa-whatsapp"></i>
-  </a>
+// ============================================================
+// ANALYTICS (GA4 ready)
+// ============================================================
+function trackWA(productId) {
+  if (typeof gtag !== 'undefined') {
+    gtag('event', 'whatsapp_click', { source: 'product_card', product_id: productId });
+  }
+}
 
-  <script src="script.js"></script>
+// ============================================================
+// INTERSECTION OBSERVER — Scroll reveal
+// ============================================================
+function initReveal() {
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+  document.querySelectorAll('.reveal, .product-card').forEach(el => io.observe(el));
+}
+
+// ============================================================
+// HEADER SCROLL STATE
+// ============================================================
+function initHeader() {
+  const header = document.getElementById('header');
+  let ticking = false;
+
+  // Account for announce bar height
+  const onScroll = () => {
+    if (!ticking) {
+      requestAnimationFrame(() => {
+        header.classList.toggle('scrolled', window.scrollY > 60);
+        ticking = false;
+      });
+      ticking = true;
+    }
+  };
+
+  window.addEventListener('scroll', onScroll, { passive: true });
+}
+
+// ============================================================
+// INIT
+// ============================================================
+document.addEventListener('DOMContentLoaded', () => {
+  renderProducts();
+
+  // Delay reveal init slightly so products are in DOM
+  requestAnimationFrame(() => {
+    initReveal();
+    initHeader();
+  });
+});
+</script>
 </body>
 </html>
