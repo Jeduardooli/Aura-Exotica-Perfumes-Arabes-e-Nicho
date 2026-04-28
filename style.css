@@ -930,6 +930,110 @@ footer {
     transform: scale(1.1);
 }
 
+.chips-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.chip {
+    border: 1px solid #ddd;
+    padding: 8px 14px;
+    border-radius: 20px;
+    background: #fff;
+    font-size: 12px;
+}
+
+.chip.active {
+    background: var(--color-black);
+    color: #fff;
+    border-color: var(--color-black);
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 24px;
+    flex-wrap: wrap;
+}
+
+.page-btn {
+    border: 1px solid #ddd;
+    background: #fff;
+    padding: 8px 12px;
+    border-radius: 4px;
+    font-size: 12px;
+}
+
+.page-btn.active {
+    background: var(--color-black);
+    color: #fff;
+    border-color: var(--color-black);
+}
+
+.product-detail {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    margin-bottom: 40px;
+}
+
+.product-detail-image {
+    background: var(--color-cream);
+    padding: 20px;
+}
+
+.product-detail-image img {
+    width: 100%;
+    max-height: 480px;
+    object-fit: contain;
+}
+
+.product-detail-info h1 {
+    font-family: var(--font-display);
+    margin-bottom: 12px;
+}
+
+.blog-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.blog-card {
+    border: 1px solid #eee;
+    padding: 20px;
+    border-radius: var(--radius);
+}
+
+.blog-card h3 {
+    font-family: var(--font-display);
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+.blog-date {
+    display: inline-block;
+    margin-top: 10px;
+    color: var(--color-gray);
+    font-size: 12px;
+}
+
+.contact-form {
+    max-width: 620px;
+    display: grid;
+    gap: 12px;
+}
+
+.contact-form input,
+.contact-form textarea {
+    border: 1px solid #ddd;
+    padding: 12px;
+    border-radius: 4px;
+}
+
 /* ========================================
    RESPONSIVE STYLES
    ======================================== */
@@ -1054,6 +1158,14 @@ footer {
         flex-direction: column;
         gap: 15px;
         text-align: center;
+    }
+
+    .product-detail {
+        grid-template-columns: 1fr;
+    }
+
+    .blog-grid {
+        grid-template-columns: 1fr;
     }
 }
 

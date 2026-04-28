@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Catálogo | Aura Exótica</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body data-page="catalogo">
+  <header>
+    <div class="header-main">
+      <div class="container header-inner">
+        <a href="index.html" class="logo"><img src="assets/Logo-Aura-Exotica.svg" alt="Aura Exótica"></a>
+        <div class="header-search">
+          <input id="catalogSearchInput" type="text" placeholder="Buscar por marca ou nome...">
+          <button id="catalogSearchButton" aria-label="Buscar"><i class="fas fa-search"></i></button>
+        </div>
+      </div>
+    </div>
+    <nav class="main-nav">
+      <div class="container">
+        <ul class="nav-list">
+          <li class="nav-item"><a href="index.html">Home</a></li>
+          <li class="nav-item"><a href="catalogo.html">Catálogo</a></li>
+          <li class="nav-item"><a href="blog.html">Blog</a></li>
+          <li class="nav-item"><a href="sobre.html">Sobre</a></li>
+          <li class="nav-item"><a href="contato.html">Contato</a></li>
+        </ul>
+      </div>
+    </nav>
+  </header>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-header">
+        <h2>Catálogo Completo</h2>
+      </div>
+      <div id="catalogBrandChips" class="chips-row"></div>
+      <div id="catalogProducts" class="products-grid"></div>
+      <div id="catalogPagination" class="pagination"></div>
+    </div>
+  </section>
+
+  <a href="https://wa.me/5511999999999?text=Ol%C3%A1!%20Vim%20pelo%20cat%C3%A1logo%20e%20quero%20ajuda." class="float-whatsapp" target="_blank" aria-label="Falar no WhatsApp">
+    <i class="fab fa-whatsapp"></i>
+  </a>
+
+  <script src="script.js"></script>
+</body>
+</html>
