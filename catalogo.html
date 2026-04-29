@@ -4,753 +4,147 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Catálogo - Aura Exótica | Perfumes Árabes & Nicho</title>
-    <meta name="description" content="Explore nosso catálogo exclusivo de perfumes árabes e nicho. Encontre fragrâncias raras e autênticas. Compra direta via WhatsApp.">
-
-    <!-- Schema.org para Organização -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "Organization",
-      "name": "Aura Exótica Perfumes & Cosméticos",
-      "url": "https://auraxotica.com.br",
-      "logo": "https://auraxotica.com.br/assets/logos/logo-aura-exotica.svg",
-      "contactPoint": [
-        {
-          "@type": "ContactPoint",
-          "telephone": "+5511999999999",
-          "contactType": "customer service",
-          "areaServed": "BR",
-          "availableLanguage": "pt-BR"
-        }
-      ],
-      "sameAs": [
-        "https://www.instagram.com/auraxoticaperfumes/",
-        "https://wa.me/5511999999999"
-      ]
-    }
-    </script>
-
-    <!-- Links para fontes (substitua por links reais se hospedar externamente) -->
+    <meta name="description" content="Descubra nossa curadoria exclusiva de perfumes árabes e nicho. Autenticidade, luxo e aroma inconfundível. Compre via WhatsApp.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
-
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/style.css">
     <style>
-        /* ===== RESET & BASE ===== */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        /* Estilos específicos da página de catálogo podem ser adicionados aqui */
+        .filters-container {
+            background: var(--bg-alt);
+            padding: var(--space-md);
+            border-radius: var(--radius-md);
+            margin-bottom: var(--space-lg);
         }
-        body {
-            font-family: 'DM Sans', sans-serif;
-            color: #f8f4ec; /* Texto principal */
-            background-color: #080808; /* Fundo principal */
-            background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0l100 100M100 0l-100 100' stroke='%231a1a1a' stroke-width='0.5' fill='none'/%3E%3C/svg%3E"); /* Textura sutil */
-            line-height: 1.6;
-            overflow-x: hidden;
-        }
-        h1, h2, h3, h4, h5, h6 {
-            font-family: 'Cormorant Garamond', serif;
-            color: #C9A84C; /* Dourado */
-        }
-
-        /* ===== UTILS ===== */
-        .container {
-            width: 100%;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 1rem;
-        }
-        .text-center { text-align: center; }
-        .d-none { display: none !important; }
-        .mb-4 { margin-bottom: 1rem; }
-        .mb-6 { margin-bottom: 1.5rem; }
-        .py-6 { padding: 2rem 0; }
-        .flex { display: flex; }
-        .items-center { align-items: center; }
-        .justify-between { justify-content: space-between; }
-        .gap-2 { gap: 0.5rem; }
-        .gap-4 { gap: 1rem; }
-
-        /* ===== HEADER ===== */
-        header {
-            background-color: #080808;
-            padding: 1rem 0;
-            border-bottom: 1px solid #2a2a2a;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-        .header-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .logo {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: #C9A84C;
-            text-decoration: none;
-        }
-        .nav-links a {
-            color: #b8b0a0; /* Texto secundário */
-            text-decoration: none;
-            margin-left: 1.5rem;
-            font-size: 0.9rem;
-            transition: color 0.3s ease;
-        }
-        .nav-links a:hover {
-            color: #C9A84C;
-        }
-
-        /* ===== HERO (opcional para o catálogo) ===== */
-        .hero {
-            padding: 3rem 1rem;
-            text-align: center;
-            background: linear-gradient(to right, #121212, #080808, #121212);
-        }
-        .hero h1 {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-        }
-        .hero p {
-            color: #b8b0a0;
-            max-width: 600px;
-            margin: 0 auto 1.5rem;
-        }
-
-        /* ===== FILTROS ===== */
-        .filters {
-            background-color: #121212;
-            padding: 1.5rem;
-            border-radius: 0.75rem;
-            margin: 1.5rem auto;
-            max-width: 1200px;
-        }
-        .filter-group {
-            margin-bottom: 1rem;
-        }
-        .filter-group label {
-            display: block;
-            margin-bottom: 0.5rem;
-            color: #C9A84C;
-            font-size: 0.9rem;
-        }
-        .filter-options {
+        .filter-row {
             display: flex;
             flex-wrap: wrap;
-            gap: 0.5rem;
+            gap: var(--space-sm);
+            margin-bottom: var(--space-sm);
         }
         .filter-btn {
-            background-color: #1a1a1a;
-            color: #b8b0a0;
-            border: 1px solid #2a2a2a;
-            padding: 0.5rem 1rem;
-            border-radius: 9999px;
-            font-size: 0.8rem;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            color: var(--text-muted);
+            padding: var(--space-xs) var(--space-sm);
+            border-radius: var(--radius-pill);
+            font-size: var(--text-sm);
             cursor: pointer;
-            transition: all 0.2s ease;
+            transition: var(--transition);
         }
-        .filter-btn:hover, .filter-btn.active {
-            background-color: #C9A84C;
-            color: #080808;
-            border-color: #C9A84C;
+        .filter-btn.active {
+            background: var(--gold);
+            color: var(--dark);
+            border-color: var(--gold);
         }
-        .price-slider-container {
-            padding: 0 1rem;
-        }
-        #price-slider {
+        .search-bar {
             width: 100%;
+            padding: var(--space-sm);
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            color: var(--text);
+            margin-bottom: var(--space-md);
         }
-
-        /* ===== ORDENAÇÃO ===== */
-        .sort-controls {
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-            margin-top: 1rem;
+        .results-count {
+            color: var(--text-muted);
+            margin-bottom: var(--space-md);
         }
-        select {
-            background-color: #1a1a1a;
-            color: #f8f4ec;
-            border: 1px solid #2a2a2a;
-            padding: 0.5rem 1rem;
-            border-radius: 0.5rem;
-            font-family: 'DM Sans', sans-serif;
-        }
-
-        /* ===== GRID DE PRODUTOS ===== */
-        .products-grid {
+        .catalog-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* 2 cols mobile, 4 desktop */
-            gap: 1.5rem;
-            padding: 1rem 0 3rem;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: var(--space-md);
         }
         @media (min-width: 768px) {
-            .products-grid {
+            .catalog-grid {
                 grid-template-columns: repeat(3, 1fr);
             }
         }
         @media (min-width: 1024px) {
-            .products-grid {
+            .catalog-grid {
                 grid-template-columns: repeat(4, 1fr);
             }
         }
-
-        /* ===== CARD DE PRODUTO ===== */
-        .product-card {
-            background-color: #101010; /* Card BG */
-            border: 1px solid #2a2a2a; /* Border */
-            border-radius: 0.75rem;
-            overflow: hidden;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            display: flex;
-            flex-direction: column;
-        }
-        .product-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 12px 30px rgba(201, 168, 76, 0.2);
-        }
-        .card-img-container {
-            aspect-ratio: 1 / 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 0.5rem;
-            background-color: #0a0a0a;
-        }
-        .card-img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain; /* Mantém proporção */
-            transition: opacity 0.3s ease;
-        }
-        .product-card:hover .card-img {
-            opacity: 0.9;
-        }
-        .card-badge {
-            position: absolute;
-            top: 0.5rem;
-            left: 0.5rem;
-            background-color: #C9A84C;
-            color: #080808;
-            font-size: 0.6rem;
-            font-weight: 700;
-            padding: 0.2rem 0.4rem;
-            border-radius: 9999px;
-        }
-        .card-body {
-            padding: 1rem;
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-        }
-        .card-brand {
-            font-size: 0.8rem;
-            color: #b8b0a0;
-            margin-bottom: 0.25rem;
-        }
-        .card-title {
-            font-size: 0.95rem;
-            font-weight: 500;
-            margin-bottom: 0.5rem;
-            flex-grow: 1;
-        }
-        .card-price {
-            color: #C9A84C;
-            font-weight: 700;
-            font-size: 1.1rem;
-            margin-bottom: 0.25rem;
-        }
-        .card-installments {
-            color: #b8b0a0;
-            font-size: 0.75rem;
-            margin-bottom: 0.5rem;
-        }
-        .card-notes {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.25rem;
-            margin-top: auto; /* Empurra para baixo */
-        }
-        .note-chip {
-            background-color: rgba(201, 168, 76, 0.1);
-            color: #C9A84C;
-            font-size: 0.6rem;
-            padding: 0.15rem 0.3rem;
-            border-radius: 4px;
-        }
-        .whatsapp-link {
-            display: block;
-            background-color: #25D366;
-            color: white;
-            text-align: center;
-            padding: 0.6rem;
-            margin-top: 0.75rem;
-            border-radius: 0.5rem;
-            text-decoration: none;
-            font-weight: 600;
-            transition: background-color 0.2s ease;
-        }
-        .whatsapp-link:hover {
-            background-color: #128C7E;
-        }
-
-        /* ===== PAGINAÇÃO ===== */
-        .pagination-controls {
-            text-align: center;
-            padding: 2rem 0;
-        }
         .load-more-btn {
-            background-color: #C9A84C;
-            color: #080808;
+            display: block;
+            width: 100%;
+            max-width: 300px;
+            margin: var(--space-xl) auto 0;
+            padding: var(--space-md) var(--space-lg);
+            background: var(--gold);
+            color: var(--dark);
             border: none;
-            padding: 0.8rem 2rem;
-            border-radius: 0.75rem;
-            font-weight: 600;
+            border-radius: var(--radius-md);
+            font-weight: var(--font-bold);
             cursor: pointer;
-            transition: background-color 0.2s ease;
+            transition: var(--transition);
         }
         .load-more-btn:hover {
-            background-color: #b0974a;
+            background: var(--gold-dark);
         }
-        .no-results {
-            text-align: center;
-            padding: 3rem;
-            color: #b8b0a0;
-            grid-column: 1 / -1;
-        }
-
-        /* ===== FOOTER ===== */
-        footer {
-            background-color: #080808;
-            border-top: 1px solid #2a2a2a;
-            padding: 2rem 0 1rem;
-        }
-        .footer-content {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 2rem;
-            margin-bottom: 1.5rem;
-        }
-        .footer-section h3 {
-            color: #C9A84C;
-            margin-bottom: 1rem;
-            font-size: 1.1rem;
-        }
-        .footer-links {
-            list-style: none;
-        }
-        .footer-links li {
-            margin-bottom: 0.5rem;
-        }
-        .footer-links a {
-            color: #b8b0a0;
-            text-decoration: none;
-            transition: color 0.2s ease;
-        }
-        .footer-links a:hover {
-            color: #C9A84C;
-        }
-        .copyright {
-            text-align: center;
-            padding-top: 1rem;
-            border-top: 1px solid #2a2a2a;
-            color: #b8b0a0;
-            font-size: 0.8rem;
-        }
-
-        /* ===== ESQUELETO (SKELETON) ===== */
-        .skeleton-card {
-            background-color: #101010;
-            border: 1px solid #2a2a2a;
-            border-radius: 0.75rem;
-            height: 350px; /* Altura aproximada do card */
-            display: flex;
-            flex-direction: column;
-        }
-        .skeleton-img {
+        .skeleton-card { /* Exemplo de classe para skeleton loading */
+            background: var(--bg-alt);
+            border-radius: var(--radius-md);
             aspect-ratio: 1 / 1;
-            background: linear-gradient(90deg, #1a1a1a 25%, #2a2a2a 50%, #1a1a1a 75%);
-            background-size: 200% 100%;
-            animation: skeleton-loading 1.5s infinite;
         }
-        .skeleton-body {
-            padding: 1rem;
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-        }
-        .skeleton-line {
-            height: 0.8rem;
-            background: linear-gradient(90deg, #1a1a1a 25%, #2a2a2a 50%, #1a1a1a 75%);
-            background-size: 200% 100%;
-            animation: skeleton-loading 1.5s infinite;
-            border-radius: 0.25rem;
-        }
-        .skeleton-line:nth-child(1) { width: 60%; }
-        .skeleton-line:nth-child(2) { width: 80%; }
-        .skeleton-line:nth-child(3) { width: 40%; }
-        .skeleton-line:nth-child(4) { width: 100%; height: 2rem; } /* Botão */
-
-        @keyframes skeleton-loading {
-            0% { background-position: 200% 0; }
-            100% { background-position: -200% 0; }
-        }
-
     </style>
 </head>
 <body>
-    <header>
-        <div class="container header-content">
-            <a href="/" class="logo">Aura<span>Exótica</span></a>
-            <nav class="nav-links">
-                <a href="/">Home</a>
-                <a href="/catalogo.html" class="active">Catálogo</a>
-                <a href="/sobre.html">Sobre</a>
-                <a href="/contato.html">Contato</a>
-            </nav>
-        </div>
-    </header>
-
-    <section class="hero">
-        <div class="container">
-            <h1>Catálogo de Fragrâncias</h1>
-            <p>Descubra nossa curadoria exclusiva de perfumes árabes e nicho. Autenticidade, luxo e aroma inconfundível.</p>
-        </div>
-    </section>
-
-    <main class="container">
-        <section class="filters">
-            <div class="filter-group">
-                <label>Marca</label>
-                <div class="filter-options" id="filter-brands">
-                    <!-- Preenchido via JS -->
-                </div>
+    <include src="partials/header.html"></include>
+    <main>
+        <section class="page-hero">
+            <div class="container text-center">
+                <h1>Catálogo de Fragrâncias</h1>
+                <p>Autenticidade, luxo e aroma inconfundível.</p>
             </div>
-            <div class="filter-group">
-                <label>Gênero</label>
-                <div class="filter-options">
-                    <button class="filter-btn" data-filter="gender" data-value="all">Todos</button>
+        </section>
+
+        <div class="container">
+            <div class="filters-container">
+                <div class="filter-row">
+                    <input type="text" id="filter-search" class="search-bar" placeholder="Buscar...">
+                </div>
+                <div class="filter-row">
+                    <select id="filter-sort" class="filter-select">
+                        <option value="default">Ordenar por: Padrão</option>
+                        <option value="price-low">Preço: Menor ao Maior</option>
+                        <option value="price-high">Preço: Maior ao Menor</option>
+                        <option value="name-asc">Nome: A-Z</option>
+                        <option value="name-desc">Nome: Z-A</option>
+                    </select>
+                </div>
+                <div class="filter-row">
+                    <button class="filter-btn active" data-filter="gender" data-value="all">Todas</button>
                     <button class="filter-btn" data-filter="gender" data-value="M">Masculino</button>
                     <button class="filter-btn" data-filter="gender" data-value="F">Feminino</button>
                     <button class="filter-btn" data-filter="gender" data-value="U">Unissex</button>
                 </div>
-            </div>
-            <div class="filter-group">
-                <label>Categoria</label>
-                <div class="filter-options" id="filter-categories">
+                <div class="filter-row" id="filter-brands-container">
+                    <!-- Preenchido via JS -->
+                </div>
+                <div class="filter-row" id="filter-categories-container">
                     <!-- Preenchido via JS -->
                 </div>
             </div>
-            <div class="filter-group">
-                <label>Preço (R$)</label>
-                <div class="price-slider-container">
-                    <input type="range" id="price-slider" min="0" max="1500" value="1500" step="10">
-                    <div class="flex justify-between">
-                        <span>0</span>
-                        <span id="price-max-display">1500</span>
-                    </div>
-                </div>
+
+            <div class="results-count" id="results-count">
+                <!-- Preenchido via JS -->
             </div>
-        </section>
 
-        <div class="sort-controls">
-            <select id="sort-by">
-                <option value="default">Ordenar por: Padrão</option>
-                <option value="price-low">Preço: Menor ao Maior</option>
-                <option value="price-high">Preço: Maior ao Menor</option>
-                <option value="name-asc">Nome: A-Z</option>
-                <option value="name-desc">Nome: Z-A</option>
-            </select>
-        </div>
+            <div class="catalog-grid" id="catalog-grid">
+                <!-- Exibe skeletons enquanto carrega -->
+                <div class="skeleton-card"></div>
+                <div class="skeleton-card"></div>
+                <div class="skeleton-card"></div>
+                <div class="skeleton-card"></div>
+                <!-- Os produtos reais serão injetados aqui via JS -->
+            </div>
 
-        <section class="products-grid" id="products-grid">
-            <!-- Esqueleto carregando -->
-            <div class="skeleton-card"><div class="skeleton-img"></div><div class="skeleton-body"><div class="skeleton-line"></div><div class="skeleton-line"></div><div class="skeleton-line"></div><div class="skeleton-line"></div></div></div>
-            <div class="skeleton-card"><div class="skeleton-img"></div><div class="skeleton-body"><div class="skeleton-line"></div><div class="skeleton-line"></div><div class="skeleton-line"></div><div class="skeleton-line"></div></div></div>
-            <div class="skeleton-card"><div class="skeleton-img"></div><div class="skeleton-body"><div class="skeleton-line"></div><div class="skeleton-line"></div><div class="skeleton-line"></div><div class="skeleton-line"></div></div></div>
-            <div class="skeleton-card"><div class="skeleton-img"></div><div class="skeleton-body"><div class="skeleton-line"></div><div class="skeleton-line"></div><div class="skeleton-line"></div><div class="skeleton-line"></div></div></div>
-        </section>
-
-        <div class="pagination-controls">
             <button id="load-more-btn" class="load-more-btn d-none">Carregar Mais</button>
-            <div id="no-results-message" class="no-results d-none">Nenhum produto encontrado com os filtros aplicados.</div>
         </div>
     </main>
-
-    <footer>
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-section">
-                    <h3>Aura Exótica</h3>
-                    <p>Perfumes Árabes & Nicho. Curadoria exclusiva, autenticidade e luxo acessível entregues na sua porta.</p>
-                </div>
-                <div class="footer-section">
-                    <h3>Links Rápidos</h3>
-                    <ul class="footer-links">
-                        <li><a href="/">Home</a></li>
-                        <li><a href="/catalogo.html">Catálogo</a></li>
-                        <li><a href="/sobre.html">Sobre Nós</a></li>
-                        <li><a href="/contato.html">Contato</a></li>
-                    </ul>
-                </div>
-                <div class="footer-section">
-                    <h3>Atendimento</h3>
-                    <ul class="footer-links">
-                        <li><a href="https://wa.me/5511999999999" target="_blank">Fale no WhatsApp</a></li>
-                        <li><a href="#">Política de Trocas</a></li>
-                        <li><a href="#">Prazos e Entrega</a></li>
-                        <li><a href="#">Formas de Pagamento</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="copyright">
-                &copy; 2026 Aura Exótica Perfumes & Cosméticos. Todos os direitos reservados.
-            </div>
-        </div>
-    </footer>
-
-    <script>
-        // --- CONFIGURAÇÕES ---
-        const PRODUCTS_JSON_PATH = '/products.json'; // Caminho para o seu arquivo JSON
-        const INITIAL_VISIBLE_PRODUCTS = 32; // Quantos produtos mostrar inicialmente
-        const LOAD_MORE_INCREMENT = 300; // Quantos produtos carregar a mais
-
-        // --- ESTADOS ---
-        let allProducts = [];
-        let visibleProducts = [];
-        let currentFilters = {
-            brand: null,
-            gender: 'all', // 'all', 'M', 'F', 'U'
-            category: null,
-            maxPrice: 1500
-        };
-        let currentSort = 'default';
-        let appliedFilters = new Set(); // Para rastrear filtros ativos
-
-        // --- ELEMENTOS DO DOM ---
-        const $productsGrid = document.getElementById('products-grid');
-        const $loadMoreBtn = document.getElementById('load-more-btn');
-        const $noResultsMessage = document.getElementById('no-results-message');
-        const $priceSlider = document.getElementById('price-slider');
-        const $priceMaxDisplay = document.getElementById('price-max-display');
-        const $sortBySelect = document.getElementById('sort-by');
-
-        // --- FUNÇÕES ---
-
-        // 1. Carregar produtos do JSON
-        async function loadProducts() {
-            try {
-                const response = await fetch(PRODUCTS_JSON_PATH);
-                if (!response.ok) throw new Error(`Erro ao carregar: ${response.status}`);
-                allProducts = await response.json();
-                console.log(`✅ ${allProducts.length} produtos carregados.`);
-                initializeFilters();
-                applyFiltersAndRender();
-            } catch (error) {
-                console.error('❌ Erro ao carregar products.json:', error);
-                $productsGrid.innerHTML = '<div class="no-results">Falha ao carregar o catálogo. Tente recarregar a página.</div>';
-            }
-        }
-
-        // 2. Inicializar filtros dinamicamente (Marcas e Categorias)
-        function initializeFilters() {
-            const brandsSet = new Set(allProducts.map(p => p.brand));
-            const categoriesSet = new Set();
-            allProducts.forEach(p => p.category.forEach(cat => categoriesSet.add(cat)));
-
-            const $brandsContainer = document.getElementById('filter-brands');
-            const $catsContainer = document.getElementById('filter-categories');
-
-            $brandsContainer.innerHTML = '';
-            $catsContainer.innerHTML = '';
-
-            // Botões de Marca
-            const allBrandsBtn = document.createElement('button');
-            allBrandsBtn.className = 'filter-btn active';
-            allBrandsBtn.dataset.filter = 'brand';
-            allBrandsBtn.dataset.value = 'all';
-            allBrandsBtn.textContent = 'Todas';
-            allBrandsBtn.addEventListener('click', handleFilterButtonClick);
-            $brandsContainer.appendChild(allBrandsBtn);
-
-            brandsSet.forEach(brand => {
-                const btn = document.createElement('button');
-                btn.className = 'filter-btn';
-                btn.dataset.filter = 'brand';
-                btn.dataset.value = brand;
-                btn.textContent = brand;
-                btn.addEventListener('click', handleFilterButtonClick);
-                $brandsContainer.appendChild(btn);
-            });
-
-            // Botões de Categoria
-            const allCatsBtn = document.createElement('button');
-            allCatsBtn.className = 'filter-btn active';
-            allCatsBtn.dataset.filter = 'category';
-            allCatsBtn.dataset.value = 'all';
-            allCatsBtn.textContent = 'Todas';
-            allCatsBtn.addEventListener('click', handleFilterButtonClick);
-            $catsContainer.appendChild(allCatsBtn);
-
-            categoriesSet.forEach(cat => {
-                const btn = document.createElement('button');
-                btn.className = 'filter-btn';
-                btn.dataset.filter = 'category';
-                btn.dataset.value = cat;
-                btn.textContent = cat;
-                btn.addEventListener('click', handleFilterButtonClick);
-                $catsContainer.appendChild(btn);
-            });
-        }
-
-        // 3. Manipular clique nos botões de filtro
-        function handleFilterButtonClick(e) {
-            const filterType = e.target.dataset.filter;
-            const filterValue = e.target.dataset.value;
-
-            // Atualiza o estado do filtro
-            if (filterType === 'brand' || filterType === 'category') {
-                if (filterValue === 'all') {
-                    currentFilters[filterType] = null;
-                    appliedFilters.delete(filterType);
-                } else {
-                    currentFilters[filterType] = filterValue;
-                    appliedFilters.add(filterType);
-                }
-            } else if (filterType === 'gender') {
-                currentFilters.gender = filterValue;
-                if (filterValue === 'all') appliedFilters.delete('gender');
-                else appliedFilters.add('gender');
-            }
-
-            // Atualiza UI dos botões
-            document.querySelectorAll(`[data-filter="${filterType}"]`).forEach(btn => {
-                btn.classList.toggle('active', btn.dataset.value === filterValue);
-            });
-
-            applyFiltersAndRender();
-        }
-
-        // 4. Atualizar preço máximo do slider
-        $priceSlider.addEventListener('input', () => {
-            currentFilters.maxPrice = parseInt($priceSlider.value);
-            $priceMaxDisplay.textContent = `R$ ${currentFilters.maxPrice}`;
-            applyFiltersAndRender();
-        });
-
-        // 5. Atualizar ordenação
-        $sortBySelect.addEventListener('change', () => {
-            currentSort = $sortBySelect.value;
-            applyFiltersAndRender();
-        });
-
-        // 6. Aplicar filtros e ordenação, renderizar grid
-        function applyFiltersAndRender() {
-            // Filtrar
-            let filtered = allProducts.filter(p => {
-                if (currentFilters.brand && p.brand !== currentFilters.brand) return false;
-                if (currentFilters.gender !== 'all' && p.gender !== currentFilters.gender) return false;
-                if (currentFilters.category && !p.category.includes(currentFilters.category)) return false;
-                if (p.price > currentFilters.maxPrice) return false;
-                return true;
-            });
-
-            // Ordenar
-            switch (currentSort) {
-                case 'price-low':
-                    filtered.sort((a, b) => a.price - b.price);
-                    break;
-                case 'price-high':
-                    filtered.sort((a, b) => b.price - a.price);
-                    break;
-                case 'name-asc':
-                    filtered.sort((a, b) => a.name.localeCompare(b.name));
-                    break;
-                case 'name-desc':
-                    filtered.sort((a, b) => b.name.localeCompare(a.name));
-                    break;
-                // 'default' -> sem ordenação específica, mantém ordem original ou aleatória
-                default:
-                    break;
-            }
-
-            visibleProducts = filtered;
-            renderProductGrid();
-
-            // Mostrar/ocultar botões e mensagens
-            $loadMoreBtn.classList.toggle('d-none', visibleProducts.length <= INITIAL_VISIBLE_PRODUCTS);
-            $noResultsMessage.classList.toggle('d-none', visibleProducts.length > 0);
-        }
-
-        // 7. Renderizar grid de produtos
-        function renderProductGrid() {
-            const endIndex = Math.min(visibleProducts.length, INITIAL_VISIBLE_PRODUCTS + (currentVisibleCount - INITIAL_VISIBLE_PRODUCTS));
-            const productsToShow = visibleProducts.slice(0, endIndex);
-
-            if (productsToShow.length === 0) {
-                $productsGrid.innerHTML = '<div class="no-results">Nenhum produto encontrado com os filtros aplicados.</div>';
-                return;
-            }
-
-            $productsGrid.innerHTML = productsToShow.map(p => `
-                <div class="product-card">
-                    <div class="card-img-container">
-                        <img src="${p.image}" alt="${p.brand} ${p.name}" class="card-img" loading="lazy">
-                        ${p.badge ? `<span class="card-badge">${p.badge.toUpperCase()}</span>` : ''}
-                    </div>
-                    <div class="card-body">
-                        <p class="card-brand">${p.brand}</p>
-                        <h3 class="card-title">${p.name}</h3>
-                        <p class="card-price">R$ ${p.price.toFixed(2)}</p>
-                        <p class="card-installments">ou ${p.installments[0].qty}x de R$ ${p.installments[0].value.toFixed(2)}</p>
-                        <div class="card-notes">
-                            ${p.notes.top.slice(0, 3).map(n => `<span class="note-chip">${n}</span>`).join('')}
-                        </div>
-                        <a href="${generateWhatsAppLink(p)}" target="_blank" class="whatsapp-link">
-                            💬 Comprar no WhatsApp
-                        </a>
-                    </div>
-                </div>
-            `).join('');
-
-            // Atualizar contador visual (opcional)
-            currentVisibleCount = endIndex;
-        }
-
-        // 8. Gerar link do WhatsApp
-        function generateWhatsAppLink(product) {
-            const phone = '5511999999999'; // Substitua pelo seu número
-            const text = encodeURIComponent(
-                `Olá! Estou interessado no *${product.name}* (${product.brand})\n` +
-                `💰 Preço: R$ ${product.price.toFixed(2)}\n` +
-                `📦 Volume: ${product.volume_ml}ml\n` +
-                `👤 ${product.gender === 'U' ? 'Unissex' : product.gender === 'M' ? 'Masculino' : 'Feminino'}\n` +
-                `✨ Notas: ${product.notes.top.slice(0, 3).join(', ')}\n\n` +
-                `Está disponível para entrega? Qual o prazo?`
-            );
-            return `https://wa.me/${phone}?text=${text}`;
-        }
-
-        // 9. Evento do botão "Carregar Mais" (simulado, pois já carregamos todos)
-        // Neste modelo, como carregamos tudo de uma vez, "Carregar Mais" apenas aumenta o slice.
-        let currentVisibleCount = INITIAL_VISIBLE_PRODUCTS;
-        $loadMoreBtn.addEventListener('click', () => {
-            currentVisibleCount += LOAD_MORE_INCREMENT;
-            renderProductGrid();
-            // Ocultar botão se todos forem mostrados
-            $loadMoreBtn.classList.toggle('d-none', currentVisibleCount >= visibleProducts.length);
-        });
-
-        // --- INICIALIZAÇÃO ---
-        document.addEventListener('DOMContentLoaded', () => {
-            loadProducts();
-        });
-
-    </script>
+    <include src="partials/footer.html"></include>
+    <script src="js/script.js"></script>
 </body>
 </html>
