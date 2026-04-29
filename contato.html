@@ -1,37 +1,146 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Contato | Aura Exótica</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contato - Aura Exótica</title>
+    <meta name="description" content="Entre em contato com a Aura Exótica. Atendimento via WhatsApp, dúvidas frequentes e informações de contato.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .contact-content {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: var(--space-xl);
+            padding: var(--space-lg) 0;
+        }
+        @media (min-width: 1024px) {
+            .contact-content {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+        .contact-form, .faq-section {
+            background: var(--bg-alt);
+            padding: var(--space-lg);
+            border-radius: var(--radius-md);
+        }
+        .form-group {
+            margin-bottom: var(--space-md);
+        }
+        .form-label {
+            display: block;
+            margin-bottom: var(--space-xs);
+            color: var(--text-muted);
+        }
+        .form-input {
+            width: 100%;
+            padding: var(--space-sm);
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            color: var(--text);
+        }
+        .form-textarea {
+            width: 100%;
+            height: 150px;
+            padding: var(--space-sm);
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            color: var(--text);
+        }
+        .faq-item {
+            margin-bottom: var(--space-md);
+        }
+        .faq-question {
+            font-weight: var(--font-bold);
+            cursor: pointer;
+            padding: var(--space-sm) 0;
+            border-bottom: 1px solid var(--border);
+        }
+        .faq-answer {
+            padding: var(--space-sm) 0;
+            color: var(--text-muted);
+        }
+        .contact-info p {
+            margin-bottom: var(--space-sm);
+        }
+        .contact-link {
+            color: var(--gold);
+            text-decoration: none;
+        }
+        .contact-link:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
-<body data-page="contato">
-  <header>
-    <div class="header-main">
-      <div class="container header-inner">
-        <a href="index.html" class="logo"><img src="assets/Logo-Aura-Exotica.svg" alt="Aura Exótica"></a>
-      </div>
-    </div>
-  </header>
+<body>
+    <include src="partials/header.html"></include>
+    <main>
+        <section class="page-hero">
+            <div class="container text-center">
+                <h1>Contato</h1>
+                <p>Como podemos te ajudar?</p>
+            </div>
+        </section>
 
-  <section class="section">
-    <div class="container">
-      <div class="section-header"><h2>Contato</h2></div>
-      <form class="contact-form">
-        <input type="text" placeholder="Seu nome" required>
-        <input type="email" placeholder="Seu e-mail" required>
-        <textarea placeholder="Sua mensagem" rows="5" required></textarea>
-        <button class="btn-story" type="submit">Enviar mensagem</button>
-      </form>
-      <p style="margin-top:20px;">WhatsApp: <a href="https://wa.me/5511999999999" target="_blank">+55 (11) 99999-9999</a></p>
-    </div>
-  </section>
+        <div class="container">
+            <div class="contact-content">
+                <div>
+                    <div class="contact-form">
+                        <h2>Envie uma Mensagem</h2>
+                        <form id="contact-form">
+                            <div class="form-group">
+                                <label for="name" class="form-label">Nome</label>
+                                <input type="text" id="name" name="name" class="form-input" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="email" class="form-label">Email</label>
+                                <input type="email" id="email" name="email" class="form-input" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="message" class="form-label">Mensagem</label>
+                                <textarea id="message" name="message" class="form-textarea" required></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-gold">Enviar</button>
+                        </form>
+                    </div>
 
-  <script src="script.js"></script>
+                    <div class="contact-info">
+                        <h3>Informações de Contato</h3>
+                        <p>Email: <a href="mailto:contato@auraexotica.com.br" class="contact-link">contato@auraexotica.com.br</a></p>
+                        <p>WhatsApp: <a href="https://wa.me/5511999999999" class="contact-link" target="_blank">(11) 9 9999-9999</a></p>
+                        <p>Horário de Atendimento: Seg. a Sex. das 9h às 18h</p>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="faq-section">
+                        <h2>Perguntas Frequentes</h2>
+                        <div class="faq-item">
+                            <div class="faq-question">Os produtos são originais?</div>
+                            <div class="faq-answer">Sim, trabalhamos apenas com produtos 100% originais e lacrados.</div>
+                        </div>
+                        <div class="faq-item">
+                            <div class="faq-question">Qual o prazo de entrega?</div>
+                            <div class="faq-answer">O prazo médio de entrega é de 7 a 12 dias úteis para todo o Brasil.</div>
+                        </div>
+                        <div class="faq-item">
+                            <div class="faq-question">Como faço para rastrear meu pedido?</div>
+                            <div class="faq-answer">Enviamos o código de rastreio por WhatsApp após a postagem.</div>
+                        </div>
+                        <div class="faq-item">
+                            <div class="faq-question">Vocês fazem trocas?</div>
+                            <div class="faq-answer">Sim, temos uma política de trocas e devoluções. Consulte nossos termos.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <include src="partials/footer.html"></include>
+    <script src="js/script.js"></script>
 </body>
 </html>
