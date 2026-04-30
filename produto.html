@@ -1,166 +1,46 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Detalhe do Produto - Aura Exótica</title>
-    <meta name="description" content="">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
-    <style>
-        .product-detail {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: var(--space-lg);
-            padding: var(--space-lg) 0;
-        }
-        @media (min-width: 1024px) {
-            .product-detail {
-                grid-template-columns: 1fr 1fr;
-            }
-        }
-        .product-images {
-            display: flex;
-            flex-direction: column;
-            gap: var(--space-sm);
-        }
-        .main-image {
-            width: 100%;
-            height: auto;
-            border-radius: var(--radius-md);
-            object-fit: cover;
-        }
-        .thumb-images {
-            display: flex;
-            gap: var(--space-xs);
-            overflow-x: auto;
-        }
-        .thumb-image {
-            width: 60px;
-            height: 60px;
-            object-fit: cover;
-            border-radius: var(--radius-sm);
-            cursor: pointer;
-            opacity: 0.6;
-            transition: opacity 0.2s;
-        }
-        .thumb-image.active {
-            opacity: 1;
-        }
-        .product-info h1 {
-            font-size: var(--text-2xl);
-            margin-bottom: var(--space-xs);
-        }
-        .product-brand {
-            color: var(--gold);
-            font-size: var(--text-lg);
-            margin-bottom: var(--space-sm);
-        }
-        .product-price {
-            color: var(--gold);
-            font-size: var(--text-xl);
-            font-weight: var(--font-bold);
-            margin-bottom: var(--space-sm);
-        }
-        .product-installments {
-            color: var(--text-muted);
-            font-size: var(--text-sm);
-            margin-bottom: var(--space-md);
-        }
-        .product-description {
-            margin-bottom: var(--space-md);
-        }
-        .notes-pyramid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: var(--space-xs);
-            margin-bottom: var(--space-md);
-        }
-        .notes-top, .notes-heart, .notes-base {
-            padding: var(--space-xs);
-            border-left: 3px solid var(--gold);
-        }
-        .notes-top h4, .notes-heart h4, .notes-base h4 {
-            margin-bottom: var(--space-xs);
-        }
-        .product-cta-fixed {
-            position: sticky;
-            bottom: 0;
-            background: var(--bg);
-            padding: var(--space-md);
-            border-top: 1px solid var(--border);
-            display: flex;
-            flex-direction: column;
-            gap: var(--space-sm);
-            z-index: 10;
-        }
-        .whatsapp-link {
-            display: block;
-            background: var(--whatsapp-green);
-            color: white;
-            text-align: center;
-            padding: var(--space-md);
-            border-radius: var(--radius-md);
-            text-decoration: none;
-            font-weight: var(--font-bold);
-        }
-        .whatsapp-link:hover {
-            background: var(--whatsapp-green-dark);
-        }
-        .favorite-btn {
-            background: var(--bg-alt);
-            color: var(--text);
-            border: 1px solid var(--border);
-            padding: var(--space-sm);
-            border-radius: var(--radius-md);
-            cursor: pointer;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Produto | Aura Exotica</title>
+  <meta name="description" content="Ficha completa de perfume com piramide olfativa, detalhes e compra assistida pelo WhatsApp.">
+  <meta name="robots" content="index, follow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;700&family=DM+Sans:wght@400;500;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
 </head>
-<body>
-    <include src="partials/header.html"></include>
-    <main>
-        <div class="container">
-            <div class="product-detail" id="product-detail">
-                <!-- O conteúdo será renderizado aqui pelo script.js -->
-                <!-- Exemplo de estrutura que o JS irá montar -->
-                <div class="product-images">
-                    <img id="main-image" src="" alt="" class="main-image">
-                    <div class="thumb-images">
-                        <!-- Thumbnails -->
-                    </div>
-                </div>
-                <div class="product-info">
-                    <p class="product-brand">...</p>
-                    <h1 id="product-name">...</h1>
-                    <p class="product-price" id="product-price">R$ ...</p>
-                    <p class="product-installments" id="product-installments">...</p>
-                    <p class="product-description" id="product-description">...</p>
-                    <div class="notes-pyramid">
-                        <div class="notes-top">
-                            <h4>Notas de Topo</h4>
-                            <span id="notes-top">...</span>
-                        </div>
-                        <div class="notes-heart">
-                            <h4>Notas de Coração</h4>
-                            <span id="notes-heart">...</span>
-                        </div>
-                        <div class="notes-base">
-                            <h4>Notas de Fundo</h4>
-                            <span id="notes-base">...</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </main>
-    <div class="product-cta-fixed">
-        <a href="#" id="whatsapp-link" class="whatsapp-link" target="_blank">💬 Comprar no WhatsApp</a>
-        <button class="favorite-btn">❤️ Favoritar</button>
+<body data-page="produto">
+  <header class="main-header">
+    <div class="topbar"><div class="container">Ficha olfativa · Consulta de disponibilidade · Compra pelo WhatsApp</div></div>
+    <div class="container nav">
+      <a class="brand" href="index.html"><img src="assets/Logo-Aura-Exotica.svg" alt=""><span><strong>Aura Exotica</strong><span>Perfumes & Cosmeticos</span></span></a>
+      <nav class="nav-links" aria-label="Principal"><a href="index.html">Home</a><a href="catalogo.html">Catalogo</a><a href="blog.html">Blog</a><a href="sobre.html">Sobre</a><a href="contato.html">Contato</a></nav>
+      <a class="btn btn-outline" href="catalogo.html">Voltar ao catalogo</a>
+      <button class="mobile-menu-toggle" type="button" aria-expanded="false" aria-label="Abrir menu">☰</button>
     </div>
-    <include src="partials/footer.html"></include>
-    <script src="script.js"></script>
+    <nav class="mobile-panel" aria-label="Menu mobile"><a href="index.html">Home</a><a href="catalogo.html">Catalogo</a><a href="contato.html">Contato</a></nav>
+  </header>
+
+  <main>
+    <section class="section">
+      <div class="container">
+        <div id="product-detail" class="product-detail"><div class="skeleton"></div><div class="skeleton"></div></div>
+      </div>
+    </section>
+    <section class="section">
+      <div class="container">
+        <div class="section-head"><div><p class="eyebrow">Veja tambem</p><h2 class="section-title">Fragrancias relacionadas</h2></div></div>
+        <div id="related-grid" class="products-grid"></div>
+      </div>
+    </section>
+  </main>
+
+  <div class="product-cta-fixed">
+    <a id="product-whatsapp-fixed" class="btn btn-whatsapp" href="https://wa.me/5511999999999" target="_blank" rel="noopener">Comprar no WhatsApp</a>
+    <button class="favorite-btn" type="button" aria-label="Favoritar">♡</button>
+  </div>
+  <script src="script.js" defer></script>
 </body>
 </html>

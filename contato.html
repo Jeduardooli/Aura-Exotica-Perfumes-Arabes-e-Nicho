@@ -1,146 +1,52 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contato - Aura Exótica</title>
-    <meta name="description" content="Entre em contato com a Aura Exótica. Atendimento via WhatsApp, dúvidas frequentes e informações de contato.">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
-    <style>
-        .contact-content {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: var(--space-xl);
-            padding: var(--space-lg) 0;
-        }
-        @media (min-width: 1024px) {
-            .contact-content {
-                grid-template-columns: 1fr 1fr;
-            }
-        }
-        .contact-form, .faq-section {
-            background: var(--bg-alt);
-            padding: var(--space-lg);
-            border-radius: var(--radius-md);
-        }
-        .form-group {
-            margin-bottom: var(--space-md);
-        }
-        .form-label {
-            display: block;
-            margin-bottom: var(--space-xs);
-            color: var(--text-muted);
-        }
-        .form-input {
-            width: 100%;
-            padding: var(--space-sm);
-            background: var(--bg);
-            border: 1px solid var(--border);
-            border-radius: var(--radius-sm);
-            color: var(--text);
-        }
-        .form-textarea {
-            width: 100%;
-            height: 150px;
-            padding: var(--space-sm);
-            background: var(--bg);
-            border: 1px solid var(--border);
-            border-radius: var(--radius-sm);
-            color: var(--text);
-        }
-        .faq-item {
-            margin-bottom: var(--space-md);
-        }
-        .faq-question {
-            font-weight: var(--font-bold);
-            cursor: pointer;
-            padding: var(--space-sm) 0;
-            border-bottom: 1px solid var(--border);
-        }
-        .faq-answer {
-            padding: var(--space-sm) 0;
-            color: var(--text-muted);
-        }
-        .contact-info p {
-            margin-bottom: var(--space-sm);
-        }
-        .contact-link {
-            color: var(--gold);
-            text-decoration: none;
-        }
-        .contact-link:hover {
-            text-decoration: underline;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contato | Aura Exotica</title>
+  <meta name="description" content="Fale com a Aura Exotica pelo WhatsApp para escolher perfumes arabes e nicho com atendimento consultivo.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;700&family=DM+Sans:wght@400;500;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
 </head>
-<body>
-    <include src="partials/header.html"></include>
-    <main>
-        <section class="page-hero">
-            <div class="container text-center">
-                <h1>Contato</h1>
-                <p>Como podemos te ajudar?</p>
-            </div>
-        </section>
-
-        <div class="container">
-            <div class="contact-content">
-                <div>
-                    <div class="contact-form">
-                        <h2>Envie uma Mensagem</h2>
-                        <form id="contact-form">
-                            <div class="form-group">
-                                <label for="name" class="form-label">Nome</label>
-                                <input type="text" id="name" name="name" class="form-input" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="email" class="form-label">Email</label>
-                                <input type="email" id="email" name="email" class="form-input" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="message" class="form-label">Mensagem</label>
-                                <textarea id="message" name="message" class="form-textarea" required></textarea>
-                            </div>
-                            <button type="submit" class="btn btn-gold">Enviar</button>
-                        </form>
-                    </div>
-
-                    <div class="contact-info">
-                        <h3>Informações de Contato</h3>
-                        <p>Email: <a href="mailto:contato@auraexotica.com.br" class="contact-link">contato@auraexotica.com.br</a></p>
-                        <p>WhatsApp: <a href="https://wa.me/5511999999999" class="contact-link" target="_blank">(11) 9 9999-9999</a></p>
-                        <p>Horário de Atendimento: Seg. a Sex. das 9h às 18h</p>
-                    </div>
-                </div>
-
-                <div>
-                    <div class="faq-section">
-                        <h2>Perguntas Frequentes</h2>
-                        <div class="faq-item">
-                            <div class="faq-question">Os produtos são originais?</div>
-                            <div class="faq-answer">Sim, trabalhamos apenas com produtos 100% originais e lacrados.</div>
-                        </div>
-                        <div class="faq-item">
-                            <div class="faq-question">Qual o prazo de entrega?</div>
-                            <div class="faq-answer">O prazo médio de entrega é de 7 a 12 dias úteis para todo o Brasil.</div>
-                        </div>
-                        <div class="faq-item">
-                            <div class="faq-question">Como faço para rastrear meu pedido?</div>
-                            <div class="faq-answer">Enviamos o código de rastreio por WhatsApp após a postagem.</div>
-                        </div>
-                        <div class="faq-item">
-                            <div class="faq-question">Vocês fazem trocas?</div>
-                            <div class="faq-answer">Sim, temos uma política de trocas e devoluções. Consulte nossos termos.</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+<body data-page="contato">
+  <header class="main-header">
+    <div class="topbar"><div class="container">Duvias, recomendacoes e disponibilidade pelo WhatsApp</div></div>
+    <div class="container nav">
+      <a class="brand" href="index.html"><img src="assets/Logo-Aura-Exotica.svg" alt=""><span><strong>Aura Exotica</strong><span>Perfumes & Cosmeticos</span></span></a>
+      <nav class="nav-links" aria-label="Principal"><a href="index.html">Home</a><a href="catalogo.html">Catalogo</a><a href="blog.html">Blog</a><a href="sobre.html">Sobre</a><a aria-current="page" href="contato.html">Contato</a></nav>
+      <a class="btn btn-gold" target="_blank" rel="noopener" href="https://wa.me/5511999999999">WhatsApp</a>
+      <button class="mobile-menu-toggle" type="button" aria-expanded="false" aria-label="Abrir menu">☰</button>
+    </div>
+    <nav class="mobile-panel" aria-label="Menu mobile"><a href="index.html">Home</a><a href="catalogo.html">Catalogo</a><a href="sobre.html">Sobre</a></nav>
+  </header>
+  <main>
+    <section class="page-hero"><div class="container"><p class="eyebrow">Contato</p><h1>Como podemos te ajudar?</h1><p>Envie uma mensagem e abriremos uma conversa no WhatsApp com seu pedido pronto.</p></div></section>
+    <section class="section">
+      <div class="container contact-grid">
+        <form id="contact-form" class="contact-form contact-card">
+          <h3>Envie uma mensagem</h3>
+          <input class="input" type="text" name="name" placeholder="Nome" required>
+          <input class="input" type="email" name="email" placeholder="Email" required>
+          <textarea class="textarea" name="message" placeholder="Mensagem" required></textarea>
+          <button class="btn btn-whatsapp" type="submit">Enviar pelo WhatsApp</button>
+        </form>
+        <div class="contact-card">
+          <h3>Informacoes</h3>
+          <p>WhatsApp: <a href="https://wa.me/5511999999999" target="_blank" rel="noopener">+55 (11) 99999-9999</a></p>
+          <p>Email: contato@auraexotica.com.br</p>
+          <p>Horario: Segunda a sexta, 9h as 18h.</p>
         </div>
-    </main>
-    <include src="partials/footer.html"></include>
-    <script src="script.js"></script>
+        <div class="faq">
+          <details open><summary>Os produtos sao originais?</summary><p>Sim. A proposta da Aura Exotica e trabalhar com produtos originais, lacrados e com atendimento transparente.</p></details>
+          <details><summary>Como compro?</summary><p>Escolha o produto no catalogo e clique em Comprar no WhatsApp. A mensagem ja vai com os detalhes.</p></details>
+          <details><summary>Tem entrega?</summary><p>O prazo e a modalidade de entrega sao confirmados no atendimento, de acordo com sua cidade.</p></details>
+        </div>
+      </div>
+    </section>
+  </main>
+  <footer class="main-footer"><div class="container footer-grid"><div><h3>Aura Exotica</h3><p>Essencia Exclusiva do Oriente & Nicho.</p></div><div class="footer-links"><a href="catalogo.html">Catalogo</a><a href="blog.html">Blog</a><a href="sobre.html">Sobre</a></div><div><p>Compra sem checkout: fechamento direto e assistido.</p></div></div></footer>
+  <script src="script.js" defer></script>
 </body>
 </html>

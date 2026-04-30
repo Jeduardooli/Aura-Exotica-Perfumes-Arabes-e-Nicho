@@ -1,703 +1,574 @@
-/**
- * AURA EXÓTICA — script.js v2.0
- * Compatível com products.json v2 (installments como array de objetos)
- * Módulos: Core, Home, Catalog, ProductDetail, Analytics
- */
+(function () {
+  "use strict";
 
-'use strict';
-
-/* ============================================================
-   CONFIG
-   ============================================================ */
-const AE = {
-  PHONE:       '5511999999999',    // ← Substituir pelo número real
-  WA_DEFAULT:  'Olá! Vim pelo site da Aura Exótica e quero conhecer os perfumes.',
-  DATA_URL:    '/data/products.json',
-  PAGE_SIZE:   12,
-  BRANDS: [
-    'Armaf','Lattafa','Al Wataniah','Rasasi','Afnan','Mawwal',
-    'French Avenue','Stella Dustin','Aurora Scents','Maison Alhambra',
-    'Orientica','Paris Corner','Anfar','Rayhaan','Khadlaj','Zimaya',
-    'Rue Broca','Riiffs','Maison Asrar','Maryaj','Al Haramain',
-    'Al Ambra','Afnan'
-  ],
-};
-
-/* ============================================================
-   STATE
-   ============================================================ */
-const State = {
-  products: [],       // all loaded products
-  filtered: [],       // after filters applied
-  page: 1,
-  loading: false,
-  filters: {
-    search:  '',
-    brand:   '',
-    gender:  '',
-    category: '',
-    sort:    'rank',
-    priceMax: Infinity,
-  },
-};
-
-/* ============================================================
-   1. DATA LAYER
-   ============================================================ */
-async function loadProducts() {
-  if (State.products.length) return State.products;
-  try {
-    const res = await fetch(AE.DATA_URL);
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    State.products = await res.json();
-    return State.products;
-  } catch (err) {
-    console.error('[AE] Falha ao carregar products.json:', err);
-    return [];
-  }
-}
-
-/* ============================================================
-   2. HELPERS
-   ============================================================ */
-function formatPrice(n) {
-  return n.toLocaleString('pt-BR', { minimumFractionDigits: 2 });
-}
-
-function getInstallmentLabel(installments, qty = 3) {
-  if (!Array.isArray(installments)) {
-    // fallback: scalar
-    const v = installments;
-    return `${qty}x de R$ ${formatPrice(v / qty)}`;
-  }
-  const match = installments.find(i => i.qty === qty)
-             || installments[installments.length - 1];
-  if (!match) return '';
-  return `${match.qty}x de R$ ${formatPrice(match.value)}`;
-}
-
-function getBestInstallment(installments) {
-  if (!Array.isArray(installments)) return null;
-  return installments[installments.length - 1] || null;
-}
-
-function generateWALink(product, source = 'catalog') {
-  const gMap = { M: 'Masculino', F: 'Feminino', U: 'Unissex' };
-  const gender = gMap[product.gender] || product.gender;
-  const best = getBestInstallment(product.installments);
-  const installInfo = best
-    ? `ou ${best.qty}x de R$ ${formatPrice(best.value)}`
-    : '';
-
-  const topNotes = (product.notes?.top || []).slice(0, 3).join(', ');
-  const text = encodeURIComponent(
-    `Olá! Tenho interesse no *${product.name}* (${product.brand})\n` +
-    `💰 R$ ${formatPrice(product.price)} ${installInfo}\n` +
-    `📦 ${product.volume_ml}ml · ${product.concentration}\n` +
-    `👤 ${gender}\n` +
-    `✨ Notas: ${topNotes}\n\n` +
-    `Está disponível? Qual o prazo de entrega?`
-  );
-  return `https://wa.me/${AE.PHONE}?text=${text}`;
-}
-
-function slugify(str) {
-  return str.toLowerCase()
-    .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/^-|-$/g, '');
-}
-
-function getProductById(id) {
-  return State.products.find(p => p.id === id) || null;
-}
-
-function getProductFromURL() {
-  const params = new URLSearchParams(location.search);
-  return params.get('id') || null;
-}
-
-/* ============================================================
-   3. CARD RENDERER
-   ============================================================ */
-function renderCard(product, index = 0) {
-  const badge = product.badge;
-  const badgeHTML = badge ? (() => {
-    const cls = badge === 'hot'    ? 'product-badge--hot'
-              : badge === 'new'    ? 'product-badge--new'
-              : badge === 'launch' ? 'product-badge--launch' : '';
-    const label = badge === 'hot'    ? '🔥 Mais Vendido'
-                : badge === 'new'    ? 'Novo'
-                : badge === 'launch' ? 'Lançamento' : badge;
-    return `<span class="product-badge ${cls}">${label}</span>`;
-  })() : '';
-
-  const gLabel = { M: 'M', F: 'F', U: 'U' }[product.gender] || '';
-  const notes = (product.notes?.top || []).slice(0, 3);
-  const notesHTML = notes.map(n => `<span class="note-chip">${n}</span>`).join('');
-  const best = getBestInstallment(product.installments);
-  const installHTML = best
-    ? `<span class="product-card__installments">${best.qty}x de<br>R$ ${formatPrice(best.value)}</span>`
-    : '';
-
-  const delay = (index % 4) * 0.07;
-
-  return `
-    <div
-      class="product-card"
-      data-id="${product.id}"
-      style="transition-delay:${delay}s"
-    >
-      <div class="product-card__image-wrap">
-        <img
-          class="product-card__img"
-          src="${product.image}"
-          alt="${product.name} - ${product.brand}"
-          loading="${index < 8 ? 'eager' : 'lazy'}"
-          decoding="async"
-          onerror="this.style.opacity='0'"
-        />
-        ${badgeHTML}
-        ${gLabel ? `<div class="product-gender">${gLabel}</div>` : ''}
-      </div>
-
-      <div class="product-card__info">
-        <div class="product-card__brand">${product.brand}</div>
-        <h3 class="product-card__name">${product.name}</h3>
-        <div class="product-card__notes">${notesHTML}</div>
-        <div class="product-card__price-row">
-          <span class="product-card__price">R$ ${formatPrice(product.price)}</span>
-          ${installHTML}
-        </div>
-      </div>
-
-      <a
-        href="${generateWALink(product, 'card')}"
-        class="product-card__wa"
-        target="_blank"
-        rel="noopener noreferrer"
-        data-wa-product="${product.id}"
-        onclick="AE.trackWA('${product.id}', 'card')"
-      >
-        ${WA_SVG}
-        Comprar no WhatsApp
-      </a>
-    </div>
-  `;
-}
-
-const WA_SVG = `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>`;
-
-/* ============================================================
-   4. SCROLL REVEAL (IntersectionObserver)
-   ============================================================ */
-let _revealObserver = null;
-
-function initReveal() {
-  if (_revealObserver) _revealObserver.disconnect();
-
-  _revealObserver = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        e.target.classList.add('visible');
-        _revealObserver.unobserve(e.target);
-      }
-    });
-  }, { threshold: 0.08, rootMargin: '0px 0px -30px 0px' });
-
-  document.querySelectorAll('.reveal, .product-card').forEach(el => {
-    _revealObserver.observe(el);
-  });
-}
-
-/* ============================================================
-   5. HEADER
-   ============================================================ */
-function initHeader() {
-  const header = document.getElementById('header');
-  if (!header) return;
-
-  let ticking = false;
-  const threshold = 60;
-
-  const onScroll = () => {
-    if (!ticking) {
-      requestAnimationFrame(() => {
-        header.classList.toggle('scrolled', window.scrollY > threshold);
-        ticking = false;
-      });
-      ticking = true;
-    }
+  const CONFIG = {
+    PRODUCTS_JSON: "data/products.json",
+    FALLBACK_PRODUCTS_JSON: "matches-100-images-urls.json",
+    WHATSAPP_PHONE: "5511999999999",
+    INITIAL_VISIBLE: 12,
+    LOAD_MORE_INCREMENT: 12,
+    MAX_PRICE: 1500
   };
 
-  window.addEventListener('scroll', onScroll, { passive: true });
-  onScroll();
+  const state = {
+    products: [],
+    filtered: [],
+    visibleCount: CONFIG.INITIAL_VISIBLE,
+    filters: {
+      search: "",
+      brand: null,
+      gender: "all",
+      category: null,
+      maxPrice: CONFIG.MAX_PRICE
+    },
+    sort: "default"
+  };
 
-  // Active nav link
-  const path = location.pathname.split('/').pop() || 'index.html';
-  document.querySelectorAll('.nav__link, .mobile-menu__link').forEach(a => {
-    const href = a.getAttribute('href') || '';
-    if (href === path || (path === '' && href === 'index.html')) {
-      a.classList.add('active');
+  const noteFamilies = [
+    {
+      top: ["Bergamota", "Pimenta Rosa", "Cardamomo"],
+      heart: ["Lavanda", "Geranio", "Acorde Ambarado"],
+      base: ["Oud", "Patchouli", "Cedro"],
+      tags: ["amadeirado", "especiarias", "intenso"]
+    },
+    {
+      top: ["Mandarina", "Pera", "Flor de Laranjeira"],
+      heart: ["Jasmim", "Rosa", "Praline"],
+      base: ["Baunilha", "Musk", "Sandalwood"],
+      tags: ["doce", "floral", "elegante"]
+    },
+    {
+      top: ["Limao Siciliano", "Menta", "Maça Verde"],
+      heart: ["Sage", "Lavanda", "Noz Moscada"],
+      base: ["Ambroxan", "Vetiver", "Madeiras Secas"],
+      tags: ["fresco", "versatil", "moderno"]
+    },
+    {
+      top: ["Açafrao", "Canela", "Noz Moscada"],
+      heart: ["Rosa Turca", "Incenso", "Couro"],
+      base: ["Oud", "Ambar", "Resinas"],
+      tags: ["oriental", "noturno", "marcante"]
     }
-  });
+  ];
 
-  // Hamburger / mobile menu
-  const hamburger = document.getElementById('hamburger');
-  const mobileMenu = document.getElementById('mobileMenu');
-  if (hamburger && mobileMenu) {
-    hamburger.addEventListener('click', () => {
-      const open = hamburger.classList.toggle('open');
-      mobileMenu.classList.toggle('open', open);
-      document.body.style.overflow = open ? 'hidden' : '';
-    });
-
-    mobileMenu.querySelectorAll('a').forEach(a => {
-      a.addEventListener('click', () => {
-        hamburger.classList.remove('open');
-        mobileMenu.classList.remove('open');
-        document.body.style.overflow = '';
-      });
-    });
-  }
-}
-
-/* ============================================================
-   6. HOME PAGE
-   ============================================================ */
-async function initHome() {
-  const grid = document.getElementById('productsGrid');
-  if (!grid) return;
-
-  await loadProducts();
-
-  // Show top 12 by rank
-  const featured = [...State.products]
-    .sort((a, b) => (a.rank || 999) - (b.rank || 999))
-    .slice(0, 12);
-
-  grid.innerHTML = featured.map((p, i) => renderCard(p, i)).join('');
-
-  requestAnimationFrame(() => initReveal());
-}
-
-/* ============================================================
-   7. CATALOG PAGE
-   ============================================================ */
-async function initCatalog() {
-  const grid = document.getElementById('catalogGrid');
-  if (!grid) return;
-
-  await loadProducts();
-  State.filtered = [...State.products];
-
-  // Populate brand dropdown
-  const brandSel = document.getElementById('filterBrand');
-  if (brandSel) {
-    const brands = [...new Set(State.products.map(p => p.brand))].sort();
-    brands.forEach(b => {
-      const opt = document.createElement('option');
-      opt.value = b; opt.textContent = b;
-      brandSel.appendChild(opt);
-    });
+  function $(selector, root = document) {
+    return root.querySelector(selector);
   }
 
-  // Bind filters
-  _bindFilterEvents();
-
-  // First render
-  _applyFilters();
-}
-
-function _bindFilterEvents() {
-  const ids = ['filterBrand', 'filterGender', 'filterCategory', 'filterSort', 'filterSearch'];
-  ids.forEach(id => {
-    const el = document.getElementById(id);
-    if (!el) return;
-    const evt = el.tagName === 'SELECT' ? 'change' : 'input';
-    el.addEventListener(evt, () => {
-      State.filters.brand    = document.getElementById('filterBrand')?.value    || '';
-      State.filters.gender   = document.getElementById('filterGender')?.value   || '';
-      State.filters.category = document.getElementById('filterCategory')?.value || '';
-      State.filters.sort     = document.getElementById('filterSort')?.value     || 'rank';
-      State.filters.search   = (document.getElementById('filterSearch')?.value || '').toLowerCase().trim();
-      State.page = 1;
-      _applyFilters();
-    });
-  });
-
-  // Gender chips
-  document.querySelectorAll('.filter-chip[data-gender]').forEach(chip => {
-    chip.addEventListener('click', () => {
-      const active = chip.classList.contains('active');
-      document.querySelectorAll('.filter-chip[data-gender]').forEach(c => c.classList.remove('active'));
-      if (!active) chip.classList.add('active');
-      State.filters.gender = active ? '' : chip.dataset.gender;
-      State.page = 1;
-      _applyFilters();
-    });
-  });
-
-  // Load more
-  const loadMoreBtn = document.getElementById('loadMoreBtn');
-  if (loadMoreBtn) {
-    loadMoreBtn.addEventListener('click', () => {
-      State.page++;
-      _renderPage(false);
-    });
+  function $all(selector, root = document) {
+    return Array.from(root.querySelectorAll(selector));
   }
-}
 
-function _applyFilters() {
-  const { search, brand, gender, category, sort } = State.filters;
+  function money(value) {
+    if (!Number.isFinite(Number(value))) return "Preço sob consulta";
+    return Number(value).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+  }
 
-  State.filtered = State.products.filter(p => {
-    if (brand    && p.brand !== brand)                              return false;
-    if (gender   && p.gender !== gender)                           return false;
-    if (category && !(p.category || []).includes(category))        return false;
-    if (search) {
-      const hay = `${p.name} ${p.brand} ${(p.notes?.top||[]).join(' ')} ${(p.category||[]).join(' ')}`.toLowerCase();
-      if (!hay.includes(search)) return false;
+  function slugify(value) {
+    return String(value || "")
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/(^-|-$)/g, "");
+  }
+
+  function inferGender(text) {
+    const value = text.toLowerCase();
+    if (value.includes("feminino") || value.includes("woman") || value.includes("women")) return "F";
+    if (value.includes("masculino") || value.includes(" man") || value.includes("men")) return "M";
+    return "U";
+  }
+
+  function inferConcentration(text) {
+    const value = text.toLowerCase();
+    if (value.includes("extrait")) return "Extrait";
+    if (value.includes("parfum")) return "Parfum";
+    if (value.includes("edt") || value.includes("toilette")) return "EDT";
+    return "EDP";
+  }
+
+  function inferVolume(text) {
+    const match = text.match(/(\d{2,3})\s*ml/i);
+    return match ? Number(match[1]) : 100;
+  }
+
+  function inferPrice(rank) {
+    const base = 219 + ((rank || 1) % 9) * 38;
+    return Math.min(1490, base);
+  }
+
+  function buildInstallments(price) {
+    return [1, 2, 3, 4, 5, 6].map((qty) => ({
+      qty,
+      value: Number((price / qty).toFixed(2))
+    }));
+  }
+
+  function normalizeRawProduct(raw, index) {
+    if (raw.notes && raw.installments) return raw;
+
+    const fullName = raw.full_name || raw.fullName || `${raw.brand || "Aura"} - ${raw.name || "Perfume"}`;
+    const parts = fullName.split(" - ");
+    const brand = raw.brand || parts[0] || "Aura Exotica";
+    const name = raw.name || parts.slice(1).join(" - ") || fullName;
+    const price = Number(raw.price) || inferPrice(raw.rank || index + 1);
+    const family = noteFamilies[index % noteFamilies.length];
+    const gender = raw.gender || inferGender(`${fullName} ${raw.product_url || ""}`);
+    const badge = index < 4 ? "hot" : index < 10 ? "new" : index % 11 === 0 ? "launch" : null;
+    const categories = [
+      "Arabes",
+      gender === "M" ? "Masculino" : gender === "F" ? "Feminino" : "Unissex",
+      index % 3 === 0 ? "Noite" : "Dia",
+      index % 4 === 0 ? "Alta Fixacao" : "Versatil"
+    ];
+
+    return {
+      id: raw.id || slugify(fullName),
+      rank: raw.rank || index + 1,
+      brand,
+      name,
+      price,
+      installments: buildInstallments(price),
+      gender,
+      volume_ml: raw.volume_ml || inferVolume(`${fullName} ${raw.product_url || ""}`),
+      concentration: raw.concentration || inferConcentration(fullName),
+      notes: raw.notes || {
+        top: family.top,
+        heart: family.heart,
+        base: family.base
+      },
+      description: raw.description || `${name} combina presença, sofisticação e assinatura olfativa envolvente. Uma escolha certeira para quem busca perfume original com aura premium e atendimento direto pelo WhatsApp.`,
+      image: raw.image || raw.image_url || "assets/Logo-Aura-Exotica.svg",
+      images: raw.images || [raw.image_url || raw.image || "assets/Logo-Aura-Exotica.svg"],
+      badge,
+      origin: raw.origin || (["Lattafa", "Armaf", "Rasasi", "Afnan"].includes(brand) ? "Oriente Medio" : "Importado"),
+      category: raw.category || categories,
+      tags: raw.tags || family.tags,
+      stock: raw.stock !== false,
+      productUrl: raw.product_url || raw.productUrl || ""
+    };
+  }
+
+  async function fetchJson(url) {
+    const response = await fetch(url);
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    return response.json();
+  }
+
+  async function loadProducts() {
+    if (state.products.length) return state.products;
+    try {
+      const data = await fetchJson(CONFIG.PRODUCTS_JSON);
+      state.products = data.map(normalizeRawProduct);
+    } catch (firstError) {
+      try {
+        const fallback = await fetchJson(CONFIG.FALLBACK_PRODUCTS_JSON);
+        state.products = fallback.map(normalizeRawProduct);
+      } catch (secondError) {
+        state.products = [];
+        showError("Nao foi possivel carregar o catalogo agora. Recarregue a pagina.");
+      }
     }
-    return true;
-  });
-
-  // Sort
-  State.filtered.sort((a, b) => {
-    switch (sort) {
-      case 'price_asc':  return a.price - b.price;
-      case 'price_desc': return b.price - a.price;
-      case 'name':       return a.name.localeCompare(b.name, 'pt-BR');
-      case 'rank':
-      default:           return (a.rank || 999) - (b.rank || 999);
-    }
-  });
-
-  State.page = 1;
-  _renderPage(true);
-  _updateResultsCount();
-}
-
-function _renderPage(reset = true) {
-  const grid = document.getElementById('catalogGrid');
-  const loadMoreBtn = document.getElementById('loadMoreBtn');
-  if (!grid) return;
-
-  const start = 0;
-  const end   = State.page * AE.PAGE_SIZE;
-  const slice = State.filtered.slice(start, end);
-
-  if (reset) {
-    if (slice.length === 0) {
-      grid.innerHTML = `
-        <div class="products-empty">
-          <div class="products-empty__icon">🔍</div>
-          <p class="products-empty__title">Nenhum perfume encontrado</p>
-          <p>Tente ajustar os filtros ou <a href="#" onclick="clearFilters()" style="color:var(--gold)">limpar a busca</a>.</p>
-        </div>`;
-    } else {
-      grid.innerHTML = slice.map((p, i) => renderCard(p, i)).join('');
-    }
-  } else {
-    // append new cards
-    const existing = grid.querySelectorAll('.product-card').length;
-    const newSlice = State.filtered.slice(existing, end);
-    grid.insertAdjacentHTML('beforeend', newSlice.map((p, i) => renderCard(p, existing + i)).join(''));
+    state.filtered = state.products.slice();
+    return state.products;
   }
 
-  // Load more visibility
-  if (loadMoreBtn) {
-    const hasMore = end < State.filtered.length;
-    loadMoreBtn.style.display = hasMore ? 'inline-flex' : 'none';
-    const remaining = State.filtered.length - end;
-    loadMoreBtn.textContent = hasMore
-      ? `Carregar mais (${remaining} restantes)`
-      : '';
+  function genderLabel(value) {
+    if (value === "M") return "Masculino";
+    if (value === "F") return "Feminino";
+    return "Unissex";
   }
 
-  requestAnimationFrame(() => initReveal());
-}
-
-function _updateResultsCount() {
-  const el = document.getElementById('resultsCount');
-  if (el) {
-    el.innerHTML = `<strong>${State.filtered.length}</strong> perfumes encontrados`;
-  }
-}
-
-window.clearFilters = function () {
-  ['filterBrand','filterGender','filterCategory','filterSort','filterSearch'].forEach(id => {
-    const el = document.getElementById(id);
-    if (el) el.value = id === 'filterSort' ? 'rank' : '';
-  });
-  document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
-  State.filters = { search:'', brand:'', gender:'', category:'', sort:'rank', priceMax: Infinity };
-  State.page = 1;
-  _applyFilters();
-};
-
-/* ============================================================
-   8. PRODUCT DETAIL PAGE
-   ============================================================ */
-async function initProductDetail() {
-  const container = document.getElementById('productDetail');
-  if (!container) return;
-
-  await loadProducts();
-
-  const id = getProductFromURL();
-  const product = id ? getProductById(id) : null;
-
-  if (!product) {
-    container.innerHTML = `
-      <div class="products-empty" style="padding:80px 24px">
-        <div class="products-empty__icon">😔</div>
-        <p class="products-empty__title">Produto não encontrado</p>
-        <a href="catalogo.html" class="btn btn--primary" style="margin-top:24px;display:inline-flex">Ver Catálogo</a>
-      </div>`;
-    return;
+  function badgeLabel(value) {
+    return { hot: "Mais vendido", new: "Novo", launch: "Lancamento" }[value] || value;
   }
 
-  // SEO
-  document.title = `${product.name} - ${product.brand} | Aura Exótica`;
-  document.querySelector('meta[name="description"]')?.setAttribute('content', product.description);
+  function generateWhatsAppLink(product) {
+    const text = encodeURIComponent(
+      `Olá! Tenho interesse no *${product.name}* (${product.brand}).\n` +
+      `Preço: ${money(product.price)}\n` +
+      `Volume: ${product.volume_ml}ml\n` +
+      `Perfil: ${genderLabel(product.gender)}\n` +
+      `Notas: ${product.notes.top.slice(0, 3).join(", ")}\n\n` +
+      "Está disponível? Qual o prazo de entrega?"
+    );
+    return `https://wa.me/${CONFIG.WHATSAPP_PHONE}?text=${text}`;
+  }
 
-  // Render
-  const gMap = { M: 'Masculino', F: 'Feminino', U: 'Unissex' };
-  const gender = gMap[product.gender] || '';
-  const best = getBestInstallment(product.installments);
-
-  const topN    = (product.notes?.top    || []).map(n => `<span class="pyramid__note">${n}</span>`).join('');
-  const heartN  = (product.notes?.heart  || []).map(n => `<span class="pyramid__note">${n}</span>`).join('');
-  const baseN   = (product.notes?.base   || []).map(n => `<span class="pyramid__note">${n}</span>`).join('');
-
-  const categories = (product.category || []).map(c =>
-    `<span class="meta-chip">${c}</span>`
-  ).join('');
-
-  const badgeHTML = product.badge ? (() => {
-    const label = product.badge === 'hot' ? '🔥 Mais Vendido'
-                : product.badge === 'new' ? 'Novo'
-                : 'Lançamento';
-    return `<span class="product-badge product-badge--${product.badge}">${label}</span>`;
-  })() : '';
-
-  container.innerHTML = `
-    <div class="product-detail__breadcrumb">
-      <a href="index.html">Home</a>
-      <span>›</span>
-      <a href="catalogo.html">Catálogo</a>
-      <span>›</span>
-      <span>${product.brand}</span>
-      <span>›</span>
-      <span>${product.name}</span>
-    </div>
-
-    <div class="product-detail__grid">
-      <!-- Gallery -->
-      <div>
-        <div class="product-gallery__main">
-          <img
-            src="${product.image}"
-            alt="${product.name} - ${product.brand}"
-            loading="eager"
-            decoding="async"
-          />
-        </div>
-        ${badgeHTML}
-      </div>
-
-      <!-- Info -->
-      <div>
-        <p class="product-info__brand">${product.brand}</p>
-        <h1 class="product-info__name">${product.name}</h1>
-
-        <div class="product-info__meta">
-          ${categories}
-          <span class="meta-chip">${product.volume_ml}ml</span>
-          <span class="meta-chip">${product.concentration}</span>
-          <span class="meta-chip">${gender}</span>
-          <span class="meta-chip">${product.origin || 'Oriente Médio'}</span>
-        </div>
-
-        <div class="product-info__price-block">
-          <div class="product-info__price">R$ ${formatPrice(product.price)}</div>
-          ${best ? `<div class="product-info__installments">ou <strong>${best.qty}x de R$ ${formatPrice(best.value)}</strong> sem juros</div>` : ''}
-        </div>
-
-        <div class="pyramid">
-          <div class="pyramid__title">Pirâmide Olfativa</div>
-          <div class="pyramid__grid">
-            <div>
-              <div class="pyramid__column-label">🎵 Topo</div>
-              <div class="pyramid__notes">${topN}</div>
-            </div>
-            <div>
-              <div class="pyramid__column-label">💫 Coração</div>
-              <div class="pyramid__notes">${heartN}</div>
-            </div>
-            <div>
-              <div class="pyramid__column-label">🌑 Base</div>
-              <div class="pyramid__notes">${baseN}</div>
-            </div>
+  function productCardMarkup(product) {
+    const installments = product.installments && product.installments[2] ? product.installments[2] : null;
+    return `
+      <article class="product-card" data-product-id="${product.id}">
+        <a class="card-img-container" href="produto.html?id=${encodeURIComponent(product.id)}" aria-label="Ver ${product.brand} ${product.name}">
+          <img class="card-img" src="${product.image}" alt="${product.brand} ${product.name}" loading="lazy" width="320" height="320">
+          ${product.badge ? `<span class="badge badge-${product.badge}">${badgeLabel(product.badge)}</span>` : ""}
+        </a>
+        <div class="card-body">
+          <p class="card-brand">${product.brand}</p>
+          <h3 class="card-title"><a href="produto.html?id=${encodeURIComponent(product.id)}">${product.name}</a></h3>
+          <div class="card-meta">
+            <span class="meta-chip">${genderLabel(product.gender)}</span>
+            <span class="meta-chip">${product.volume_ml}ml</span>
+            <span class="meta-chip">${product.concentration}</span>
+          </div>
+          <p class="card-price">${money(product.price)}</p>
+          <p class="card-installments">${installments ? `ou 3x de ${money(installments.value)}` : "Consulte parcelamento"}</p>
+          <div class="card-notes">
+            ${product.notes.top.slice(0, 3).map((note) => `<span class="note-chip">${note}</span>`).join("")}
+          </div>
+          <div class="card-actions">
+            <a class="btn btn-whatsapp" target="_blank" rel="noopener" href="${generateWhatsAppLink(product)}">Comprar no WhatsApp</a>
+            <a class="btn btn-outline" href="produto.html?id=${encodeURIComponent(product.id)}">Ver ficha</a>
           </div>
         </div>
-
-        <p class="product-info__description">${product.description}</p>
-
-        <a
-          href="${generateWALink(product, 'detail')}"
-          class="btn btn--wa btn--lg btn--full"
-          target="_blank"
-          rel="noopener noreferrer"
-          onclick="AE.trackWA('${product.id}', 'detail')"
-        >
-          ${WA_SVG}
-          Comprar no WhatsApp
-        </a>
-      </div>
-    </div>
-
-    <!-- Related -->
-    <div style="margin-top:80px">
-      <div class="section-header">
-        <div class="section-header__left">
-          <span class="label label--left">Descubra mais</span>
-          <h2 class="section-title">Você também pode <em>gostar</em></h2>
-        </div>
-      </div>
-      <div class="products-grid" id="relatedGrid"></div>
-    </div>
-  `;
-
-  // Related: same brand or category, exclude current
-  const related = State.products
-    .filter(p => p.id !== product.id && (
-      p.brand === product.brand ||
-      (p.category || []).some(c => (product.category || []).includes(c))
-    ))
-    .slice(0, 8);
-
-  const relatedGrid = document.getElementById('relatedGrid');
-  if (relatedGrid && related.length) {
-    relatedGrid.innerHTML = related.map((p, i) => renderCard(p, i)).join('');
+      </article>
+    `;
   }
 
-  // Fixed bottom CTA (mobile)
-  const fixedCTA = document.getElementById('productCtaFixed');
-  if (fixedCTA) {
-    fixedCTA.innerHTML = `
-      <a href="${generateWALink(product, 'fixed_cta')}"
-         class="btn btn--wa btn--full"
-         target="_blank" rel="noopener"
-         onclick="AE.trackWA('${product.id}', 'fixed_cta')">
-        ${WA_SVG} Comprar — R$ ${formatPrice(product.price)}
-      </a>`;
+  function renderProducts(container, products) {
+    if (!container) return;
+    container.innerHTML = products.length ? products.map(productCardMarkup).join("") : '<div class="no-results">Nenhum produto encontrado.</div>';
   }
 
-  requestAnimationFrame(() => initReveal());
-
-  // JSON-LD
-  _injectProductSchema(product);
-}
-
-function _injectProductSchema(p) {
-  const best = getBestInstallment(p.installments);
-  const schema = {
-    "@context": "https://schema.org/",
-    "@type": "Product",
-    "name": p.name,
-    "image": p.image,
-    "description": p.description,
-    "brand": { "@type": "Brand", "name": p.brand },
-    "offers": {
-      "@type": "Offer",
-      "url": location.href,
-      "priceCurrency": "BRL",
-      "price": p.price.toFixed(2),
-      "priceValidUntil": "2026-12-31",
-      "itemCondition": "https://schema.org/NewCondition",
-      "availability": "https://schema.org/InStock",
-      "seller": {
-        "@type": "Organization",
-        "name": "Aura Exótica Perfumes & Cosméticos"
-      }
+  function initGlobalComponents() {
+    const toggle = $(".mobile-menu-toggle");
+    const panel = $(".mobile-panel");
+    if (toggle && panel) {
+      toggle.addEventListener("click", () => {
+        const isOpen = panel.classList.toggle("is-open");
+        toggle.setAttribute("aria-expanded", String(isOpen));
+      });
     }
-  };
-  const script = document.createElement('script');
-  script.type = 'application/ld+json';
-  script.textContent = JSON.stringify(schema);
-  document.head.appendChild(script);
-}
 
-/* ============================================================
-   9. ANALYTICS (GA4)
-   ============================================================ */
-AE.trackWA = function (productId, source) {
-  if (typeof gtag !== 'undefined') {
-    gtag('event', 'whatsapp_click', {
-      event_category: 'conversion',
-      event_label: productId,
-      source,
-      product_id: productId,
+    if (!$(".floating-whatsapp")) {
+      const floating = document.createElement("a");
+      floating.className = "floating-whatsapp";
+      floating.href = `https://wa.me/${CONFIG.WHATSAPP_PHONE}?text=${encodeURIComponent("Olá! Vim pelo site e gostaria de ajuda para escolher um perfume.")}`;
+      floating.target = "_blank";
+      floating.rel = "noopener";
+      floating.setAttribute("aria-label", "Falar no WhatsApp");
+      floating.textContent = "W";
+      document.body.appendChild(floating);
+    }
+
+    document.addEventListener("click", (event) => {
+      const link = event.target.closest('a[href*="wa.me"]');
+      if (link && typeof window.gtag === "function") {
+        window.gtag("event", "whatsapp_click", { href: link.href });
+      }
     });
   }
-};
 
-AE.trackFilter = function (type, value) {
-  if (typeof gtag !== 'undefined') {
-    gtag('event', 'apply_filter', { filter_type: type, filter_value: value });
-  }
-};
-
-AE.trackPageView = function (page) {
-  if (typeof gtag !== 'undefined') {
-    gtag('event', 'page_view', { page_title: document.title, page_path: page });
-  }
-};
-
-/* ============================================================
-   10. ROUTER — auto-detect page and init
-   ============================================================ */
-function detectPage() {
-  const path = location.pathname.split('/').pop() || 'index.html';
-  if (path === '' || path === 'index.html')   return 'home';
-  if (path === 'catalogo.html')               return 'catalog';
-  if (path === 'produto.html')                return 'detail';
-  if (path === 'blog.html')                   return 'blog';
-  if (path === 'sobre.html')                  return 'about';
-  if (path === 'contato.html')                return 'contact';
-  return 'unknown';
-}
-
-document.addEventListener('DOMContentLoaded', async () => {
-  // Always init header
-  initHeader();
-
-  // Always init reveal observer for static elements
-  requestAnimationFrame(() => initReveal());
-
-  // Page-specific
-  const page = detectPage();
-  switch (page) {
-    case 'home':    await initHome();          break;
-    case 'catalog': await initCatalog();       break;
-    case 'detail':  await initProductDetail(); break;
+  function initHome() {
+    const featured = $("#featured-grid");
+    const showcase = $("#hero-showcase");
+    const best = state.products.slice(0, 8);
+    renderProducts(featured, best);
+    if (showcase) {
+      showcase.innerHTML = state.products.slice(0, 3).map((product) => `
+        <a class="showcase-card" href="produto.html?id=${encodeURIComponent(product.id)}">
+          <img src="${product.image}" alt="${product.brand} ${product.name}" loading="eager" width="360" height="520">
+          <span>${product.brand} ${product.name}</span>
+        </a>
+      `).join("");
+    }
   }
 
-  AE.trackPageView(location.pathname);
-});
-
-/* ============================================================
-   11. PRODUCT CARD CLICK → DETAIL PAGE
-   ============================================================ */
-document.addEventListener('click', e => {
-  const card = e.target.closest('.product-card');
-  if (!card) return;
-  if (e.target.closest('.product-card__wa')) return; // WA link handles itself
-
-  const id = card.dataset.id;
-  if (id) {
-    location.href = `produto.html?id=${id}`;
+  function uniqueSorted(values) {
+    return Array.from(new Set(values.filter(Boolean))).sort((a, b) => a.localeCompare(b, "pt-BR"));
   }
-});
+
+  function setActiveButton(group, value) {
+    $all(".filter-btn", group).forEach((btn) => {
+      btn.classList.toggle("active", (btn.dataset.value || "") === String(value || ""));
+    });
+  }
+
+  function setupDynamicChips() {
+    const brandWrap = $("#filter-brands");
+    const categoryWrap = $("#filter-categories");
+    if (brandWrap) {
+      const brands = uniqueSorted(state.products.map((p) => p.brand));
+      brandWrap.innerHTML = `<button class="filter-btn active" data-value="">Todas as marcas</button>` +
+        brands.map((brand) => `<button class="filter-btn" data-value="${brand}">${brand}</button>`).join("");
+      brandWrap.addEventListener("click", (event) => {
+        const btn = event.target.closest(".filter-btn");
+        if (!btn) return;
+        state.filters.brand = btn.dataset.value || null;
+        setActiveButton(brandWrap, btn.dataset.value || "");
+        applyFilters();
+        renderCatalog();
+      });
+    }
+    if (categoryWrap) {
+      const categories = uniqueSorted(state.products.flatMap((p) => p.category || []));
+      categoryWrap.innerHTML = `<button class="filter-btn active" data-value="">Todas as categorias</button>` +
+        categories.map((cat) => `<button class="filter-btn" data-value="${cat}">${cat}</button>`).join("");
+      categoryWrap.addEventListener("click", (event) => {
+        const btn = event.target.closest(".filter-btn");
+        if (!btn) return;
+        state.filters.category = btn.dataset.value || null;
+        setActiveButton(categoryWrap, btn.dataset.value || "");
+        applyFilters();
+        renderCatalog();
+      });
+    }
+  }
+
+  function setupFilters() {
+    const params = new URLSearchParams(window.location.search);
+    const initialSearch = params.get("q") || "";
+    const search = $("#filter-search");
+    const sort = $("#filter-sort");
+    const price = $("#price-slider");
+    const priceMax = $("#price-max");
+
+    state.filters.search = initialSearch;
+    if (search) {
+      search.value = initialSearch;
+      search.addEventListener("input", () => {
+        state.filters.search = search.value.trim();
+        applyFilters();
+        renderCatalog();
+      });
+    }
+
+    if (sort) {
+      sort.addEventListener("change", () => {
+        state.sort = sort.value;
+        applyFilters();
+        renderCatalog();
+      });
+    }
+
+    $all("#filter-gender .filter-btn").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        state.filters.gender = btn.dataset.value || "all";
+        setActiveButton($("#filter-gender"), state.filters.gender);
+        applyFilters();
+        renderCatalog();
+      });
+    });
+
+    if (price) {
+      price.max = CONFIG.MAX_PRICE;
+      price.value = CONFIG.MAX_PRICE;
+      if (priceMax) priceMax.textContent = CONFIG.MAX_PRICE;
+      price.addEventListener("input", () => {
+        state.filters.maxPrice = Number(price.value);
+        if (priceMax) priceMax.textContent = price.value;
+        applyFilters();
+        renderCatalog();
+      });
+    }
+
+    setupDynamicChips();
+  }
+
+  function applyFilters() {
+    const term = state.filters.search.toLowerCase();
+    state.filtered = state.products.filter((product) => {
+      const haystack = `${product.name} ${product.brand} ${product.description} ${(product.tags || []).join(" ")} ${(product.category || []).join(" ")}`.toLowerCase();
+      if (term && !haystack.includes(term)) return false;
+      if (state.filters.brand && product.brand !== state.filters.brand) return false;
+      if (state.filters.gender !== "all" && product.gender !== state.filters.gender) return false;
+      if (state.filters.category && !(product.category || []).includes(state.filters.category)) return false;
+      if (Number(product.price) > state.filters.maxPrice) return false;
+      return true;
+    });
+
+    const sorted = state.filtered.slice();
+    if (state.sort === "price-low") sorted.sort((a, b) => a.price - b.price);
+    if (state.sort === "price-high") sorted.sort((a, b) => b.price - a.price);
+    if (state.sort === "name-asc") sorted.sort((a, b) => a.name.localeCompare(b.name, "pt-BR"));
+    if (state.sort === "name-desc") sorted.sort((a, b) => b.name.localeCompare(a.name, "pt-BR"));
+    if (state.sort === "default") sorted.sort((a, b) => (a.rank || 999) - (b.rank || 999));
+    state.filtered = sorted;
+    state.visibleCount = CONFIG.INITIAL_VISIBLE;
+  }
+
+  function renderCatalog() {
+    const grid = $("#catalog-grid");
+    const count = $("#results-count");
+    const loadMore = $("#load-more-btn");
+    if (!grid) return;
+
+    const visible = state.filtered.slice(0, state.visibleCount);
+    renderProducts(grid, visible);
+
+    if (count) {
+      count.textContent = `Exibindo ${Math.min(state.visibleCount, state.filtered.length)} de ${state.filtered.length} produtos`;
+    }
+    if (loadMore) {
+      loadMore.classList.toggle("d-none", state.visibleCount >= state.filtered.length);
+    }
+  }
+
+  function initCatalog() {
+    setupFilters();
+    applyFilters();
+    renderCatalog();
+    const loadMore = $("#load-more-btn");
+    if (loadMore) {
+      loadMore.addEventListener("click", () => {
+        state.visibleCount += CONFIG.LOAD_MORE_INCREMENT;
+        renderCatalog();
+      });
+    }
+  }
+
+  function productJsonLd(product) {
+    const script = document.createElement("script");
+    script.type = "application/ld+json";
+    script.textContent = JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "Product",
+      name: `${product.brand} ${product.name}`,
+      image: product.image,
+      description: product.description,
+      brand: { "@type": "Brand", name: product.brand },
+      offers: {
+        "@type": "Offer",
+        priceCurrency: "BRL",
+        price: String(product.price),
+        availability: product.stock ? "https://schema.org/InStock" : "https://schema.org/OutOfStock",
+        seller: { "@type": "Organization", name: "Aura Exotica Perfumes & Cosmeticos" }
+      }
+    });
+    document.head.appendChild(script);
+  }
+
+  function initProductDetail() {
+    const wrap = $("#product-detail");
+    const related = $("#related-grid");
+    if (!wrap) return;
+
+    const id = new URLSearchParams(window.location.search).get("id");
+    const product = state.products.find((item) => item.id === id);
+    if (!product) {
+      wrap.innerHTML = '<div class="no-results">Produto nao encontrado. Volte ao catalogo para escolher outra fragrancia.</div>';
+      return;
+    }
+
+    document.title = `${product.brand} ${product.name} | Aura Exotica`;
+    const metaDescription = $('meta[name="description"]');
+    if (metaDescription) metaDescription.setAttribute("content", product.description);
+
+    const images = uniqueSorted([product.image].concat(product.images || []));
+    wrap.innerHTML = `
+      <div class="product-gallery">
+        <div class="main-image-wrap">
+          <img id="main-image" class="main-image" src="${product.image}" alt="${product.brand} ${product.name}" width="680" height="680">
+        </div>
+        <div class="thumb-images">
+          ${images.slice(0, 4).map((image) => `<button type="button" data-image="${image}"><img src="${image}" alt="${product.name}" loading="lazy"></button>`).join("")}
+        </div>
+      </div>
+      <div class="product-info-panel">
+        <p class="eyebrow">${product.brand}</p>
+        <h1>${product.name}</h1>
+        <p class="product-price">${money(product.price)}</p>
+        <p class="card-installments">ou 3x de ${money(product.installments[2].value)}. Atendimento, pagamento e entrega combinados no WhatsApp.</p>
+        <div class="product-meta">
+          <span class="meta-chip">${genderLabel(product.gender)}</span>
+          <span class="meta-chip">${product.volume_ml}ml</span>
+          <span class="meta-chip">${product.concentration}</span>
+          <span class="meta-chip">${product.origin}</span>
+        </div>
+        <p class="product-description">${product.description}</p>
+        <div class="notes-pyramid">
+          <div class="note-layer"><h3>Notas de Topo</h3><p>${product.notes.top.join(", ")}</p></div>
+          <div class="note-layer"><h3>Notas de Coracao</h3><p>${product.notes.heart.join(", ")}</p></div>
+          <div class="note-layer"><h3>Notas de Fundo</h3><p>${product.notes.base.join(", ")}</p></div>
+        </div>
+        <a class="btn btn-whatsapp" target="_blank" rel="noopener" href="${generateWhatsAppLink(product)}">Comprar no WhatsApp</a>
+      </div>
+    `;
+
+    $all(".thumb-images button", wrap).forEach((button) => {
+      button.addEventListener("click", () => {
+        const main = $("#main-image", wrap);
+        if (main) main.src = button.dataset.image;
+      });
+    });
+
+    if (related) {
+      const relatedItems = state.products
+        .filter((item) => item.id !== product.id && (item.brand === product.brand || item.gender === product.gender))
+        .slice(0, 4);
+      renderProducts(related, relatedItems);
+    }
+
+    const fixed = $("#product-whatsapp-fixed");
+    if (fixed) fixed.href = generateWhatsAppLink(product);
+    productJsonLd(product);
+  }
+
+  function initContact() {
+    const form = $("#contact-form");
+    if (!form) return;
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+      const data = new FormData(form);
+      const text = encodeURIComponent(
+        `Olá! Meu nome é ${data.get("name") || ""}.\n` +
+        `Email: ${data.get("email") || ""}\n` +
+        `Mensagem: ${data.get("message") || ""}`
+      );
+      window.open(`https://wa.me/${CONFIG.WHATSAPP_PHONE}?text=${text}`, "_blank", "noopener");
+    });
+  }
+
+  function initBlogPost() {
+    const article = $("#blog-post");
+    if (!article) return;
+    const slug = new URLSearchParams(window.location.search).get("slug") || "guia-perfume-arabe-original";
+    const posts = {
+      "guia-perfume-arabe-original": {
+        title: "Como identificar perfume arabe original",
+        date: "2026-04-30",
+        body: [
+          ["h2", "Observe embalagem, lote e acabamento"],
+          ["p", "Perfumes originais costumam ter caixa firme, impressao limpa, lacre consistente e codigo de lote coerente entre frasco e embalagem."],
+          ["h2", "Compre com curadoria"],
+          ["p", "A melhor protecao e comprar de uma loja que conhece marcas, linhas e fornecedores. Na Aura Exotica, a venda termina no WhatsApp para que voce tire duvidas antes de fechar."],
+          ["h2", "Desconfie de promessas absolutas"],
+          ["p", "Preco muito abaixo do mercado, fotos genericas e ausencia de informacao sao sinais de alerta. Prefira atendimento transparente e produtos bem identificados."]
+        ]
+      },
+      "edp-edt-parfum": {
+        title: "EDP, EDT e Parfum: qual escolher?",
+        date: "2026-04-30",
+        body: [
+          ["p", "EDT tende a ser mais leve, EDP equilibra presenca e versatilidade, e Parfum costuma trazer maior concentracao e profundidade."],
+          ["p", "Para clima quente, frescos e especiados moderados funcionam melhor. Para noite, ambarados, oud e madeiras criam uma assinatura mais intensa."]
+        ]
+      }
+    };
+    const post = posts[slug] || posts["guia-perfume-arabe-original"];
+    article.innerHTML = `
+      <p class="eyebrow">Guia Aura</p>
+      <h1>${post.title}</h1>
+      <time datetime="${post.date}">${new Date(`${post.date}T12:00:00`).toLocaleDateString("pt-BR", { day: "numeric", month: "long", year: "numeric" })}</time>
+      ${post.body.map(([tag, content]) => `<${tag}>${content}</${tag}>`).join("")}
+      <div class="section-actions"><a class="btn btn-gold" href="catalogo.html">Ver perfumes arabes</a><a class="btn btn-outline" target="_blank" rel="noopener" href="https://wa.me/${CONFIG.WHATSAPP_PHONE}?text=${encodeURIComponent("Olá! Quero ajuda para escolher um perfume original.")}">Falar com especialista</a></div>
+    `;
+  }
+
+  function showError(message) {
+    const target = $("#catalog-grid") || $("#featured-grid") || $("#product-detail");
+    if (target) target.innerHTML = `<div class="no-results">${message}</div>`;
+  }
+
+  document.addEventListener("DOMContentLoaded", async () => {
+    initGlobalComponents();
+    await loadProducts();
+    const page = document.body.dataset.page;
+    if (page === "home") initHome();
+    if (page === "catalogo") initCatalog();
+    if (page === "produto") initProductDetail();
+    if (page === "contato") initContact();
+    if (page === "blog-post") initBlogPost();
+  });
+})();
