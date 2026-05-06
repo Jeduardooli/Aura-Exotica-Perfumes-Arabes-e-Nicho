@@ -153,17 +153,25 @@
   async function fetchJson(url) {
     const response = await fetch(url);
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
-    return response.json();
+    const text = await response.text();
+    return JSON.parse(text.trimStart().replace(/^\uFEFF/, ""));
+  }
+
+  function extractProducts(data) {
+    if (Array.isArray(data)) return data;
+    if (data && Array.isArray(data.products)) return data.products;
+    if (data && Array.isArray(data.items)) return data.items;
+    return [];
   }
 
   async function loadProducts() {
     if (state.products.length) return state.products;
     try {
-      const data = await fetchJson(CONFIG.PRODUCTS_JSON);
+      const data = extractProducts(await fetchJson(CONFIG.PRODUCTS_JSON));
       state.products = data.map(normalizeRawProduct);
     } catch (firstError) {
       try {
-        const fallback = await fetchJson(CONFIG.FALLBACK_PRODUCTS_JSON);
+        const fallback = extractProducts(await fetchJson(CONFIG.FALLBACK_PRODUCTS_JSON));
         state.products = fallback.map(normalizeRawProduct);
       } catch (secondError) {
         state.products = [];

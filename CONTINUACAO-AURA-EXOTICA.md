@@ -100,6 +100,42 @@ Pendencias importantes para a marca vender de verdade:
 - Inserir dados reais de confianca quando existirem: CNPJ, cidade/UF, politica de troca/devolucao, prazo medio, formas de pagamento, Instagram e provas sociais reais.
 - Evitar depoimentos ficticios; adicionar somente quando houver clientes reais.
 
+## Correcao - produtos nao carregando do JSON
+
+Pedido do usuario: "outro ponto nao esta vindo os produtos do json".
+
+Diagnostico:
+
+- `data/products.json` estava com BOM no inicio do arquivo.
+- O teste direto com `JSON.parse` falhava com `Unexpected token`.
+- Depois da regravacao, os primeiros bytes do arquivo passaram a ser `5B 0D 0A`, ou seja, comeca direto em `[` sem BOM.
+
+Alteracoes feitas:
+
+- Regravei `data/products.json` como UTF-8 sem BOM.
+- Ajustei `script.js`:
+  - `fetchJson()` agora le a resposta como texto, remove BOM se algum dia voltar e faz `JSON.parse`.
+  - Adicionei `extractProducts()` para aceitar tanto array direto quanto objetos no formato `{ products: [...] }` ou `{ items: [...] }`.
+- Adicionei `local-server.cjs` para testar localmente por HTTP, porque abrir `catalogo.html` direto como arquivo pode bloquear `fetch()` no navegador.
+- Adicionei `.vercelignore` para impedir `local-server.cjs` de entrar no deploy.
+
+Validacao:
+
+- `JSON.parse` local em `data/products.json` passou.
+- `node --check script.js` passou.
+- Servidor local em `http://127.0.0.1:4173/` respondeu:
+  - `/data/products.json` HTTP 200
+  - `/catalogo.html` HTTP 200
+- `ConvertFrom-Json` via HTTP local confirmou:
+  - `128` produtos
+  - primeiro produto: `armaf-club-de-nuit-intense-man`
+  - marca: `Armaf`
+
+Observacao importante:
+
+- Para os produtos carregarem no navegador, abrir pelo endereco `http://127.0.0.1:4173/catalogo.html`.
+- Abrir o arquivo direto pelo Explorer, como `file:///.../catalogo.html`, pode impedir o `fetch("data/products.json")`.
+
 ## Arquivos alterados
 
 - `index.html`
