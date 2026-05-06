@@ -8,7 +8,7 @@
   <meta name="robots" content="index, follow">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;700&family=DM+Sans:wght@400;500;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body data-page="catalogo">
@@ -16,8 +16,8 @@
     <div class="topbar"><div class="container">Curadoria premium - Produtos originais - Fechamento seguro pelo WhatsApp</div></div>
     <div class="container nav">
       <a class="brand" href="index.html"><img src="assets/Logo-Aura-Exotica.svg" alt=""><span><strong>Aura Exotica</strong><span>Perfumes & Cosmeticos</span></span></a>
-      <nav class="nav-links" aria-label="Principal"><a href="index.html">Home</a><a aria-current="page" href="catalogo.html">Catalogo</a><a href="blog.html">Blog</a><a href="sobre.html">Sobre</a><a href="contato.html">Contato</a></nav>
-      <a class="btn btn-gold" target="_blank" rel="noopener" href="https://wa.me/5511999999999?text=Ol%C3%A1!%20Vim%20pelo%20cat%C3%A1logo%20da%20Aura%20Exotica%20e%20quero%20ajuda.">WhatsApp</a>
+      <nav class="nav-links" aria-label="Principal"><a href="index.html">Aura</a><a aria-current="page" href="catalogo.html">Curadoria</a><a href="blog.html">Guias</a><a href="sobre.html">Maison</a><a href="contato.html">Concierge</a></nav>
+      <a class="btn btn-gold nav-cta" target="_blank" rel="noopener" href="https://wa.me/5511999999999?text=Ol%C3%A1!%20Vim%20pelo%20cat%C3%A1logo%20da%20Aura%20Exotica%20e%20quero%20ajuda.">WhatsApp</a>
       <button class="mobile-menu-toggle" type="button" aria-expanded="false" aria-label="Abrir menu">Menu</button>
     </div>
     <nav class="mobile-panel" aria-label="Menu mobile"><a href="index.html">Home</a><a href="blog.html">Blog</a><a href="sobre.html">Sobre</a><a href="contato.html">Contato</a></nav>
@@ -34,6 +34,19 @@
           <span>Compra assistida</span>
           <span>Pagamento combinado antes do envio</span>
         </div>
+      </div>
+    </section>
+
+    <section class="catalog-discovery" aria-label="Atalhos de descoberta">
+      <div class="container discovery-grid">
+        <a href="catalogo.html?q=dia">Dia a dia</a>
+        <a href="catalogo.html?q=noite">Noite</a>
+        <a href="catalogo.html?q=oud">Oud</a>
+        <a href="catalogo.html?q=baunilha">Baunilha</a>
+        <a href="catalogo.html?q=ambar">Ambar</a>
+        <a href="catalogo.html?q=fresco">Frescos</a>
+        <a href="catalogo.html?q=presente">Presentes</a>
+        <a href="catalogo.html?q=alta fixacao">Alta fixacao</a>
       </div>
     </section>
 
@@ -77,7 +90,10 @@
             </div>
           </details>
         </div>
-        <p class="results-count" id="results-count">Carregando produtos...</p>
+        <div class="catalog-status">
+          <p class="results-count" id="results-count">Carregando produtos...</p>
+          <a class="catalog-help" target="_blank" rel="noopener" href="https://wa.me/5511999999999?text=Ol%C3%A1!%20Quero%20ajuda%20para%20encontrar%20um%20perfume%20no%20cat%C3%A1logo%20Aura%20Exotica.">Nao sabe por onde comecar?</a>
+        </div>
         <div class="catalog-grid" id="catalog-grid"><div class="skeleton"></div><div class="skeleton"></div><div class="skeleton"></div><div class="skeleton"></div></div>
         <div class="load-more-wrap"><button id="load-more-btn" class="btn btn-outline d-none" type="button">Carregar mais</button></div>
       </div>

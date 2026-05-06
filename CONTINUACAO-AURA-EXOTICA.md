@@ -136,6 +136,94 @@ Observacao importante:
 - Para os produtos carregarem no navegador, abrir pelo endereco `http://127.0.0.1:4173/catalogo.html`.
 - Abrir o arquivo direto pelo Explorer, como `file:///.../catalogo.html`, pode impedir o `fetch("data/products.json")`.
 
+## Rodada - inspiracao Lattafa USA e Universo do Perfume
+
+Pedido do usuario:
+
+- Usar `https://www.lattafa-usa.com/` e `https://universodoperfume.com.br/` como inspiracao.
+- Nao adicionar area de membros, login, cadastro, carrinho, gateway de pagamento ou cards de bandeiras de cartoes.
+- Criar design premium digno de perfumes arabes e nicho, com foco em conversao para WhatsApp.
+
+Referencias observadas:
+
+- Lattafa USA usa navegacao por Best Sellers, New Arrivals, categorias, tipo e colecoes, alem de blocos editoriais e vitrine de produtos.
+- Universo do Perfume usa navegacao por genero, concentracao, ocasiao e clima, alem de hero editorial e secoes de mais vendidos/novidades.
+- Elementos proibidos nessas referencias foram ignorados: login, cart/carrinho, checkout, add to cart, gateway.
+
+Alteracoes feitas:
+
+- `index.html`
+  - Adicionada secao "Descoberta guiada" com colecoes por desejo:
+    - Oud & madeiras nobres
+    - Baunilha & ambar
+    - Frescos versateis
+    - Presentes seguros
+  - Adicionada secao "Concierge olfativo" explicando atendimento por perfil, assinatura e compra pelo WhatsApp.
+- `catalogo.html`
+  - Adicionada barra de atalhos de descoberta:
+    - Dia a dia, Noite, Oud, Baunilha, Ambar, Frescos, Presentes, Alta fixacao.
+  - Adicionado CTA "Nao sabe por onde comecar?" levando ao WhatsApp.
+- `produto.html`
+  - Adicionada secao para comparar fragrancias pelo WhatsApp antes de fechar.
+- `script.js`
+  - Cards agora mostram tags/category mais comerciais nos chips em vez de apenas notas de topo.
+  - CTA de comparacao do produto usa o link WhatsApp do produto atual.
+- `style.css`
+  - Nova direcao visual boutique: tons quentes de oud, dourado, rose escuro e fundos editoriais.
+  - Estilos para `collection-grid`, `collection-card`, `concierge-section`, `catalog-discovery`, `catalog-status` e `fragrance-consult`.
+  - Header/topbar mais premium e hero com profundidade visual.
+
+Validacao:
+
+- `node --check script.js` passou.
+- `/catalogo.html` respondeu HTTP 200 localmente.
+- `/data/products.json` continua carregando `128` produtos via HTTP local.
+- Busca por termos proibidos em HTML/JS/CSS nao retornou ocorrencias:
+  - `cart`, `carrinho`, `login`, `cadastro`, `gateway`, `bandeira`, `Add to cart`, `checkout`, `Log in`, `Cart`.
+
+## Rodada - header, logo, fontes e premium visual
+
+Pedido do usuario no navegador local:
+
+- Logo muito pequena.
+- Tirar logo/texto do header.
+- Header generico.
+- Fontes, animacoes e cores ainda longe de premium.
+
+Alteracoes feitas:
+
+- Header:
+  - Texto lateral da marca no header foi ocultado via CSS (`.brand span { display: none; }`).
+  - Logo visual ampliada para `92x78` no desktop e `76x62` no mobile.
+  - Header ganhou acabamento de boutique: blur mais forte, sombra, borda sutil e fundo quente.
+  - Navegacao deixou de ser generica:
+    - `Aura`
+    - `Curadoria`
+    - `Guias`
+    - `Maison`
+    - `Concierge`
+  - Nav virou uma barra/pill central com estados ativos mais sofisticados.
+  - CTA do header virou `nav-cta`, menor, uppercase e mais refinado.
+- Fontes:
+  - Troquei Google Fonts de `Cormorant Garamond + DM Sans` para `Cinzel + Manrope`.
+  - Atualizei variaveis CSS:
+    - `--font-title: "Cinzel"`
+    - `--font-body: "Manrope"`
+- Cores:
+  - Dourado ficou mais luminoso e menos opaco.
+  - Mantive base escura, mas adicionei profundidade com tons oud/rose.
+  - Botao dourado ganhou gradiente premium e shine hover.
+- Animacoes:
+  - Showcase do hero agora tem flutuacao sutil.
+  - Hover de cards mais premium com elevacao maior e borda luminosa.
+  - Botao dourado com reflexo animado.
+
+Validacao:
+
+- `node --check script.js` passou.
+- `http://127.0.0.1:4173/index.html` respondeu HTTP 200.
+- Busca confirmou que nao restaram `Cormorant`, `DM Sans`, labels antigos genericos ou seletores antigos como `brand strong`.
+
 ## Arquivos alterados
 
 - `index.html`

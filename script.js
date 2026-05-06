@@ -206,6 +206,7 @@
 
   function productCardMarkup(product) {
     const installments = product.installments && product.installments[2] ? product.installments[2] : null;
+    const tags = uniqueSorted([...(product.tags || []), ...(product.category || [])]).slice(0, 3);
     return `
       <article class="product-card" data-product-id="${product.id}" style="animation-delay: ${Math.min((product.rank || 1) % 12, 8) * 35}ms">
         <a class="card-img-container" href="produto.html?id=${encodeURIComponent(product.id)}" aria-label="Ver ${product.brand} ${product.name}">
@@ -224,7 +225,7 @@
           <p class="card-installments">${installments ? `ou 3x de ${money(installments.value)}` : "Consulte parcelamento"}</p>
           <p class="card-trust">Original lacrado | compra assistida</p>
           <div class="card-notes">
-            ${product.notes.top.slice(0, 3).map((note) => `<span class="note-chip">${note}</span>`).join("")}
+            ${tags.map((tag) => `<span class="note-chip">${tag}</span>`).join("")}
           </div>
           <div class="card-actions">
             <a class="btn btn-whatsapp" target="_blank" rel="noopener" href="${generateWhatsAppLink(product)}">Comprar no WhatsApp</a>
@@ -516,6 +517,8 @@
 
     const fixed = $("#product-whatsapp-fixed");
     if (fixed) fixed.href = generateWhatsAppLink(product);
+    const consult = $("#product-whatsapp-consult");
+    if (consult) consult.href = generateWhatsAppLink(product);
     productJsonLd(product);
   }
 
