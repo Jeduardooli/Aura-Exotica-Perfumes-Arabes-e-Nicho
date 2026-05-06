@@ -39,6 +39,67 @@ Diretorio local:
 - Ajustei `script.js` para aplicar delay de animacao nos cards renderizados dinamicamente.
 - Troquei o simbolo quebrado do botao de favorito em `produto.html` por `+`.
 
+## Rodada atual - reposicionamento premium e confianca
+
+Pedido do usuario: ser franco sobre se o site venderia e, a partir disso, elevar a Aura Exotica para uma marca nova que transmite confianca, credibilidade e elegancia.
+
+Diagnostico aplicado:
+
+- O site tinha produto e estetica, mas ainda parecia pouco confiavel para compra imediata.
+- Faltavam sinais comerciais fortes: processo de compra, garantia de originalidade, clareza de atendimento, prazo/pagamento/entrega e narrativa de marca nova.
+- Removi linguagem interna ou fraca como `SEO & educacao` e reduzi exposicao do telefone falso visivel.
+
+Alteracoes feitas:
+
+- `index.html`
+  - Hero reposicionado para "Aura Exotica - Perfumes Arabes & Nicho".
+  - Substitui metricas frageis por compromissos reais: originais, curadoria e compra assistida.
+  - Adicionei `trust-strip` com autenticidade, transparencia, orientacao e pos-venda.
+  - Adicionei secao "Por que confiar" explicando que a marca esta comecando e vai ganhar reputacao com clareza.
+  - Reescrevi narrativa da home para passar marca nova, mas seria.
+- `catalogo.html`
+  - Adicionei badges de garantia no hero.
+  - Adicionei bloco compacto de confianca antes/depois da compra.
+  - Ajustei copy para fechamento seguro pelo WhatsApp.
+- `produto.html`
+  - Adicionei bloco compacto de confianca na pagina de produto.
+  - CTA fixo continua para compra pelo WhatsApp.
+- `sobre.html`
+  - Reescrevi a historia da marca assumindo que a Aura esta no inicio, mas com ambicao de referencia.
+  - Adicionei manifesto: premium e ser preciso, orientar bem e nao empurrar compra.
+- `contato.html`
+  - Reescrevi contato e FAQ para explicar compra assistida, disponibilidade, prazo, pagamento e entrega.
+  - Removi telefone falso visivel, mantendo "Canal oficial Aura Exotica".
+- `blog.html`
+  - Troquei linguagem interna por "Biblioteca Aura" e guias de compra segura.
+- `script.js`
+  - Cards agora exibem "Original lacrado | compra assistida".
+  - Mensagem do WhatsApp pede confirmacao de prazo, pagamento e entrega.
+  - Ficha de produto agora renderiza `product-assurance` com originalidade, compra segura e orientacao Aura.
+- `style.css`
+  - Estilos novos para `trust-strip`, `assurance-grid`, `assurance-card`, `compact-trust`, `brand-manifesto`, `page-hero-badges`, `card-trust` e `product-assurance`.
+  - Ajustes visuais para CTA, responsivo e hierarquia premium.
+
+Validacao desta rodada:
+
+- `node --check script.js` passou.
+- Servidor local temporario retornou HTTP 200 para:
+  - `/index.html`
+  - `/catalogo.html`
+  - `/produto.html?id=armaf-club-de-nuit-intense-man`
+  - `/sobre.html`
+  - `/contato.html`
+  - `/blog.html`
+  - `/data/products.json`
+- Busca por `99999-9999`, `SEO &`, `Nexus Imports` e `mojibake` em HTML/JS/CSS/sitemap/robots nao retornou ocorrencias.
+
+Pendencias importantes para a marca vender de verdade:
+
+- Substituir `5511999999999` pelo WhatsApp real em `script.js` e nos links HTML.
+- Definir dominio final e atualizar canonical, Open Graph, JSON-LD, `sitemap.xml` e `robots.txt`.
+- Inserir dados reais de confianca quando existirem: CNPJ, cidade/UF, politica de troca/devolucao, prazo medio, formas de pagamento, Instagram e provas sociais reais.
+- Evitar depoimentos ficticios; adicionar somente quando houver clientes reais.
+
 ## Arquivos alterados
 
 - `index.html`

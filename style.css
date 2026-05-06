@@ -217,6 +217,7 @@ button {
   border: 1px solid transparent;
   border-radius: var(--radius-md);
   font-weight: 700;
+  text-align: center;
   transition: var(--transition);
 }
 
@@ -255,7 +256,7 @@ button {
   min-height: calc(100vh - 118px);
   display: grid;
   align-items: center;
-  padding: 62px 0 44px;
+  padding: 62px 0 28px;
   overflow: hidden;
 }
 
@@ -318,6 +319,18 @@ button {
 
 .proof-item {
   padding: 14px;
+  position: relative;
+  overflow: hidden;
+}
+
+.proof-item::before,
+.assurance-card::before,
+.compact-trust-grid > div::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-top: 1px solid rgba(232, 213, 181, 0.16);
+  pointer-events: none;
 }
 
 .proof-item strong {
@@ -435,6 +448,45 @@ button {
   gap: 14px;
 }
 
+.trust-strip {
+  border-top: 1px solid rgba(232, 213, 181, 0.12);
+  border-bottom: 1px solid rgba(232, 213, 181, 0.12);
+  background:
+    linear-gradient(90deg, rgba(201, 168, 76, 0.08), transparent 46%, rgba(232, 213, 181, 0.04)),
+    rgba(8, 8, 8, 0.82);
+}
+
+.trust-strip-grid {
+  display: grid;
+  gap: 0;
+}
+
+.trust-strip-grid > div {
+  padding: 18px 0;
+  border-bottom: 1px solid rgba(232, 213, 181, 0.1);
+}
+
+.trust-strip-grid > div:last-child {
+  border-bottom: 0;
+}
+
+.trust-strip strong,
+.compact-trust strong {
+  display: block;
+  color: var(--gold-light);
+  font-family: var(--font-title);
+  font-size: 1.32rem;
+  line-height: 1;
+}
+
+.trust-strip span,
+.compact-trust p {
+  display: block;
+  margin: 7px 0 0;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
 .trust-row {
   grid-template-columns: repeat(2, 1fr);
 }
@@ -547,7 +599,7 @@ button {
 
 .card-body {
   display: grid;
-  grid-template-rows: auto auto auto auto auto 1fr auto;
+  grid-template-rows: auto auto auto auto auto auto 1fr auto;
   gap: 10px;
   padding: 16px;
 }
@@ -603,6 +655,15 @@ button {
   font-size: 0.82rem;
 }
 
+.card-trust {
+  margin: 0;
+  color: var(--gold-light);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
 .card-actions {
   display: grid;
   gap: 8px;
@@ -638,6 +699,26 @@ button {
   max-width: 720px;
   margin: 14px 0 0;
   color: var(--text-muted);
+}
+
+.page-hero-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 20px;
+}
+
+.page-hero-badges span {
+  display: inline-flex;
+  align-items: center;
+  min-height: 34px;
+  padding: 6px 12px;
+  border: 1px solid rgba(232, 213, 181, 0.18);
+  border-radius: var(--radius-pill);
+  background: rgba(8, 8, 8, 0.42);
+  color: var(--gold-light);
+  font-size: 0.78rem;
+  font-weight: 800;
 }
 
 .filters-container {
@@ -813,6 +894,35 @@ button {
   font-size: 1.02rem;
 }
 
+.product-assurance {
+  display: grid;
+  gap: 10px;
+}
+
+.product-assurance > div {
+  border: 1px solid rgba(232, 213, 181, 0.12);
+  border-radius: var(--radius-md);
+  background:
+    linear-gradient(180deg, rgba(232, 213, 181, 0.04), transparent),
+    rgba(16, 14, 11, 0.82);
+  padding: 14px;
+}
+
+.product-assurance strong {
+  display: block;
+  color: var(--gold-light);
+  font-family: var(--font-title);
+  font-size: 1.28rem;
+  line-height: 1;
+}
+
+.product-assurance span {
+  display: block;
+  margin-top: 6px;
+  color: var(--text-muted);
+  font-size: 0.86rem;
+}
+
 .notes-pyramid {
   display: grid;
   gap: 10px;
@@ -851,11 +961,16 @@ button {
 }
 
 .favorite-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   min-width: 52px;
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
   background: var(--card-bg);
   color: var(--text);
+  font-size: 1.2rem;
+  font-weight: 800;
 }
 
 .story-band,
@@ -929,6 +1044,92 @@ button {
   color: var(--gold-light);
   font-family: var(--font-title);
   font-size: 2rem;
+}
+
+.assurance-section {
+  background:
+    linear-gradient(180deg, rgba(232, 213, 181, 0.035), transparent 42%),
+    rgba(8, 8, 8, 0.28);
+}
+
+.assurance-grid {
+  display: grid;
+  gap: 14px;
+}
+
+.assurance-card {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(232, 213, 181, 0.12);
+  border-radius: var(--radius-md);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.035), transparent),
+    rgba(16, 14, 11, 0.78);
+  padding: 22px;
+}
+
+.assurance-card span {
+  display: block;
+  color: rgba(232, 213, 181, 0.48);
+  font-family: var(--font-title);
+  font-size: 2.2rem;
+  line-height: 1;
+}
+
+.assurance-card h3,
+.brand-manifesto h2 {
+  margin: 10px 0 8px;
+  color: var(--gold-light);
+  font-family: var(--font-title);
+  line-height: 1;
+}
+
+.assurance-card h3 {
+  font-size: 1.65rem;
+}
+
+.assurance-card p,
+.brand-manifesto p {
+  margin: 0;
+  color: var(--text-muted);
+}
+
+.compact-trust {
+  padding-top: 38px;
+  padding-bottom: 38px;
+}
+
+.compact-trust-grid {
+  display: grid;
+  gap: 12px;
+}
+
+.compact-trust-grid > div {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(232, 213, 181, 0.12);
+  border-radius: var(--radius-md);
+  background: rgba(16, 14, 11, 0.78);
+  padding: 18px;
+}
+
+.brand-manifesto {
+  margin-top: 28px;
+  padding: clamp(22px, 4vw, 36px);
+  border: 1px solid rgba(232, 213, 181, 0.14);
+  border-radius: var(--radius-md);
+  background:
+    radial-gradient(circle at 92% 10%, rgba(201, 168, 76, 0.12), transparent 24rem),
+    rgba(16, 14, 11, 0.78);
+}
+
+.brand-manifesto h2 {
+  max-width: 760px;
+  font-size: 2.45rem;
+}
+
+.brand-manifesto p:not(.eyebrow) {
+  max-width: 760px;
 }
 
 .main-footer {
@@ -1014,6 +1215,30 @@ button {
     grid-template-columns: repeat(3, 1fr);
   }
 
+  .trust-strip-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .trust-strip-grid > div {
+    min-height: 130px;
+    padding: 22px 18px;
+    border-right: 1px solid rgba(232, 213, 181, 0.1);
+    border-bottom: 0;
+  }
+
+  .trust-strip-grid > div:last-child {
+    border-right: 0;
+  }
+
+  .assurance-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .compact-trust-grid,
+  .product-assurance {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
   .filter-row {
     grid-template-columns: minmax(260px, 1fr) 220px;
   }
@@ -1074,6 +1299,11 @@ button {
 
   .hero-proof {
     grid-template-columns: 1fr;
+  }
+
+  .hero-actions .btn,
+  .section-actions .btn {
+    width: 100%;
   }
 
   .trust-row {

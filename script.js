@@ -191,7 +191,7 @@
       `Volume: ${product.volume_ml}ml\n` +
       `Perfil: ${genderLabel(product.gender)}\n` +
       `Notas: ${product.notes.top.slice(0, 3).join(", ")}\n\n` +
-      "Esta disponivel? Qual o prazo de entrega?"
+      "Esta disponivel? Pode confirmar prazo, pagamento e entrega?"
     );
     return `https://wa.me/${CONFIG.WHATSAPP_PHONE}?text=${text}`;
   }
@@ -214,6 +214,7 @@
           </div>
           <p class="card-price">${money(product.price)}</p>
           <p class="card-installments">${installments ? `ou 3x de ${money(installments.value)}` : "Consulte parcelamento"}</p>
+          <p class="card-trust">Original lacrado | compra assistida</p>
           <div class="card-notes">
             ${product.notes.top.slice(0, 3).map((note) => `<span class="note-chip">${note}</span>`).join("")}
           </div>
@@ -477,6 +478,11 @@
           <span class="meta-chip">${product.origin}</span>
         </div>
         <p class="product-description">${product.description}</p>
+        <div class="product-assurance">
+          <div><strong>Originalidade</strong><span>Produto lacrado e conferido antes do envio.</span></div>
+          <div><strong>Compra segura</strong><span>Disponibilidade, pagamento e entrega alinhados no WhatsApp.</span></div>
+          <div><strong>Orientacao Aura</strong><span>Compare intensidade, notas e ocasiao de uso antes de fechar.</span></div>
+        </div>
         <div class="notes-pyramid">
           <div class="note-layer"><h3>Notas de Topo</h3><p>${product.notes.top.join(", ")}</p></div>
           <div class="note-layer"><h3>Notas de Coracao</h3><p>${product.notes.heart.join(", ")}</p></div>
