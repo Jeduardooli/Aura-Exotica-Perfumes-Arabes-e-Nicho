@@ -1,4 +1,4 @@
-(function () {
+﻿(function () {
   "use strict";
 
   const CONFIG = {
@@ -38,13 +38,13 @@
       tags: ["doce", "floral", "elegante"]
     },
     {
-      top: ["Limao Siciliano", "Menta", "Maça Verde"],
+      top: ["Limao Siciliano", "Menta", "Maca Verde"],
       heart: ["Sage", "Lavanda", "Noz Moscada"],
       base: ["Ambroxan", "Vetiver", "Madeiras Secas"],
       tags: ["fresco", "versatil", "moderno"]
     },
     {
-      top: ["Açafrao", "Canela", "Noz Moscada"],
+      top: ["Acafrao", "Canela", "Noz Moscada"],
       heart: ["Rosa Turca", "Incenso", "Couro"],
       base: ["Oud", "Ambar", "Resinas"],
       tags: ["oriental", "noturno", "marcante"]
@@ -60,7 +60,7 @@
   }
 
   function money(value) {
-    if (!Number.isFinite(Number(value))) return "Preço sob consulta";
+    if (!Number.isFinite(Number(value))) return "Preco sob consulta";
     return Number(value).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
   }
 
@@ -138,7 +138,7 @@
         heart: family.heart,
         base: family.base
       },
-      description: raw.description || `${name} combina presença, sofisticação e assinatura olfativa envolvente. Uma escolha certeira para quem busca perfume original com aura premium e atendimento direto pelo WhatsApp.`,
+      description: raw.description || `${name} combina presenca, sofisticacao e assinatura olfativa envolvente. Uma escolha certeira para quem busca perfume original com aura premium e atendimento direto pelo WhatsApp.`,
       image: raw.image || raw.image_url || "assets/Logo-Aura-Exotica.svg",
       images: raw.images || [raw.image_url || raw.image || "assets/Logo-Aura-Exotica.svg"],
       badge,
@@ -186,12 +186,12 @@
 
   function generateWhatsAppLink(product) {
     const text = encodeURIComponent(
-      `Olá! Tenho interesse no *${product.name}* (${product.brand}).\n` +
-      `Preço: ${money(product.price)}\n` +
+      `Ola! Tenho interesse no *${product.name}* (${product.brand}).\n` +
+      `Preco: ${money(product.price)}\n` +
       `Volume: ${product.volume_ml}ml\n` +
       `Perfil: ${genderLabel(product.gender)}\n` +
       `Notas: ${product.notes.top.slice(0, 3).join(", ")}\n\n` +
-      "Está disponível? Qual o prazo de entrega?"
+      "Esta disponivel? Qual o prazo de entrega?"
     );
     return `https://wa.me/${CONFIG.WHATSAPP_PHONE}?text=${text}`;
   }
@@ -199,7 +199,7 @@
   function productCardMarkup(product) {
     const installments = product.installments && product.installments[2] ? product.installments[2] : null;
     return `
-      <article class="product-card" data-product-id="${product.id}">
+      <article class="product-card" data-product-id="${product.id}" style="animation-delay: ${Math.min((product.rank || 1) % 12, 8) * 35}ms">
         <a class="card-img-container" href="produto.html?id=${encodeURIComponent(product.id)}" aria-label="Ver ${product.brand} ${product.name}">
           <img class="card-img" src="${product.image}" alt="${product.brand} ${product.name}" loading="lazy" width="320" height="320">
           ${product.badge ? `<span class="badge badge-${product.badge}">${badgeLabel(product.badge)}</span>` : ""}
@@ -244,7 +244,7 @@
     if (!$(".floating-whatsapp")) {
       const floating = document.createElement("a");
       floating.className = "floating-whatsapp";
-      floating.href = `https://wa.me/${CONFIG.WHATSAPP_PHONE}?text=${encodeURIComponent("Olá! Vim pelo site e gostaria de ajuda para escolher um perfume.")}`;
+      floating.href = `https://wa.me/${CONFIG.WHATSAPP_PHONE}?text=${encodeURIComponent("Ola! Vim pelo site e gostaria de ajuda para escolher um perfume.")}`;
       floating.target = "_blank";
       floating.rel = "noopener";
       floating.setAttribute("aria-label", "Falar no WhatsApp");
@@ -512,7 +512,7 @@
       event.preventDefault();
       const data = new FormData(form);
       const text = encodeURIComponent(
-        `Olá! Meu nome é ${data.get("name") || ""}.\n` +
+        `Ola! Meu nome e ${data.get("name") || ""}.\n` +
         `Email: ${data.get("email") || ""}\n` +
         `Mensagem: ${data.get("message") || ""}`
       );
@@ -552,7 +552,7 @@
       <h1>${post.title}</h1>
       <time datetime="${post.date}">${new Date(`${post.date}T12:00:00`).toLocaleDateString("pt-BR", { day: "numeric", month: "long", year: "numeric" })}</time>
       ${post.body.map(([tag, content]) => `<${tag}>${content}</${tag}>`).join("")}
-      <div class="section-actions"><a class="btn btn-gold" href="catalogo.html">Ver perfumes arabes</a><a class="btn btn-outline" target="_blank" rel="noopener" href="https://wa.me/${CONFIG.WHATSAPP_PHONE}?text=${encodeURIComponent("Olá! Quero ajuda para escolher um perfume original.")}">Falar com especialista</a></div>
+      <div class="section-actions"><a class="btn btn-gold" href="catalogo.html">Ver perfumes arabes</a><a class="btn btn-outline" target="_blank" rel="noopener" href="https://wa.me/${CONFIG.WHATSAPP_PHONE}?text=${encodeURIComponent("Ola! Quero ajuda para escolher um perfume original.")}">Falar com especialista</a></div>
     `;
   }
 
@@ -572,3 +572,4 @@
     if (page === "blog-post") initBlogPost();
   });
 })();
+

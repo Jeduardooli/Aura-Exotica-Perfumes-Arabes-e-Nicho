@@ -1,4 +1,4 @@
-User-agent: *
+﻿User-agent: *
 Allow: /
 Disallow: /admin/
 Disallow: /checkout/
@@ -10,3 +10,4 @@ Disallow: /*?fbclid=
 Disallow: /*?gclid=
 
 Sitemap: https://auraexotica.com.br/sitemap.xml
+
