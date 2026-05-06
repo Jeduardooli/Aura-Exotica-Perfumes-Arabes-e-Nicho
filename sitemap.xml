@@ -1,147 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
-<!-- 
-  ========================================
-  SWISS ARABIAN BRASIL - SITEMAP.XML
-  Modelo - Atualizar URL quando online
-  ========================================
-  
-  Para gerar automaticamente:
-  - Shopify: apps de sitemap
-  - WordPress: Yoast SEO / Rank Math
-  - Outro: https://www.xml-sitemaps.com
-  
-  Ao configurar o domínio, atualize:
-  1. <loc>https://seudominio.com.br/...</loc>
-  2. <xhtml:link rel="alternate" hreflang="pt-BR" href="..."/>
--->
-
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-         xmlns:xhtml="http://www.w3.org/1999/xhtml"
-         xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"
-         xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
-
-  <!-- ========================================
-       PÁGINAS PRINCIPAIS
-       ======================================== -->
-  
-  <!-- Homepage -->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://seudominio.com.br/</loc>
-    <lastmod>2024-01-15</lastmod>
-    <changefreq>daily</changefreq>
+    <loc>https://auraexotica.com.br/</loc>
+    <lastmod>2026-04-30</lastmod>
+    <changefreq>weekly</changefreq>
     <priority>1.0</priority>
-    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://seudominio.com.br/"/>
-    <image:image>
-      <image:loc>https://res.cloudinary.com/seu-cloud/image/upload/v1/og-image.jpg</image:loc>
-      <image:title>Swiss Arabian Brasil - Perfumes Árabes Originais</image:title>
-    </image:image>
   </url>
-
-  <!-- Categorias -->
   <url>
-    <loc>https://seudominio.com.br/perfumes-masculinos</loc>
-    <lastmod>2024-01-15</lastmod>
-    <changefreq>weekly</changefreq>
+    <loc>https://auraexotica.com.br/catalogo.html</loc>
+    <lastmod>2026-04-30</lastmod>
+    <changefreq>daily</changefreq>
     <priority>0.9</priority>
-    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://seudominio.com.br/perfumes-masculinos"/>
   </url>
-
   <url>
-    <loc>https://seudominio.com.br/perfumes-femininos</loc>
-    <lastmod>2024-01-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://seudominio.com.br/perfumes-femininos"/>
+    <loc>https://auraexotica.com.br/sobre.html</loc>
+    <lastmod>2026-04-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
   </url>
-
   <url>
-    <loc>https://seudominio.com.br/oud-attar</loc>
-    <lastmod>2024-01-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://seudominio.com.br/oud-attar"/>
-  </url>
-
-  <url>
-    <loc>https://seudominio.com.br/kits-presente</loc>
-    <lastmod>2024-01-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://seudominio.com.br/kits-presente"/>
-  </url>
-
-  <!-- ========================================
-       PRODUTOS (Exemplos - adicionar todos)
-       ======================================== -->
-
-  <url>
-    <loc>https://seudominio.com.br/produto/shaghaf-oud</loc>
-    <lastmod>2024-01-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-    <image:image>
-      <image:loc>https://res.cloudinary.com/seu-cloud/image/upload/v1/produtos/shaghaf-oud.png</image:loc>
-      <image:title>Shaghaf Oud - Swiss Arabian</image:title>
-    </image:image>
-  </url>
-
-  <url>
-    <loc>https://seudominio.com.br/produto/malaki-black</loc>
-    <lastmod>2024-01-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-    <image:image>
-      <image:loc>https://res.cloudinary.com/seu-cloud/image/upload/v1/produtos/malaki.png</image:loc>
-      <image:title>Malaki Black - Swiss Arabian</image:title>
-    </image:image>
-  </url>
-
-  <url>
-    <loc>https://seudominio.com.br/produto/dubai-musk</loc>
-    <lastmod>2024-01-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-    <image:image>
-      <image:loc>https://res.cloudinary.com/seu-cloud/image/upload/v1/produtos/dubai-musk.png</image:loc>
-      <image:title>Dubai Musk - Swiss Arabian</image:title>
-    </image:image>
-  </url>
-
-  <url>
-    <loc>https://seudominio.com.br/produto/heritage-oud</loc>
-    <lastmod>2024-01-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-    <image:image>
-      <image:loc>https://res.cloudinary.com/seu-cloud/image/upload/v1/produtos/heritage.png</image:loc>
-      <image:title>Heritage Oud - Swiss Arabian</image:title>
-    </image:image>
-  </url>
-
-  <!-- ========================================
-       PÁGINAS INSTITUCIONAIS
-       ======================================== -->
-
-  <url>
-    <loc>https://seudominio.com.br/sobre</loc>
-    <lastmod>2024-01-15</lastmod>
+    <loc>https://auraexotica.com.br/contato.html</loc>
+    <lastmod>2026-04-30</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
-
   <url>
-    <loc>https://seudominio.com.br/politica-privacidade</loc>
-    <lastmod>2024-01-15</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.3</priority>
-  </url>
-
-  <url>
-    <loc>https://seudominio.com.br/contato</loc>
-    <lastmod>2024-01-15</lastmod>
-    <changefreq>monthly</changefreq>
+    <loc>https://auraexotica.com.br/blog.html</loc>
+    <lastmod>2026-04-30</lastmod>
+    <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
-
+  <url>
+    <loc>https://auraexotica.com.br/blog-post.html?slug=guia-perfume-arabe-original</loc>
+    <lastmod>2026-04-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://auraexotica.com.br/blog-post.html?slug=edp-edt-parfum</loc>
+    <lastmod>2026-04-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
 </urlset>

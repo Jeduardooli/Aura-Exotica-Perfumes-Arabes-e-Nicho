@@ -3,36 +3,44 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Produto | Aura Exótica</title>
+  <title>Produto | Aura Exotica</title>
+  <meta name="description" content="Ficha completa de perfume com piramide olfativa, detalhes e compra assistida pelo WhatsApp.">
+  <meta name="robots" content="index, follow">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;700&family=DM+Sans:wght@400;500;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body data-page="produto">
-  <header>
-    <div class="header-main">
-      <div class="container header-inner">
-        <a href="index.html" class="logo"><img src="assets/Logo-Aura-Exotica.svg" alt="Aura Exótica"></a>
-      </div>
+  <header class="main-header">
+    <div class="topbar"><div class="container">Ficha olfativa · Consulta de disponibilidade · Compra pelo WhatsApp</div></div>
+    <div class="container nav">
+      <a class="brand" href="index.html"><img src="assets/Logo-Aura-Exotica.svg" alt=""><span><strong>Aura Exotica</strong><span>Perfumes & Cosmeticos</span></span></a>
+      <nav class="nav-links" aria-label="Principal"><a href="index.html">Home</a><a href="catalogo.html">Catalogo</a><a href="blog.html">Blog</a><a href="sobre.html">Sobre</a><a href="contato.html">Contato</a></nav>
+      <a class="btn btn-outline" href="catalogo.html">Voltar ao catalogo</a>
+      <button class="mobile-menu-toggle" type="button" aria-expanded="false" aria-label="Abrir menu">☰</button>
     </div>
+    <nav class="mobile-panel" aria-label="Menu mobile"><a href="index.html">Home</a><a href="catalogo.html">Catalogo</a><a href="contato.html">Contato</a></nav>
   </header>
 
-  <section class="section">
-    <div class="container">
-      <div id="productDetail" class="product-detail"></div>
-      <div class="section-header">
-        <h2>Relacionados</h2>
+  <main>
+    <section class="section">
+      <div class="container">
+        <div id="product-detail" class="product-detail"><div class="skeleton"></div><div class="skeleton"></div></div>
       </div>
-      <div id="relatedProducts" class="products-grid"></div>
-    </div>
-  </section>
+    </section>
+    <section class="section">
+      <div class="container">
+        <div class="section-head"><div><p class="eyebrow">Veja tambem</p><h2 class="section-title">Fragrancias relacionadas</h2></div></div>
+        <div id="related-grid" class="products-grid"></div>
+      </div>
+    </section>
+  </main>
 
-  <a href="https://wa.me/5511999999999?text=Ol%C3%A1!%20Quero%20detalhes%20desse%20perfume." class="float-whatsapp" target="_blank" aria-label="Falar no WhatsApp">
-    <i class="fab fa-whatsapp"></i>
-  </a>
-
-  <script src="script.js"></script>
+  <div class="product-cta-fixed">
+    <a id="product-whatsapp-fixed" class="btn btn-whatsapp" href="https://wa.me/5511999999999" target="_blank" rel="noopener">Comprar no WhatsApp</a>
+    <button class="favorite-btn" type="button" aria-label="Favoritar">♡</button>
+  </div>
+  <script src="script.js" defer></script>
 </body>
 </html>

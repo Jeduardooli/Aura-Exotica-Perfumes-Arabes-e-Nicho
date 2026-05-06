@@ -3,33 +3,46 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sobre | Aura Exótica</title>
+  <title>Sobre | Aura Exotica</title>
+  <meta name="description" content="Conheca a Aura Exotica, curadoria de perfumes arabes e nicho com autenticidade garantida e atendimento humanizado.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;700&family=DM+Sans:wght@400;500;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body data-page="sobre">
-  <header>
-    <div class="header-main">
-      <div class="container header-inner">
-        <a href="index.html" class="logo"><img src="assets/Logo-Aura-Exotica.svg" alt="Aura Exótica"></a>
-      </div>
+  <header class="main-header">
+    <div class="topbar"><div class="container">Curadoria exclusiva · Luxo acessivel · Atendimento humano</div></div>
+    <div class="container nav">
+      <a class="brand" href="index.html"><img src="assets/Logo-Aura-Exotica.svg" alt=""><span><strong>Aura Exotica</strong><span>Perfumes & Cosmeticos</span></span></a>
+      <nav class="nav-links" aria-label="Principal"><a href="index.html">Home</a><a href="catalogo.html">Catalogo</a><a href="blog.html">Blog</a><a aria-current="page" href="sobre.html">Sobre</a><a href="contato.html">Contato</a></nav>
+      <a class="btn btn-gold" href="catalogo.html">Ver catalogo</a>
+      <button class="mobile-menu-toggle" type="button" aria-expanded="false" aria-label="Abrir menu">☰</button>
     </div>
+    <nav class="mobile-panel" aria-label="Menu mobile"><a href="index.html">Home</a><a href="catalogo.html">Catalogo</a><a href="contato.html">Contato</a></nav>
   </header>
-
-  <section class="section">
-    <div class="container">
-      <div class="section-header"><h2>Sobre a Aura Exótica</h2></div>
-      <div class="story-content">
-        <p>A Aura Exótica é um catálogo digital especializado em perfumes árabes e nicho premium. Nosso foco é facilitar sua escolha com curadoria e atendimento humano no WhatsApp.</p>
-        <p>Trabalhamos com marcas reconhecidas internacionalmente, transparência nas informações e experiência mobile-first para conversão rápida.</p>
-        <p>Nosso compromisso é reunir os perfumes mais buscados do mercado e ajudar você a encontrar a fragrância ideal para cada ocasião.</p>
+  <main>
+    <section class="page-hero"><div class="container"><p class="eyebrow">Nossa historia</p><h1>Essencia Exclusiva do Oriente & Nicho</h1><p>A Aura Exotica nasce da paixao por fragrancias raras, assinatura marcante e atendimento de verdade.</p></div></section>
+    <section class="section">
+      <div class="container">
+        <div class="story-band section">
+          <blockquote>Selecionamos perfumes para quem nao quer apenas cheirar bem, mas criar memoria.</blockquote>
+          <p>Cada produto entra no catalogo por potencial olfativo, reputacao da marca e desejo real de uso. A compra acontece pelo WhatsApp porque perfume tem contexto: ocasiao, pele, gosto, presente, clima e expectativa.</p>
+        </div>
       </div>
-    </div>
-  </section>
-
-  <script src="script.js"></script>
+    </section>
+    <section class="section">
+      <div class="container">
+        <div class="values-grid">
+          <div class="value-card"><h3>Selecao rigorosa</h3><p>Curadoria focada em fragrancias arabes, importadas e nicho com alta procura.</p></div>
+          <div class="value-card"><h3>Autenticidade</h3><p>Produtos originais, lacrados e apresentados com informacao clara.</p></div>
+          <div class="value-card"><h3>Atendimento</h3><p>Venda consultiva no WhatsApp para reduzir duvida e aumentar confianca.</p></div>
+        </div>
+        <div class="section-actions"><a class="btn btn-whatsapp" target="_blank" rel="noopener" href="https://wa.me/5511999999999?text=Ol%C3%A1!%20Quero%20conhecer%20a%20curadoria%20Aura%20Exotica.">Falar com especialista</a></div>
+      </div>
+    </section>
+  </main>
+  <footer class="main-footer"><div class="container footer-grid"><div><h3>Aura Exotica</h3><p>Perfumes que contam historias e despertam sentidos.</p></div><div class="footer-links"><a href="catalogo.html">Catalogo</a><a href="blog.html">Blog</a><a href="contato.html">Contato</a></div><div><p>Atendimento de segunda a sexta, 9h as 18h.</p></div></div></footer>
+  <script src="script.js" defer></script>
 </body>
 </html>

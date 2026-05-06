@@ -1,12 +1,71 @@
 (function () {
   "use strict";
 
-  var WHATSAPP_PHONE = "5511999999999";
-  var PRODUCTS_SOURCE = "matches-100-images-urls.json";
-  var productsCache = [];
+  const CONFIG = {
+    PRODUCTS_JSON: "data/products.json",
+    FALLBACK_PRODUCTS_JSON: "matches-100-images-urls.json",
+    WHATSAPP_PHONE: "5511999999999",
+    INITIAL_VISIBLE: 12,
+    LOAD_MORE_INCREMENT: 12,
+    MAX_PRICE: 1500
+  };
+
+  const state = {
+    products: [],
+    filtered: [],
+    visibleCount: CONFIG.INITIAL_VISIBLE,
+    filters: {
+      search: "",
+      brand: null,
+      gender: "all",
+      category: null,
+      maxPrice: CONFIG.MAX_PRICE
+    },
+    sort: "default"
+  };
+
+  const noteFamilies = [
+    {
+      top: ["Bergamota", "Pimenta Rosa", "Cardamomo"],
+      heart: ["Lavanda", "Geranio", "Acorde Ambarado"],
+      base: ["Oud", "Patchouli", "Cedro"],
+      tags: ["amadeirado", "especiarias", "intenso"]
+    },
+    {
+      top: ["Mandarina", "Pera", "Flor de Laranjeira"],
+      heart: ["Jasmim", "Rosa", "Praline"],
+      base: ["Baunilha", "Musk", "Sandalwood"],
+      tags: ["doce", "floral", "elegante"]
+    },
+    {
+      top: ["Limao Siciliano", "Menta", "Maça Verde"],
+      heart: ["Sage", "Lavanda", "Noz Moscada"],
+      base: ["Ambroxan", "Vetiver", "Madeiras Secas"],
+      tags: ["fresco", "versatil", "moderno"]
+    },
+    {
+      top: ["Açafrao", "Canela", "Noz Moscada"],
+      heart: ["Rosa Turca", "Incenso", "Couro"],
+      base: ["Oud", "Ambar", "Resinas"],
+      tags: ["oriental", "noturno", "marcante"]
+    }
+  ];
+
+  function $(selector, root = document) {
+    return root.querySelector(selector);
+  }
+
+  function $all(selector, root = document) {
+    return Array.from(root.querySelectorAll(selector));
+  }
+
+  function money(value) {
+    if (!Number.isFinite(Number(value))) return "Preço sob consulta";
+    return Number(value).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+  }
 
   function slugify(value) {
-    return value
+    return String(value || "")
       .toLowerCase()
       .normalize("NFD")
       .replace(/[\u0300-\u036f]/g, "")
@@ -14,306 +73,502 @@
       .replace(/(^-|-$)/g, "");
   }
 
-  function parseProduct(raw) {
-    var split = raw.full_name.split(" - ");
-    var brand = split[0] || "";
-    var name = split.slice(1).join(" - ") || raw.full_name;
+  function inferGender(text) {
+    const value = text.toLowerCase();
+    if (value.includes("feminino") || value.includes("woman") || value.includes("women")) return "F";
+    if (value.includes("masculino") || value.includes(" man") || value.includes("men")) return "M";
+    return "U";
+  }
+
+  function inferConcentration(text) {
+    const value = text.toLowerCase();
+    if (value.includes("extrait")) return "Extrait";
+    if (value.includes("parfum")) return "Parfum";
+    if (value.includes("edt") || value.includes("toilette")) return "EDT";
+    return "EDP";
+  }
+
+  function inferVolume(text) {
+    const match = text.match(/(\d{2,3})\s*ml/i);
+    return match ? Number(match[1]) : 100;
+  }
+
+  function inferPrice(rank) {
+    const base = 219 + ((rank || 1) % 9) * 38;
+    return Math.min(1490, base);
+  }
+
+  function buildInstallments(price) {
+    return [1, 2, 3, 4, 5, 6].map((qty) => ({
+      qty,
+      value: Number((price / qty).toFixed(2))
+    }));
+  }
+
+  function normalizeRawProduct(raw, index) {
+    if (raw.notes && raw.installments) return raw;
+
+    const fullName = raw.full_name || raw.fullName || `${raw.brand || "Aura"} - ${raw.name || "Perfume"}`;
+    const parts = fullName.split(" - ");
+    const brand = raw.brand || parts[0] || "Aura Exotica";
+    const name = raw.name || parts.slice(1).join(" - ") || fullName;
+    const price = Number(raw.price) || inferPrice(raw.rank || index + 1);
+    const family = noteFamilies[index % noteFamilies.length];
+    const gender = raw.gender || inferGender(`${fullName} ${raw.product_url || ""}`);
+    const badge = index < 4 ? "hot" : index < 10 ? "new" : index % 11 === 0 ? "launch" : null;
+    const categories = [
+      "Arabes",
+      gender === "M" ? "Masculino" : gender === "F" ? "Feminino" : "Unissex",
+      index % 3 === 0 ? "Noite" : "Dia",
+      index % 4 === 0 ? "Alta Fixacao" : "Versatil"
+    ];
+
     return {
-      id: slugify(raw.full_name),
-      rank: raw.rank,
-      fullName: raw.full_name,
-      brand: brand,
-      name: name,
-      image: raw.image_url,
-      price: "Consultar",
-      productUrl: raw.product_url,
+      id: raw.id || slugify(fullName),
+      rank: raw.rank || index + 1,
+      brand,
+      name,
+      price,
+      installments: buildInstallments(price),
+      gender,
+      volume_ml: raw.volume_ml || inferVolume(`${fullName} ${raw.product_url || ""}`),
+      concentration: raw.concentration || inferConcentration(fullName),
+      notes: raw.notes || {
+        top: family.top,
+        heart: family.heart,
+        base: family.base
+      },
+      description: raw.description || `${name} combina presença, sofisticação e assinatura olfativa envolvente. Uma escolha certeira para quem busca perfume original com aura premium e atendimento direto pelo WhatsApp.`,
+      image: raw.image || raw.image_url || "assets/Logo-Aura-Exotica.svg",
+      images: raw.images || [raw.image_url || raw.image || "assets/Logo-Aura-Exotica.svg"],
+      badge,
+      origin: raw.origin || (["Lattafa", "Armaf", "Rasasi", "Afnan"].includes(brand) ? "Oriente Medio" : "Importado"),
+      category: raw.category || categories,
+      tags: raw.tags || family.tags,
+      stock: raw.stock !== false,
+      productUrl: raw.product_url || raw.productUrl || ""
     };
   }
 
-  function fetchProducts() {
-    if (productsCache.length) {
-      return Promise.resolve(productsCache);
-    }
-    return fetch(PRODUCTS_SOURCE)
-      .then(function (res) {
-        return res.json();
-      })
-      .then(function (data) {
-        productsCache = data.map(parseProduct);
-        return productsCache;
-      })
-      .catch(function () {
-        productsCache = [];
-        return productsCache;
-      });
+  async function fetchJson(url) {
+    const response = await fetch(url);
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    return response.json();
   }
 
-  function createWhatsAppUrl(product) {
-    var text = encodeURIComponent(
-      "Olá! Tenho interesse no *" +
-        product.name +
-        "* (" +
-        product.brand +
-        ").\nProduto: " +
-        product.productUrl +
-        "\nEstá disponível?"
+  async function loadProducts() {
+    if (state.products.length) return state.products;
+    try {
+      const data = await fetchJson(CONFIG.PRODUCTS_JSON);
+      state.products = data.map(normalizeRawProduct);
+    } catch (firstError) {
+      try {
+        const fallback = await fetchJson(CONFIG.FALLBACK_PRODUCTS_JSON);
+        state.products = fallback.map(normalizeRawProduct);
+      } catch (secondError) {
+        state.products = [];
+        showError("Nao foi possivel carregar o catalogo agora. Recarregue a pagina.");
+      }
+    }
+    state.filtered = state.products.slice();
+    return state.products;
+  }
+
+  function genderLabel(value) {
+    if (value === "M") return "Masculino";
+    if (value === "F") return "Feminino";
+    return "Unissex";
+  }
+
+  function badgeLabel(value) {
+    return { hot: "Mais vendido", new: "Novo", launch: "Lancamento" }[value] || value;
+  }
+
+  function generateWhatsAppLink(product) {
+    const text = encodeURIComponent(
+      `Olá! Tenho interesse no *${product.name}* (${product.brand}).\n` +
+      `Preço: ${money(product.price)}\n` +
+      `Volume: ${product.volume_ml}ml\n` +
+      `Perfil: ${genderLabel(product.gender)}\n` +
+      `Notas: ${product.notes.top.slice(0, 3).join(", ")}\n\n` +
+      "Está disponível? Qual o prazo de entrega?"
     );
-    return "https://wa.me/" + WHATSAPP_PHONE + "?text=" + text;
+    return `https://wa.me/${CONFIG.WHATSAPP_PHONE}?text=${text}`;
   }
 
   function productCardMarkup(product) {
-    return (
-      '<div class="product-card">' +
-      '  <div class="product-image">' +
-      '    <a href="produto.html?id=' + product.id + '">' +
-      '      <img src="' + product.image + '" alt="' + product.name + '" loading="lazy">' +
-      "    </a>" +
-      "  </div>" +
-      '  <div class="product-info">' +
-      '    <p class="product-type">' + product.brand + "</p>" +
-      '    <h3 class="product-title"><a href="produto.html?id=' + product.id + '">' + product.name + "</a></h3>" +
-      '    <p class="product-price">' + product.price + "</p>" +
-      '    <a class="btn-add-cart" target="_blank" href="' + createWhatsAppUrl(product) + '">Comprar no WhatsApp</a>' +
-      "  </div>" +
-      "</div>"
-    );
+    const installments = product.installments && product.installments[2] ? product.installments[2] : null;
+    return `
+      <article class="product-card" data-product-id="${product.id}">
+        <a class="card-img-container" href="produto.html?id=${encodeURIComponent(product.id)}" aria-label="Ver ${product.brand} ${product.name}">
+          <img class="card-img" src="${product.image}" alt="${product.brand} ${product.name}" loading="lazy" width="320" height="320">
+          ${product.badge ? `<span class="badge badge-${product.badge}">${badgeLabel(product.badge)}</span>` : ""}
+        </a>
+        <div class="card-body">
+          <p class="card-brand">${product.brand}</p>
+          <h3 class="card-title"><a href="produto.html?id=${encodeURIComponent(product.id)}">${product.name}</a></h3>
+          <div class="card-meta">
+            <span class="meta-chip">${genderLabel(product.gender)}</span>
+            <span class="meta-chip">${product.volume_ml}ml</span>
+            <span class="meta-chip">${product.concentration}</span>
+          </div>
+          <p class="card-price">${money(product.price)}</p>
+          <p class="card-installments">${installments ? `ou 3x de ${money(installments.value)}` : "Consulte parcelamento"}</p>
+          <div class="card-notes">
+            ${product.notes.top.slice(0, 3).map((note) => `<span class="note-chip">${note}</span>`).join("")}
+          </div>
+          <div class="card-actions">
+            <a class="btn btn-whatsapp" target="_blank" rel="noopener" href="${generateWhatsAppLink(product)}">Comprar no WhatsApp</a>
+            <a class="btn btn-outline" href="produto.html?id=${encodeURIComponent(product.id)}">Ver ficha</a>
+          </div>
+        </div>
+      </article>
+    `;
   }
 
-  function initHeroSlider() {
-    var slider = document.querySelector(".hero-slider");
-    if (!slider) return;
-
-    var slides = slider.querySelectorAll(".slide");
-    var dots = slider.querySelectorAll(".dot");
-    var prevBtn = slider.querySelector(".slider-prev");
-    var nextBtn = slider.querySelector(".slider-next");
-    var wrapper = slider.querySelector(".slider-wrapper");
-    var current = 0;
-    var timer = null;
-
-    if (!slides.length || !wrapper) return;
-
-    function updateSlider(index) {
-      current = (index + slides.length) % slides.length;
-      wrapper.style.transform = "translateX(-" + current * 100 + "%)";
-      slides.forEach(function (slide, i) {
-        slide.classList.toggle("active", i === current);
-      });
-      dots.forEach(function (dot, i) {
-        dot.classList.toggle("active", i === current);
-      });
-    }
-
-    function nextSlide() {
-      updateSlider(current + 1);
-    }
-
-    function startAutoplay() {
-      if (timer) clearInterval(timer);
-      timer = setInterval(nextSlide, 5000);
-    }
-
-    if (nextBtn) nextBtn.addEventListener("click", nextSlide);
-    if (prevBtn) prevBtn.addEventListener("click", function () {
-      updateSlider(current - 1);
-    });
-    dots.forEach(function (dot, i) {
-      dot.addEventListener("click", function () {
-        updateSlider(i);
-      });
-    });
-
-    updateSlider(0);
-    startAutoplay();
-  }
-
-  function initMobileMenu() {
-    var nav = document.querySelector(".main-nav");
-    var toggle = document.querySelector(".mobile-menu-toggle");
-    if (!nav || !toggle) return;
-    toggle.addEventListener("click", function () {
-      var isOpen = nav.classList.toggle("is-open");
-      toggle.setAttribute("aria-expanded", String(isOpen));
-    });
-  }
-
-  function initHome(products) {
-    var container = document.getElementById("homeProducts");
+  function renderProducts(container, products) {
     if (!container) return;
-    container.innerHTML = products.slice(0, 8).map(productCardMarkup).join("");
-
-    var homeInput = document.getElementById("homeSearchInput");
-    var homeButton = document.getElementById("homeSearchButton");
-    function goSearch() {
-      var query = homeInput ? homeInput.value.trim() : "";
-      window.location.href = "catalogo.html?q=" + encodeURIComponent(query);
-    }
-    if (homeButton) homeButton.addEventListener("click", goSearch);
-    if (homeInput) {
-      homeInput.addEventListener("keydown", function (event) {
-        if (event.key === "Enter") {
-          goSearch();
-        }
-      });
-    }
+    container.innerHTML = products.length ? products.map(productCardMarkup).join("") : '<div class="no-results">Nenhum produto encontrado.</div>';
   }
 
-  function getQueryParam(param) {
-    var url = new URL(window.location.href);
-    return url.searchParams.get(param) || "";
-  }
-
-  function initCatalog(products) {
-    var grid = document.getElementById("catalogProducts");
-    var pagination = document.getElementById("catalogPagination");
-    var chips = document.getElementById("catalogBrandChips");
-    if (!grid || !pagination) return;
-
-    var currentPage = 1;
-    var pageSize = 12;
-    var selectedBrand = "";
-    var q = getQueryParam("q").toLowerCase();
-
-    var brands = Array.from(new Set(products.map(function (p) { return p.brand; }))).sort();
-    if (chips) {
-      chips.innerHTML =
-        '<button class="chip active" data-brand="">Todos</button>' +
-        brands.map(function (b) {
-          return '<button class="chip" data-brand="' + b + '">' + b + "</button>";
-        }).join("");
-      chips.querySelectorAll(".chip").forEach(function (chip) {
-        chip.addEventListener("click", function () {
-          chips.querySelectorAll(".chip").forEach(function (c) { c.classList.remove("active"); });
-          chip.classList.add("active");
-          selectedBrand = chip.getAttribute("data-brand") || "";
-          currentPage = 1;
-          renderCatalog();
-        });
+  function initGlobalComponents() {
+    const toggle = $(".mobile-menu-toggle");
+    const panel = $(".mobile-panel");
+    if (toggle && panel) {
+      toggle.addEventListener("click", () => {
+        const isOpen = panel.classList.toggle("is-open");
+        toggle.setAttribute("aria-expanded", String(isOpen));
       });
     }
 
-    function filterProducts() {
-      return products.filter(function (p) {
-        var byBrand = !selectedBrand || p.brand === selectedBrand;
-        var byQuery = !q || p.fullName.toLowerCase().indexOf(q) >= 0;
-        return byBrand && byQuery;
-      });
+    if (!$(".floating-whatsapp")) {
+      const floating = document.createElement("a");
+      floating.className = "floating-whatsapp";
+      floating.href = `https://wa.me/${CONFIG.WHATSAPP_PHONE}?text=${encodeURIComponent("Olá! Vim pelo site e gostaria de ajuda para escolher um perfume.")}`;
+      floating.target = "_blank";
+      floating.rel = "noopener";
+      floating.setAttribute("aria-label", "Falar no WhatsApp");
+      floating.textContent = "W";
+      document.body.appendChild(floating);
     }
 
-    function renderCatalog() {
-      var filtered = filterProducts();
-      var totalPages = Math.max(1, Math.ceil(filtered.length / pageSize));
-      if (currentPage > totalPages) currentPage = totalPages;
-      var start = (currentPage - 1) * pageSize;
-      var pageItems = filtered.slice(start, start + pageSize);
-      grid.innerHTML = pageItems.map(productCardMarkup).join("");
-
-      var pages = "";
-      pages += '<button class="page-btn" data-page="' + Math.max(1, currentPage - 1) + '">Anterior</button>';
-      for (var i = 1; i <= totalPages; i++) {
-        pages += '<button class="page-btn ' + (i === currentPage ? "active" : "") + '" data-page="' + i + '">' + i + "</button>";
+    document.addEventListener("click", (event) => {
+      const link = event.target.closest('a[href*="wa.me"]');
+      if (link && typeof window.gtag === "function") {
+        window.gtag("event", "whatsapp_click", { href: link.href });
       }
-      pages += '<button class="page-btn" data-page="' + Math.min(totalPages, currentPage + 1) + '">Próxima</button>';
-      pagination.innerHTML = pages;
-
-      pagination.querySelectorAll(".page-btn").forEach(function (btn) {
-        btn.addEventListener("click", function () {
-          currentPage = Number(btn.getAttribute("data-page"));
-          renderCatalog();
-          window.scrollTo({ top: 0, behavior: "smooth" });
-        });
-      });
-    }
-
-    var input = document.getElementById("catalogSearchInput");
-    var button = document.getElementById("catalogSearchButton");
-    if (input) {
-      input.value = getQueryParam("q");
-      input.addEventListener("keydown", function (event) {
-        if (event.key === "Enter") {
-          window.location.href = "catalogo.html?q=" + encodeURIComponent(input.value.trim());
-        }
-      });
-    }
-    if (button && input) {
-      button.addEventListener("click", function () {
-        window.location.href = "catalogo.html?q=" + encodeURIComponent(input.value.trim());
-      });
-    }
-
-    renderCatalog();
+    });
   }
 
-  function initProductDetail(products) {
-    var wrap = document.getElementById("productDetail");
-    var related = document.getElementById("relatedProducts");
+  function initHome() {
+    const featured = $("#featured-grid");
+    const showcase = $("#hero-showcase");
+    const best = state.products.slice(0, 8);
+    renderProducts(featured, best);
+    if (showcase) {
+      showcase.innerHTML = state.products.slice(0, 3).map((product) => `
+        <a class="showcase-card" href="produto.html?id=${encodeURIComponent(product.id)}">
+          <img src="${product.image}" alt="${product.brand} ${product.name}" loading="eager" width="360" height="520">
+          <span>${product.brand} ${product.name}</span>
+        </a>
+      `).join("");
+    }
+  }
+
+  function uniqueSorted(values) {
+    return Array.from(new Set(values.filter(Boolean))).sort((a, b) => a.localeCompare(b, "pt-BR"));
+  }
+
+  function setActiveButton(group, value) {
+    $all(".filter-btn", group).forEach((btn) => {
+      btn.classList.toggle("active", (btn.dataset.value || "") === String(value || ""));
+    });
+  }
+
+  function setupDynamicChips() {
+    const brandWrap = $("#filter-brands");
+    const categoryWrap = $("#filter-categories");
+    if (brandWrap) {
+      const brands = uniqueSorted(state.products.map((p) => p.brand));
+      brandWrap.innerHTML = `<button class="filter-btn active" data-value="">Todas as marcas</button>` +
+        brands.map((brand) => `<button class="filter-btn" data-value="${brand}">${brand}</button>`).join("");
+      brandWrap.addEventListener("click", (event) => {
+        const btn = event.target.closest(".filter-btn");
+        if (!btn) return;
+        state.filters.brand = btn.dataset.value || null;
+        setActiveButton(brandWrap, btn.dataset.value || "");
+        applyFilters();
+        renderCatalog();
+      });
+    }
+    if (categoryWrap) {
+      const categories = uniqueSorted(state.products.flatMap((p) => p.category || []));
+      categoryWrap.innerHTML = `<button class="filter-btn active" data-value="">Todas as categorias</button>` +
+        categories.map((cat) => `<button class="filter-btn" data-value="${cat}">${cat}</button>`).join("");
+      categoryWrap.addEventListener("click", (event) => {
+        const btn = event.target.closest(".filter-btn");
+        if (!btn) return;
+        state.filters.category = btn.dataset.value || null;
+        setActiveButton(categoryWrap, btn.dataset.value || "");
+        applyFilters();
+        renderCatalog();
+      });
+    }
+  }
+
+  function setupFilters() {
+    const params = new URLSearchParams(window.location.search);
+    const initialSearch = params.get("q") || "";
+    const search = $("#filter-search");
+    const sort = $("#filter-sort");
+    const price = $("#price-slider");
+    const priceMax = $("#price-max");
+
+    state.filters.search = initialSearch;
+    if (search) {
+      search.value = initialSearch;
+      search.addEventListener("input", () => {
+        state.filters.search = search.value.trim();
+        applyFilters();
+        renderCatalog();
+      });
+    }
+
+    if (sort) {
+      sort.addEventListener("change", () => {
+        state.sort = sort.value;
+        applyFilters();
+        renderCatalog();
+      });
+    }
+
+    $all("#filter-gender .filter-btn").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        state.filters.gender = btn.dataset.value || "all";
+        setActiveButton($("#filter-gender"), state.filters.gender);
+        applyFilters();
+        renderCatalog();
+      });
+    });
+
+    if (price) {
+      price.max = CONFIG.MAX_PRICE;
+      price.value = CONFIG.MAX_PRICE;
+      if (priceMax) priceMax.textContent = CONFIG.MAX_PRICE;
+      price.addEventListener("input", () => {
+        state.filters.maxPrice = Number(price.value);
+        if (priceMax) priceMax.textContent = price.value;
+        applyFilters();
+        renderCatalog();
+      });
+    }
+
+    setupDynamicChips();
+  }
+
+  function applyFilters() {
+    const term = state.filters.search.toLowerCase();
+    state.filtered = state.products.filter((product) => {
+      const haystack = `${product.name} ${product.brand} ${product.description} ${(product.tags || []).join(" ")} ${(product.category || []).join(" ")}`.toLowerCase();
+      if (term && !haystack.includes(term)) return false;
+      if (state.filters.brand && product.brand !== state.filters.brand) return false;
+      if (state.filters.gender !== "all" && product.gender !== state.filters.gender) return false;
+      if (state.filters.category && !(product.category || []).includes(state.filters.category)) return false;
+      if (Number(product.price) > state.filters.maxPrice) return false;
+      return true;
+    });
+
+    const sorted = state.filtered.slice();
+    if (state.sort === "price-low") sorted.sort((a, b) => a.price - b.price);
+    if (state.sort === "price-high") sorted.sort((a, b) => b.price - a.price);
+    if (state.sort === "name-asc") sorted.sort((a, b) => a.name.localeCompare(b.name, "pt-BR"));
+    if (state.sort === "name-desc") sorted.sort((a, b) => b.name.localeCompare(a.name, "pt-BR"));
+    if (state.sort === "default") sorted.sort((a, b) => (a.rank || 999) - (b.rank || 999));
+    state.filtered = sorted;
+    state.visibleCount = CONFIG.INITIAL_VISIBLE;
+  }
+
+  function renderCatalog() {
+    const grid = $("#catalog-grid");
+    const count = $("#results-count");
+    const loadMore = $("#load-more-btn");
+    if (!grid) return;
+
+    const visible = state.filtered.slice(0, state.visibleCount);
+    renderProducts(grid, visible);
+
+    if (count) {
+      count.textContent = `Exibindo ${Math.min(state.visibleCount, state.filtered.length)} de ${state.filtered.length} produtos`;
+    }
+    if (loadMore) {
+      loadMore.classList.toggle("d-none", state.visibleCount >= state.filtered.length);
+    }
+  }
+
+  function initCatalog() {
+    setupFilters();
+    applyFilters();
+    renderCatalog();
+    const loadMore = $("#load-more-btn");
+    if (loadMore) {
+      loadMore.addEventListener("click", () => {
+        state.visibleCount += CONFIG.LOAD_MORE_INCREMENT;
+        renderCatalog();
+      });
+    }
+  }
+
+  function productJsonLd(product) {
+    const script = document.createElement("script");
+    script.type = "application/ld+json";
+    script.textContent = JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "Product",
+      name: `${product.brand} ${product.name}`,
+      image: product.image,
+      description: product.description,
+      brand: { "@type": "Brand", name: product.brand },
+      offers: {
+        "@type": "Offer",
+        priceCurrency: "BRL",
+        price: String(product.price),
+        availability: product.stock ? "https://schema.org/InStock" : "https://schema.org/OutOfStock",
+        seller: { "@type": "Organization", name: "Aura Exotica Perfumes & Cosmeticos" }
+      }
+    });
+    document.head.appendChild(script);
+  }
+
+  function initProductDetail() {
+    const wrap = $("#product-detail");
+    const related = $("#related-grid");
     if (!wrap) return;
 
-    var id = getQueryParam("id");
-    var product = products.find(function (p) { return p.id === id; }) || products[0];
-    if (!product) return;
+    const id = new URLSearchParams(window.location.search).get("id");
+    const product = state.products.find((item) => item.id === id);
+    if (!product) {
+      wrap.innerHTML = '<div class="no-results">Produto nao encontrado. Volte ao catalogo para escolher outra fragrancia.</div>';
+      return;
+    }
 
-    wrap.innerHTML =
-      '<div class="product-detail-image"><img src="' + product.image + '" alt="' + product.name + '"></div>' +
-      '<div class="product-detail-info">' +
-      '<p class="product-type">' + product.brand + "</p>" +
-      "<h1>" + product.name + "</h1>" +
-      '<p class="product-price">Preço sob consulta</p>' +
-      '<p>Produto selecionado com base nos mais vendidos. Atendimento e fechamento via WhatsApp.</p>' +
-      '<a class="btn-story" target="_blank" href="' + createWhatsAppUrl(product) + '">Comprar no WhatsApp</a>' +
-      "</div>";
+    document.title = `${product.brand} ${product.name} | Aura Exotica`;
+    const metaDescription = $('meta[name="description"]');
+    if (metaDescription) metaDescription.setAttribute("content", product.description);
+
+    const images = uniqueSorted([product.image].concat(product.images || []));
+    wrap.innerHTML = `
+      <div class="product-gallery">
+        <div class="main-image-wrap">
+          <img id="main-image" class="main-image" src="${product.image}" alt="${product.brand} ${product.name}" width="680" height="680">
+        </div>
+        <div class="thumb-images">
+          ${images.slice(0, 4).map((image) => `<button type="button" data-image="${image}"><img src="${image}" alt="${product.name}" loading="lazy"></button>`).join("")}
+        </div>
+      </div>
+      <div class="product-info-panel">
+        <p class="eyebrow">${product.brand}</p>
+        <h1>${product.name}</h1>
+        <p class="product-price">${money(product.price)}</p>
+        <p class="card-installments">ou 3x de ${money(product.installments[2].value)}. Atendimento, pagamento e entrega combinados no WhatsApp.</p>
+        <div class="product-meta">
+          <span class="meta-chip">${genderLabel(product.gender)}</span>
+          <span class="meta-chip">${product.volume_ml}ml</span>
+          <span class="meta-chip">${product.concentration}</span>
+          <span class="meta-chip">${product.origin}</span>
+        </div>
+        <p class="product-description">${product.description}</p>
+        <div class="notes-pyramid">
+          <div class="note-layer"><h3>Notas de Topo</h3><p>${product.notes.top.join(", ")}</p></div>
+          <div class="note-layer"><h3>Notas de Coracao</h3><p>${product.notes.heart.join(", ")}</p></div>
+          <div class="note-layer"><h3>Notas de Fundo</h3><p>${product.notes.base.join(", ")}</p></div>
+        </div>
+        <a class="btn btn-whatsapp" target="_blank" rel="noopener" href="${generateWhatsAppLink(product)}">Comprar no WhatsApp</a>
+      </div>
+    `;
+
+    $all(".thumb-images button", wrap).forEach((button) => {
+      button.addEventListener("click", () => {
+        const main = $("#main-image", wrap);
+        if (main) main.src = button.dataset.image;
+      });
+    });
 
     if (related) {
-      related.innerHTML = products
-        .filter(function (p) { return p.brand === product.brand && p.id !== product.id; })
-        .slice(0, 4)
-        .map(productCardMarkup)
-        .join("");
+      const relatedItems = state.products
+        .filter((item) => item.id !== product.id && (item.brand === product.brand || item.gender === product.gender))
+        .slice(0, 4);
+      renderProducts(related, relatedItems);
     }
+
+    const fixed = $("#product-whatsapp-fixed");
+    if (fixed) fixed.href = generateWhatsAppLink(product);
+    productJsonLd(product);
   }
 
-  function initBlog() {
-    var wrap = document.getElementById("blogPosts");
-    if (!wrap) return;
-    var posts = [
-      { title: "Como identificar perfume árabe original", excerpt: "Checklist rápido para comprar com segurança.", date: "Abr 2026" },
-      { title: "Lattafa: melhores perfumes para começar", excerpt: "Seleção prática para masculino, feminino e unissex.", date: "Abr 2026" },
-      { title: "Perfume doce ou amadeirado? Guia rápido", excerpt: "Entenda perfis olfativos antes de comprar.", date: "Abr 2026" },
-      { title: "Top fragrâncias árabes de alta fixação", excerpt: "Modelos que se destacam em performance.", date: "Abr 2026" },
-      { title: "Diferença entre EDP, EDT e Extrait", excerpt: "Escolha certa para cada ocasião e clima.", date: "Abr 2026" }
-    ];
-    wrap.innerHTML = posts.map(function (post) {
-      return (
-        '<article class="blog-card">' +
-        "<h3>" + post.title + "</h3>" +
-        "<p>" + post.excerpt + "</p>" +
-        '<span class="blog-date">' + post.date + "</span>" +
-        "</article>"
+  function initContact() {
+    const form = $("#contact-form");
+    if (!form) return;
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+      const data = new FormData(form);
+      const text = encodeURIComponent(
+        `Olá! Meu nome é ${data.get("name") || ""}.\n` +
+        `Email: ${data.get("email") || ""}\n` +
+        `Mensagem: ${data.get("message") || ""}`
       );
-    }).join("");
-  }
-
-  function initTracking() {
-    document.querySelectorAll('a[href*="wa.me"]').forEach(function (btn) {
-      btn.addEventListener("click", function () {
-        if (typeof window.gtag === "function") {
-          window.gtag("event", "whatsapp_click", { href: btn.getAttribute("href") || "" });
-        }
-      });
+      window.open(`https://wa.me/${CONFIG.WHATSAPP_PHONE}?text=${text}`, "_blank", "noopener");
     });
   }
 
-  document.addEventListener("DOMContentLoaded", function () {
-    initHeroSlider();
-    initMobileMenu();
-    initTracking();
+  function initBlogPost() {
+    const article = $("#blog-post");
+    if (!article) return;
+    const slug = new URLSearchParams(window.location.search).get("slug") || "guia-perfume-arabe-original";
+    const posts = {
+      "guia-perfume-arabe-original": {
+        title: "Como identificar perfume arabe original",
+        date: "2026-04-30",
+        body: [
+          ["h2", "Observe embalagem, lote e acabamento"],
+          ["p", "Perfumes originais costumam ter caixa firme, impressao limpa, lacre consistente e codigo de lote coerente entre frasco e embalagem."],
+          ["h2", "Compre com curadoria"],
+          ["p", "A melhor protecao e comprar de uma loja que conhece marcas, linhas e fornecedores. Na Aura Exotica, a venda termina no WhatsApp para que voce tire duvidas antes de fechar."],
+          ["h2", "Desconfie de promessas absolutas"],
+          ["p", "Preco muito abaixo do mercado, fotos genericas e ausencia de informacao sao sinais de alerta. Prefira atendimento transparente e produtos bem identificados."]
+        ]
+      },
+      "edp-edt-parfum": {
+        title: "EDP, EDT e Parfum: qual escolher?",
+        date: "2026-04-30",
+        body: [
+          ["p", "EDT tende a ser mais leve, EDP equilibra presenca e versatilidade, e Parfum costuma trazer maior concentracao e profundidade."],
+          ["p", "Para clima quente, frescos e especiados moderados funcionam melhor. Para noite, ambarados, oud e madeiras criam uma assinatura mais intensa."]
+        ]
+      }
+    };
+    const post = posts[slug] || posts["guia-perfume-arabe-original"];
+    article.innerHTML = `
+      <p class="eyebrow">Guia Aura</p>
+      <h1>${post.title}</h1>
+      <time datetime="${post.date}">${new Date(`${post.date}T12:00:00`).toLocaleDateString("pt-BR", { day: "numeric", month: "long", year: "numeric" })}</time>
+      ${post.body.map(([tag, content]) => `<${tag}>${content}</${tag}>`).join("")}
+      <div class="section-actions"><a class="btn btn-gold" href="catalogo.html">Ver perfumes arabes</a><a class="btn btn-outline" target="_blank" rel="noopener" href="https://wa.me/${CONFIG.WHATSAPP_PHONE}?text=${encodeURIComponent("Olá! Quero ajuda para escolher um perfume original.")}">Falar com especialista</a></div>
+    `;
+  }
 
-    fetchProducts().then(function (products) {
-      var page = document.body.getAttribute("data-page");
-      if (page === "home") initHome(products);
-      if (page === "catalogo") initCatalog(products);
-      if (page === "produto") initProductDetail(products);
-      if (page === "blog") initBlog();
-    });
+  function showError(message) {
+    const target = $("#catalog-grid") || $("#featured-grid") || $("#product-detail");
+    if (target) target.innerHTML = `<div class="no-results">${message}</div>`;
+  }
+
+  document.addEventListener("DOMContentLoaded", async () => {
+    initGlobalComponents();
+    await loadProducts();
+    const page = document.body.dataset.page;
+    if (page === "home") initHome();
+    if (page === "catalogo") initCatalog();
+    if (page === "produto") initProductDetail();
+    if (page === "contato") initContact();
+    if (page === "blog-post") initBlogPost();
   });
 })();

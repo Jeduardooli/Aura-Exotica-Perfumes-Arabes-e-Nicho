@@ -3,52 +3,69 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Catálogo | Aura Exótica</title>
+  <title>Catalogo de Fragrancias | Aura Exotica</title>
+  <meta name="description" content="Catalogo de perfumes arabes e nicho com filtros por marca, genero, categoria, preco e compra direta via WhatsApp.">
+  <meta name="robots" content="index, follow">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;700&family=DM+Sans:wght@400;500;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body data-page="catalogo">
-  <header>
-    <div class="header-main">
-      <div class="container header-inner">
-        <a href="index.html" class="logo"><img src="assets/Logo-Aura-Exotica.svg" alt="Aura Exótica"></a>
-        <div class="header-search">
-          <input id="catalogSearchInput" type="text" placeholder="Buscar por marca ou nome...">
-          <button id="catalogSearchButton" aria-label="Buscar"><i class="fas fa-search"></i></button>
-        </div>
-      </div>
+  <header class="main-header">
+    <div class="topbar"><div class="container">Catalogo premium · Atendimento pelo WhatsApp · Produtos originais</div></div>
+    <div class="container nav">
+      <a class="brand" href="index.html"><img src="assets/Logo-Aura-Exotica.svg" alt=""><span><strong>Aura Exotica</strong><span>Perfumes & Cosmeticos</span></span></a>
+      <nav class="nav-links" aria-label="Principal"><a href="index.html">Home</a><a aria-current="page" href="catalogo.html">Catalogo</a><a href="blog.html">Blog</a><a href="sobre.html">Sobre</a><a href="contato.html">Contato</a></nav>
+      <a class="btn btn-gold" target="_blank" rel="noopener" href="https://wa.me/5511999999999?text=Ol%C3%A1!%20Vim%20pelo%20cat%C3%A1logo%20e%20quero%20ajuda.">WhatsApp</a>
+      <button class="mobile-menu-toggle" type="button" aria-expanded="false" aria-label="Abrir menu">☰</button>
     </div>
-    <nav class="main-nav">
-      <div class="container">
-        <ul class="nav-list">
-          <li class="nav-item"><a href="index.html">Home</a></li>
-          <li class="nav-item"><a href="catalogo.html">Catálogo</a></li>
-          <li class="nav-item"><a href="blog.html">Blog</a></li>
-          <li class="nav-item"><a href="sobre.html">Sobre</a></li>
-          <li class="nav-item"><a href="contato.html">Contato</a></li>
-        </ul>
-      </div>
-    </nav>
+    <nav class="mobile-panel" aria-label="Menu mobile"><a href="index.html">Home</a><a href="blog.html">Blog</a><a href="sobre.html">Sobre</a><a href="contato.html">Contato</a></nav>
   </header>
 
-  <section class="section">
-    <div class="container">
-      <div class="section-header">
-        <h2>Catálogo Completo</h2>
+  <main>
+    <section class="page-hero">
+      <div class="container">
+        <p class="eyebrow">Curadoria Aura</p>
+        <h1>Catalogo de fragrancias</h1>
+        <p>Autenticidade, luxo acessivel e aromas inconfundiveis. Filtre, compare e chame no WhatsApp com a mensagem pronta.</p>
       </div>
-      <div id="catalogBrandChips" class="chips-row"></div>
-      <div id="catalogProducts" class="products-grid"></div>
-      <div id="catalogPagination" class="pagination"></div>
-    </div>
-  </section>
+    </section>
 
-  <a href="https://wa.me/5511999999999?text=Ol%C3%A1!%20Vim%20pelo%20cat%C3%A1logo%20e%20quero%20ajuda." class="float-whatsapp" target="_blank" aria-label="Falar no WhatsApp">
-    <i class="fab fa-whatsapp"></i>
-  </a>
+    <section class="section">
+      <div class="container">
+        <div class="filters-container">
+          <div class="filter-row">
+            <input class="input" type="search" id="filter-search" placeholder="Buscar por marca, perfume ou nota...">
+            <select class="select" id="filter-sort" aria-label="Ordenar produtos">
+              <option value="default">Ordenar por: Destaques</option>
+              <option value="price-low">Preco: Menor ao Maior</option>
+              <option value="price-high">Preco: Maior ao Menor</option>
+              <option value="name-asc">Nome: A-Z</option>
+              <option value="name-desc">Nome: Z-A</option>
+            </select>
+          </div>
+          <div class="filter-chips" id="filter-gender" aria-label="Filtrar por genero">
+            <button class="filter-btn active" type="button" data-value="all">Todos</button>
+            <button class="filter-btn" type="button" data-value="M">Masculino</button>
+            <button class="filter-btn" type="button" data-value="F">Feminino</button>
+            <button class="filter-btn" type="button" data-value="U">Unissex</button>
+          </div>
+          <div class="filter-chips" id="filter-brands" aria-label="Filtrar por marca"></div>
+          <div class="filter-chips" id="filter-categories" aria-label="Filtrar por categoria"></div>
+          <div class="price-filter">
+            <label for="price-slider">Preco maximo: R$ <span id="price-max">1500</span></label>
+            <input type="range" id="price-slider" min="0" max="1500" value="1500" step="10">
+          </div>
+        </div>
+        <p class="results-count" id="results-count">Carregando produtos...</p>
+        <div class="catalog-grid" id="catalog-grid"><div class="skeleton"></div><div class="skeleton"></div><div class="skeleton"></div><div class="skeleton"></div></div>
+        <div class="load-more-wrap"><button id="load-more-btn" class="btn btn-outline d-none" type="button">Carregar mais</button></div>
+      </div>
+    </section>
+  </main>
 
-  <script src="script.js"></script>
+  <footer class="main-footer"><div class="container footer-grid"><div><h3>Aura Exotica</h3><p>Perfumes que contam historias e despertam sentidos.</p></div><div class="footer-links"><a href="index.html">Home</a><a href="sobre.html">Sobre</a><a href="contato.html">Contato</a></div><div><p>Compra finalizada via atendimento humano no WhatsApp.</p></div></div></footer>
+  <script src="script.js" defer></script>
 </body>
 </html>
