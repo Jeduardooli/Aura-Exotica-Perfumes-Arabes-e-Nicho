@@ -228,7 +228,7 @@
             ${tags.map((tag) => `<span class="note-chip">${tag}</span>`).join("")}
           </div>
           <div class="card-actions">
-            <a class="btn btn-whatsapp" target="_blank" rel="noopener" href="${generateWhatsAppLink(product)}">Comprar no WhatsApp</a>
+            <a class="btn btn-whatsapp" target="_blank" rel="noopener" href="${generateWhatsAppLink(product)}">Consultar no WhatsApp</a>
             <a class="btn btn-outline" href="produto.html?id=${encodeURIComponent(product.id)}">Ver ficha</a>
           </div>
         </div>
@@ -258,7 +258,7 @@
       floating.target = "_blank";
       floating.rel = "noopener";
       floating.setAttribute("aria-label", "Falar no WhatsApp");
-      floating.textContent = "W";
+      floating.textContent = "WA";
       document.body.appendChild(floating);
     }
 
