@@ -651,23 +651,23 @@ button {
   line-height: 1.08;
 }
 
-.concierge-section {
+.service-section {
   background: var(--obsidian);
 }
 
-.concierge-grid {
+.service-grid {
   display: grid;
   gap: clamp(2rem, 6vw, 6rem);
   align-items: center;
 }
 
-.concierge-panel {
+.service-panel {
   display: grid;
   gap: 1px;
   background: var(--char);
 }
 
-.concierge-panel > div {
+.service-panel > div {
   display: grid;
   grid-template-columns: auto 1fr;
   gap: 0.4rem 1rem;
@@ -676,7 +676,7 @@ button {
   padding: 1.35rem;
 }
 
-.concierge-panel span,
+.service-panel span,
 .assurance-card > span {
   grid-row: span 2;
   color: var(--char);
@@ -686,7 +686,7 @@ button {
   line-height: 0.8;
 }
 
-.concierge-panel strong {
+.service-panel strong {
   color: var(--cream);
   font-family: var(--font-display);
   font-size: 1.25rem;
@@ -694,7 +694,7 @@ button {
   line-height: 1.1;
 }
 
-.concierge-panel p {
+.service-panel p {
   margin: 0;
   color: var(--sand);
   font-size: 0.86rem;
@@ -1469,7 +1469,7 @@ button {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
-  .concierge-grid,
+  .service-grid,
   .product-detail {
     grid-template-columns: minmax(0, 1fr) minmax(320px, 0.9fr);
   }

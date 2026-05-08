@@ -138,7 +138,7 @@
         heart: family.heart,
         base: family.base
       },
-      description: raw.description || `${name} combina presenca, sofisticacao e assinatura olfativa envolvente. Uma escolha certeira para quem busca perfume original com aura premium e atendimento direto pelo WhatsApp.`,
+      description: raw.description || `${name} combina presenca, sofisticacao e assinatura olfativa envolvente. Veja notas, volume, preco e detalhes antes de consultar a disponibilidade pelo WhatsApp.`,
       image: raw.image || raw.image_url || "assets/Logo-Aura-Exotica.svg",
       images: raw.images || [raw.image_url || raw.image || "assets/Logo-Aura-Exotica.svg"],
       badge,
@@ -223,7 +223,7 @@
           </div>
           <p class="card-price">${money(product.price)}</p>
           <p class="card-installments">${installments ? `ou 3x de ${money(installments.value)}` : "Consulte parcelamento"}</p>
-          <p class="card-trust">Original lacrado | compra assistida</p>
+          <p class="card-trust">Original lacrado | ficha com notas e preco</p>
           <div class="card-notes">
             ${tags.map((tag) => `<span class="note-chip">${tag}</span>`).join("")}
           </div>
@@ -254,7 +254,7 @@
     if (!$(".floating-whatsapp")) {
       const floating = document.createElement("a");
       floating.className = "floating-whatsapp";
-      floating.href = `https://wa.me/${CONFIG.WHATSAPP_PHONE}?text=${encodeURIComponent("Ola! Vim pelo site e gostaria de ajuda para escolher um perfume.")}`;
+      floating.href = `https://wa.me/${CONFIG.WHATSAPP_PHONE}?text=${encodeURIComponent("Ola! Vim pelo site e gostaria de consultar um perfume do catalogo.")}`;
       floating.target = "_blank";
       floating.rel = "noopener";
       floating.setAttribute("aria-label", "Falar no WhatsApp");
@@ -479,7 +479,7 @@
         <p class="eyebrow">${product.brand}</p>
         <h1>${product.name}</h1>
         <p class="product-price">${money(product.price)}</p>
-        <p class="card-installments">ou 3x de ${money(product.installments[2].value)}. Atendimento, pagamento e entrega combinados no WhatsApp.</p>
+        <p class="card-installments">ou 3x de ${money(product.installments[2].value)}. Pagamento e entrega combinados no WhatsApp.</p>
         <div class="product-meta">
           <span class="meta-chip">${genderLabel(product.gender)}</span>
           <span class="meta-chip">${product.volume_ml}ml</span>
@@ -489,15 +489,15 @@
         <p class="product-description">${product.description}</p>
         <div class="product-assurance">
           <div><strong>Originalidade</strong><span>Produto lacrado e conferido antes do envio.</span></div>
-          <div><strong>Compra segura</strong><span>Disponibilidade, pagamento e entrega alinhados no WhatsApp.</span></div>
-          <div><strong>Orientacao Aura</strong><span>Compare intensidade, notas e ocasiao de uso antes de fechar.</span></div>
+          <div><strong>Consulta clara</strong><span>Disponibilidade, pagamento e entrega alinhados no WhatsApp.</span></div>
+          <div><strong>Ficha Aura</strong><span>Notas, volume, concentracao e preco antes de fechar.</span></div>
         </div>
         <div class="notes-pyramid">
           <div class="note-layer"><h3>Notas de Topo</h3><p>${product.notes.top.join(", ")}</p></div>
           <div class="note-layer"><h3>Notas de Coracao</h3><p>${product.notes.heart.join(", ")}</p></div>
           <div class="note-layer"><h3>Notas de Fundo</h3><p>${product.notes.base.join(", ")}</p></div>
         </div>
-        <a class="btn btn-whatsapp" target="_blank" rel="noopener" href="${generateWhatsAppLink(product)}">Comprar no WhatsApp</a>
+        <a class="btn btn-whatsapp" target="_blank" rel="noopener" href="${generateWhatsAppLink(product)}">Consultar no WhatsApp</a>
       </div>
     `;
 
@@ -548,14 +548,14 @@
         body: [
           ["h2", "Observe embalagem, lote e acabamento"],
           ["p", "Perfumes originais costumam ter caixa firme, impressao limpa, lacre consistente e codigo de lote coerente entre frasco e embalagem."],
-          ["h2", "Compre com curadoria"],
-          ["p", "A melhor protecao e comprar de uma loja que conhece marcas, linhas e fornecedores. Na Aura Exotica, a venda termina no WhatsApp para que voce tire duvidas antes de fechar."],
+          ["h2", "Compre com informacao clara"],
+          ["p", "A melhor protecao e observar detalhes do produto e tirar duvidas antes do pagamento. Na Aura Exotica, a venda termina no WhatsApp para confirmar disponibilidade, preco e entrega antes de fechar."],
           ["h2", "Desconfie de promessas absolutas"],
           ["p", "Preco muito abaixo do mercado, fotos genericas e ausencia de informacao sao sinais de alerta. Prefira atendimento transparente e produtos bem identificados."]
         ]
       },
       "edp-edt-parfum": {
-        title: "EDP, EDT e Parfum: qual escolher?",
+        title: "EDP, EDT e Parfum: diferencas",
         date: "2026-04-30",
         body: [
           ["p", "EDT tende a ser mais leve, EDP equilibra presenca e versatilidade, e Parfum costuma trazer maior concentracao e profundidade."],
@@ -565,11 +565,11 @@
     };
     const post = posts[slug] || posts["guia-perfume-arabe-original"];
     article.innerHTML = `
-      <p class="eyebrow">Guia Aura</p>
+      <p class="eyebrow">Notas Aura</p>
       <h1>${post.title}</h1>
       <time datetime="${post.date}">${new Date(`${post.date}T12:00:00`).toLocaleDateString("pt-BR", { day: "numeric", month: "long", year: "numeric" })}</time>
       ${post.body.map(([tag, content]) => `<${tag}>${content}</${tag}>`).join("")}
-      <div class="section-actions"><a class="btn btn-gold" href="catalogo.html">Ver perfumes arabes</a><a class="btn btn-outline" target="_blank" rel="noopener" href="https://wa.me/${CONFIG.WHATSAPP_PHONE}?text=${encodeURIComponent("Ola! Quero ajuda para escolher um perfume original.")}">Falar com especialista</a></div>
+      <div class="section-actions"><a class="btn btn-gold" href="catalogo.html">Ver perfumes arabes</a><a class="btn btn-outline" target="_blank" rel="noopener" href="https://wa.me/${CONFIG.WHATSAPP_PHONE}?text=${encodeURIComponent("Ola! Quero consultar um perfume original do catalogo.")}">Consultar no WhatsApp</a></div>
     `;
   }
 
