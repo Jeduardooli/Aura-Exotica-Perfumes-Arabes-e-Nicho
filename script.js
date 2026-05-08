@@ -276,7 +276,7 @@
     const best = state.products.slice(0, 8);
     renderProducts(featured, best);
     if (showcase) {
-      showcase.innerHTML = state.products.slice(0, 3).map((product) => `
+      showcase.innerHTML = state.products.slice(0, 1).map((product) => `
         <a class="showcase-card" href="produto.html?id=${encodeURIComponent(product.id)}">
           <img src="${product.image}" alt="${product.brand} ${product.name}" loading="eager" width="360" height="520">
           <span>${product.brand} ${product.name}</span>
